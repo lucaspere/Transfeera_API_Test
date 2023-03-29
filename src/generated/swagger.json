@@ -6,7 +6,103 @@
     "description": "An API for simple CRUD Receivers."
   },
   "host": "0.0.0.0:3000",
-  "paths": {},
-  "components": {},
-  "tags": []
+  "paths": {
+    "/receivers": {
+      "get": {
+        "tags": [
+          "Receiver"
+        ],
+        "description": "Returns a list of `Receiver`",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "itemsPerPage",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "The quantity of items to be returned per page."
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "integer",
+                      "description": "The total of `Receiver` data returned."
+                    },
+                    "data": {
+                      "description": "The list of `Receiver` data.",
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Receiver"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Receiver": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "cpfCnpj": {
+            "type": "string"
+          },
+          "bank": {
+            "type": "string"
+          },
+          "agency": {
+            "type": "string"
+          },
+          "account": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "VALIDATED",
+              "SKETCH"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "cpfCnpj",
+          "bank",
+          "agency",
+          "account",
+          "status"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Receiver",
+      "description": "Hello world end point"
+    }
+  ]
 }
