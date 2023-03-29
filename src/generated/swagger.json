@@ -1,0 +1,12 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Transfeera API",
+    "version": "0.0.1",
+    "description": "An API for simple CRUD Receivers."
+  },
+  "host": "0.0.0.0:3000",
+  "paths": {},
+  "components": {},
+  "tags": []
+}

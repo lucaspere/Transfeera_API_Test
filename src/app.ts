@@ -1,7 +1,9 @@
 import Fastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
+import type { AutoloadPluginOptions } from "@fastify/autoload";
+import AutoLoad from "@fastify/autoload";
 import fastifyCors from '@fastify/cors'
-import fastifySwagger from '@fastify/swagger';
 import { initSwagger } from './swagger';
+import { join } from 'path';
 
 export const app = (
     opts: FastifyServerOptions = {
@@ -22,13 +24,14 @@ export const app = (
 
     void initSwagger(app)
     void app.register(fastifyCors);
+    void app.register(AutoLoad, {
+        dir: join(__dirname, "routes"),
+        options: opts
+    })
 
     return app
 }
 
 const server = app()
-server.get("/", (request, reply) => {
-    reply.send("Hello Lucas")
-})
 
-server.listen(3000)
+server.listen({ port: 3000, host: '0.0.0.0' })
