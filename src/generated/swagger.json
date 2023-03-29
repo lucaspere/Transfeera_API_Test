@@ -22,6 +22,49 @@
               "default": 10
             },
             "description": "The quantity of items to be returned per page."
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "VALIDADO",
+                "RASCUNHO"
+              ]
+            },
+            "description": "The quantity of items to be returned per page."
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The quantity of items to be returned per page."
+          },
+          {
+            "in": "query",
+            "name": "key_type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CPF",
+                "CNPJ",
+                "EMAIL",
+                "TELEFONE",
+                "CHAVE_ALEATORIA"
+              ]
+            },
+            "description": "The quantity of items to be returned per page."
+          },
+          {
+            "in": "query",
+            "name": "key_value",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The quantity of items to be returned per page."
           }
         ],
         "produces": [
@@ -55,6 +98,25 @@
       }
     }
   },
+  "definitions": {
+    "KeyTypes": {
+      "type": "string",
+      "enum": [
+        "CPF",
+        "CNPJ",
+        "EMAIL",
+        "TELEFONE",
+        "CHAVE_ALEATORIA"
+      ]
+    },
+    "Status": {
+      "type": "string",
+      "enum": [
+        "VALIDADO",
+        "RASCUNHO"
+      ]
+    }
+  },
   "components": {
     "schemas": {
       "Receiver": {
@@ -70,6 +132,19 @@
           "cpfCnpj": {
             "type": "string"
           },
+          "key_type": {
+            "type": "string",
+            "enum": [
+              "CPF",
+              "CNPJ",
+              "EMAIL",
+              "TELEFONE",
+              "CHAVE_ALEATORIA"
+            ]
+          },
+          "key_value": {
+            "type": "string"
+          },
           "bank": {
             "type": "string"
           },
@@ -82,8 +157,8 @@
           "status": {
             "type": "string",
             "enum": [
-              "VALIDATED",
-              "SKETCH"
+              "VALIDADO",
+              "RASCUNHO"
             ]
           }
         },
