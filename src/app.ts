@@ -1,5 +1,7 @@
 import Fastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
 import fastifyCors from '@fastify/cors'
+import fastifySwagger from '@fastify/swagger';
+import { initSwagger } from './swagger';
 
 export const app = (
     opts: FastifyServerOptions = {
@@ -18,7 +20,8 @@ export const app = (
 ): FastifyInstance => {
     const app = Fastify(opts);
 
-    app.register(fastifyCors);
+    void initSwagger(app)
+    void app.register(fastifyCors);
 
     return app
 }
