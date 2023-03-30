@@ -163,4 +163,60 @@ describe('Recipient API tests', async function () {
             expect(JSON.parse(expectedRes.body).total).to.be.equal(0);
         });
     });
+
+    context('Delete Recipient', function () {
+        it('Should Delete Many Recipients with ids', async () => {
+            const statusQuery = '?key_value=test'
+            const initialRes = await app.inject({
+                method: 'GET',
+                url: RECEIVER_URL + statusQuery,
+            });
+
+            const payload = {
+                ids: [
+                    "01GWQWNX8JVRCAMFDXJ3M2J7PH",
+                    "01GWQWNX9RCH3GAY0GGQ03B3AT",
+                    "01GWQWNX6KVKEWVZR62H9CQX3B"
+                ]
+            }
+            const path = 'bulk-delete'
+            const res = await app.inject({
+                method: 'POST',
+                url: RECEIVER_URL + path,
+                payload
+            });
+
+            const expectedRes = {
+                total: 2
+            };
+
+            expect(res.statusCode).to.be.equal(200);
+            expect(JSON.parse(initialRes.body).total).to.be.equal(2);
+            expect(expectedRes.total).to.be.equal(2);
+        });
+        it('Should response with Body BadRequest when ids attribute is not set', async () => {
+            const payload = {
+                test: [
+                    "01GWQWNX8JVRCAMFDXJ3M2J7PH",
+                    "01GWQWNX9RCH3GAY0GGQ03B3AT",
+                    "01GWQWNX6KVKEWVZR62H9CQX3B"
+                ]
+            }
+            const path = 'bulk-delete'
+            const res = await app.inject({
+                method: 'POST',
+                url: RECEIVER_URL + path,
+                payload
+            });
+
+            const expectedRes = {
+                "statusCode": 400,
+                "error": "Bad Request",
+                "message": "body must have required property 'ids'"
+            }
+
+            expect(res.statusCode).to.be.equal(400);
+            expect(JSON.parse(res.body)).deep.equal(expectedRes);
+        });
+    });
 });

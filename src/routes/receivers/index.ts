@@ -257,7 +257,6 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
         "/bulk-delete",
         { schema: { body: BulkDeletionBody }, },
         async (request, reply) => {
-            console.log(request.body)
             const data = await ReceiverService.bulkDelete(request.body)
 
             void reply.status(200).send(data);

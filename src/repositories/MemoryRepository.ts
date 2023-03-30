@@ -271,7 +271,7 @@ const receivers: Receivers = [{
     "account": "87051816-9",
     "status": "VALIDADO",
     "key_type": "EMAIL",
-    "key_value": "ctorvey0@europa.eu"
+    "key_value": "ctorvey0@test.eu"
 }, {
     "id": "01GWQWNX9YB71N20D2F89MECAH",
     "name": "Yvette Ireland",
