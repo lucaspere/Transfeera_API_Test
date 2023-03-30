@@ -196,9 +196,9 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
         { schema: { params: DeleteReceiverParams } },
         async (request, reply) => {
 
-            const list = await ReceiverService.deleteRecipient(request.params)
+            void await ReceiverService.deleteRecipient(request.params)
 
-            void reply.status(200).send(list);
+            void reply.status(200);
         }
     );
 };

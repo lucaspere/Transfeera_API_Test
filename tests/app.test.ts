@@ -107,4 +107,28 @@ describe('Recipient API tests', async function () {
             expect(res.body).to.be.equal(expectedRes);
         });
     });
+    context('Delete Recipient', function () {
+        it('Should Delete Recipient with corret id', async () => {
+            const statusQuery = '?name=Carmela Pyer'
+            const initialRes = await app.inject({
+                method: 'GET',
+                url: RECEIVER_URL + statusQuery,
+            });
+
+            const id = '01GWQWNX6ECAAF73A8B9R7BE9J'
+            const res = await app.inject({
+                method: 'DELETE',
+                url: RECEIVER_URL + id,
+            });
+
+            const expectedRes = await app.inject({
+                method: 'GET',
+                url: RECEIVER_URL + statusQuery,
+            });
+
+            expect(res.statusCode).to.be.equal(200);
+            expect(JSON.parse(initialRes.body).total).to.be.equal(1);
+            expect(JSON.parse(expectedRes.body).total).to.be.equal(0);
+        });
+    });
 });
