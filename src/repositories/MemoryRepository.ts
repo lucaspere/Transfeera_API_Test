@@ -319,7 +319,7 @@ export default class ReceiverMemoryRepository implements Repository<Receiver> {
         const res: Receivers = []
         const data = receivers.filter(receiver => (
             receiver.status.includes(filter.status ?? "") &&
-            receiver.name.includes(filter.name ?? "") &&
+            receiver.name.toLowerCase().includes(filter.name?.toLocaleLowerCase() ?? "") &&
             receiver.key_type.includes(filter.key_type ?? "") &&
             receiver.key_value.includes(filter.key_value ?? "")
         ))
