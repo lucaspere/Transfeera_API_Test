@@ -9,6 +9,7 @@
     "compile-schemas": "json2ts src/schemas -o src/types --enableConstEnums",
     "dev": "tsx watch src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:unit": "mocha --config mocharc.unit.yaml",
     "test:integration": "mocha --config mocharc.integration.yaml"
   },
   "author": "Lucas Fellippe Alves Pereira",
