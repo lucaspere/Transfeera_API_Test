@@ -1,5 +1,5 @@
 {
-    "title": "Receiver",
+    "title": "ListRecipients",
     "type": "object",
     "properties": {
         "name": {

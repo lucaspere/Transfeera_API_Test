@@ -7,6 +7,53 @@
   },
   "host": "0.0.0.0:3000",
   "paths": {
+    "/api/receivers:id": {
+      "delete": {
+        "tags": [
+          "Receiver"
+        ],
+        "description": "Delete a `Recipient` by its `id`",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            },
+            "description": "The `Recipient` identifier."
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success."
+          },
+          "400": {
+            "description": "invalid recipient value.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/receivers": {
       "get": {
         "tags": [

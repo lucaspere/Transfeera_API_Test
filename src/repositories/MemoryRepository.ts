@@ -335,10 +335,13 @@ export default class ReceiverMemoryRepository implements Repository<Receiver> {
     update(id: string, payload: Partial<Receiver>): Promise<Receiver | undefined> {
         return Promise.resolve(undefined);
     }
-    /**
-     * @todo Unimplemented yeat
-     */
     delete(id: string): Promise<Receiver | undefined> {
+        const receiverIdx = receivers.findIndex(receiver => receiver.id === id);
+        if (receiverIdx !== -1) {
+            const receiver = receivers.splice(receiverIdx, 1)[0];
+
+            return Promise.resolve(receiver);
+        }
 
         return Promise.resolve(undefined);
     }

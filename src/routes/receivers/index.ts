@@ -2,7 +2,8 @@ import type { FastifyPluginAsync } from "fastify";
 import { ReceiverService } from "../../services/";
 import type { Status, KeyTypes } from "../../types/receiver";
 import { ListFilters } from "../../types/repository";
-import ListReceiversQueries from "../../schemas/listReceivers.json";
+import ListReceiverQueries from '../../schemas/listReceivers.json'
+import DeleteReceiverParams from "../../schemas/deleteReceiver.json";
 const DEFAULT_ITEM_PER_PAGE = 10
 
 export interface ListReceiverQueryType extends ListFilters {
@@ -10,6 +11,10 @@ export interface ListReceiverQueryType extends ListFilters {
     name?: string | undefined;
     key_type?: keyof typeof KeyTypes | undefined;
     key_value?: string | undefined;
+}
+
+export interface DeleteReceiverParamTypes {
+    id: string
 }
 
 const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
@@ -146,10 +151,52 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
         Querystring: ListReceiverQueryType
     }>(
         "/",
-        { schema: { querystring: ListReceiversQueries } },
+        { schema: { querystring: ListReceiverQueries } },
         async (request, reply) => {
             request.query.itemsPerPage = request.query.itemsPerPage ?? DEFAULT_ITEM_PER_PAGE
             const list = await ReceiverService.listReceiver(request.query)
+
+            void reply.status(200).send(list);
+        }
+    );
+    /**
+     * @swagger
+     * /api/receivers:id:
+     *   delete:
+     *     tags: [Receiver]
+     *     description: Delete a `Recipient` by its `id` 
+     *     parameters:
+     *       - in: params
+     *         name: id
+     *         schema:
+     *           type: string
+     *           required: true
+     *         description: The `Recipient` identifier.
+     *     produces: [application/json]
+     *     responses:
+     *       200:
+     *         description: deletion success.
+     *       400:
+     *         description: invalid recipient value.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/BadRequest'
+     *       500:
+     *         description: Internal Error.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/InternalServerError'
+     */
+    fastify.delete<{
+        Params: DeleteReceiverParamTypes
+    }>(
+        "/:id",
+        { schema: { params: DeleteReceiverParams } },
+        async (request, reply) => {
+
+            const list = await ReceiverService.deleteRecipient(request.params)
 
             void reply.status(200).send(list);
         }

@@ -1,0 +1,12 @@
+{
+    "title": "DeleteReceiver",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}
