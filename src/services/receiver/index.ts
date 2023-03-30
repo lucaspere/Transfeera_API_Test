@@ -2,406 +2,307 @@ import { ListReceiverQueryType } from "../../routes/receivers"
 import { Receiver } from "../../types/receiver"
 
 const receiverData: Array<Receiver> = [{
-    "id": "01GWQKF63DZRF72QARJ6NKY5TY",
-    "name": "Codi Torvey",
-    "cpfCnpj": "893718452",
-    "bank": "wadlon",
-    "agency": "119-5",
-    "account": "01310967-2",
+    "id": "01GWQWNX6ECAAF73A8B9R7BE9J",
+    "name": "Carmela Pyer",
+    "cpfCnpj": "219976119",
+    "bank": "ymroop",
+    "agency": "795-7",
+    "account": "58665427-4",
     "status": "RASCUNHO",
-    "key_type": "ctorvey0@europa.eu",
-    "key_value": 3859
+    "key_type": "CPF",
+    "key_value": "20118025922770"
 }, {
-    "id": "01GWQKF63KX2HHJHX1AV0WN5Z8",
-    "name": "Erick Arnold",
-    "cpfCnpj": "393721168",
-    "bank": "ggydyt",
-    "agency": "679-2",
-    "account": "14874504-8",
+    "id": "01GWQWNX6KVKEWVZR62H9CQX3B",
+    "name": "Anabel Proschke",
+    "cpfCnpj": "969642228",
+    "bank": "mzzoil",
+    "agency": "440-3",
+    "account": "77992710-5",
+    "status": "VALIDADO",
+    "key_type": "EMAIL",
+    "key_value": "ctorvey0@europa.eu"
+}, {
+    "id": "01GWQWNX6QQ2KVVG3YWD0FV5TQ",
+    "name": "Mireielle Ebi",
+    "cpfCnpj": "984943470",
+    "bank": "ligfkx",
+    "agency": "848-1",
+    "account": "71421912-8",
+    "status": "VALIDADO",
+    "key_type": "CNPJ",
+    "key_value": "21568659779110"
+}, {
+    "id": "01GWQWNX6X8M552DYBX01KCF7C",
+    "name": "Brynne Stormouth",
+    "cpfCnpj": "344010843",
+    "bank": "brgfkc",
+    "agency": "472-5",
+    "account": "41932896-3",
+    "status": "VALIDADO",
+    "key_type": "TELEFONE",
+    "key_value": "70739732146314"
+}, {
+    "id": "01GWQWNX71S7674AB588CQT1ZR",
+    "name": "Kalinda Kilpin",
+    "cpfCnpj": "593321331",
+    "bank": "ikrozf",
+    "agency": "491-3",
+    "account": "68616386-0",
+    "status": "VALIDADO",
+    "key_type": "TELEFONE",
+    "key_value": "1771381292798"
+}, {
+    "id": "01GWQWNX75MQ98NM95VXWY5H56",
+    "name": "Giacopo Mullard",
+    "cpfCnpj": "256054150",
+    "bank": "yiapjp",
+    "agency": "413-0",
+    "account": "45210889-4",
     "status": "RASCUNHO",
-    "key_type": "earnold1@geocities.jp",
-    "key_value": 215
+    "key_type": "TELEFONE",
+    "key_value": "13302749351018"
 }, {
-    "id": "01GWQKF63S48DEKJAJ4BTVAQDV",
-    "name": "Sarina Moughton",
-    "cpfCnpj": "445866766",
-    "bank": "bqckxq",
-    "agency": "092-1",
-    "account": "61668765-9",
+    "id": "01GWQWNX78433BV08H1J67FPNK",
+    "name": "Lona Gerred",
+    "cpfCnpj": "479727010",
+    "bank": "llemjv",
+    "agency": "465-4",
+    "account": "10317362-3",
+    "status": "VALIDADO",
+    "key_type": "CPF",
+    "key_value": "41331038444148"
+}, {
+    "id": "01GWQWNX7BATNWEK20N5GB0ZFH",
+    "name": "Doretta Crothers",
+    "cpfCnpj": "969178594",
+    "bank": "ncgjak",
+    "agency": "328-6",
+    "account": "65773081-3",
+    "status": "VALIDADO",
+    "key_type": "CNPJ",
+    "key_value": "77738688317532"
+}, {
+    "id": "01GWQWNX7EZ64922J2VX5SRHNQ",
+    "name": "Vanny Bramsen",
+    "cpfCnpj": "755060356",
+    "bank": "udhssi",
+    "agency": "318-1",
+    "account": "59949650-4",
     "status": "RASCUNHO",
-    "key_type": "smoughton2@exblog.jp",
-    "key_value": 1417
+    "key_type": "TELEFONE",
+    "key_value": "05439122830194"
 }, {
-    "id": "01GWQKF63Y6B5JD8EA209Y254A",
-    "name": "Chelsie Reddin",
-    "cpfCnpj": "033845512",
-    "bank": "tjlxqe",
-    "agency": "004-2",
-    "account": "01823409-7",
+    "id": "01GWQWNX7G4HF6V9GNPTZ9C8ZB",
+    "name": "Durante Squires",
+    "cpfCnpj": "870694683",
+    "bank": "owaqgn",
+    "agency": "180-9",
+    "account": "85343846-9",
     "status": "VALIDADO",
-    "key_type": "creddin3@wp.com",
-    "key_value": 233
+    "key_type": "CNPJ",
+    "key_value": "27373770677754"
 }, {
-    "id": "01GWQKF6435GJVP134AJNZEWXN",
-    "name": "Raleigh Vargas",
-    "cpfCnpj": "506392999",
-    "bank": "hcvorp",
-    "agency": "598-8",
-    "account": "92394704-0",
-    "status": "VALIDADO",
-    "key_type": "rvargas4@unc.edu",
-    "key_value": 3079
-}, {
-    "id": "01GWQKF648WAX3984DW5JET479",
-    "name": "Archibaldo Stout",
-    "cpfCnpj": "868165730",
-    "bank": "uflefy",
-    "agency": "306-1",
-    "account": "97075568-3",
-    "status": "VALIDADO",
-    "key_type": "astout5@fotki.com",
-    "key_value": 1166
-}, {
-    "id": "01GWQKF64DEQD4A6GMVCCMRJQY",
-    "name": "Jenelle Daveley",
-    "cpfCnpj": "607647291",
-    "bank": "cmvuzd",
-    "agency": "490-4",
-    "account": "49464408-2",
+    "id": "01GWQWNX7K1VDSEEY3BDRT6DG5",
+    "name": "Maryanna Raikes",
+    "cpfCnpj": "238687510",
+    "bank": "wkmcoj",
+    "agency": "035-7",
+    "account": "25102805-3",
     "status": "RASCUNHO",
-    "key_type": "jdaveley6@newyorker.com",
-    "key_value": 2269
+    "key_type": "TELEFONE",
+    "key_value": "24131425851990"
 }, {
-    "id": "01GWQKF64G6WVSGZW563MPJEJQ",
-    "name": "Nellie Timms",
-    "cpfCnpj": "046373224",
-    "bank": "zfpnep",
-    "agency": "186-4",
-    "account": "11402041-3",
+    "id": "01GWQWNX7Q6B99FS12W9KWP1NY",
+    "name": "Birk Garvey",
+    "cpfCnpj": "224494997",
+    "bank": "elyfit",
+    "agency": "698-2",
+    "account": "47915518-4",
     "status": "VALIDADO",
-    "key_type": "ntimms7@yellowbook.com",
-    "key_value": 4763
+    "key_type": "TELEFONE",
+    "key_value": "83216000795940"
 }, {
-    "id": "01GWQKF64K5G9BJ74X6V6QG84E",
-    "name": "Benoite Tellenbrok",
-    "cpfCnpj": "819935319",
-    "bank": "nnhqqg",
-    "agency": "493-3",
-    "account": "10799386-1",
-    "status": "VALIDADO",
-    "key_type": "btellenbrok8@macromedia.com",
-    "key_value": 4150
-}, {
-    "id": "01GWQKF64NN9AJ7SY61GES2NJ2",
-    "name": "Catlaina Sposito",
-    "cpfCnpj": "751581366",
-    "bank": "vrbmoj",
-    "agency": "309-0",
-    "account": "90786318-3",
-    "status": "VALIDADO",
-    "key_type": "csposito9@github.io",
-    "key_value": 416
-}, {
-    "id": "01GWQKF64Q5TDMR3GBK86NW70V",
-    "name": "Ed McCarlich",
-    "cpfCnpj": "754953917",
-    "bank": "swlmrg",
-    "agency": "545-1",
-    "account": "99149122-9",
-    "status": "VALIDADO",
-    "key_type": "emccarlicha@livejournal.com",
-    "key_value": 2690
-}, {
-    "id": "01GWQKF64WVDHSV65RR47YDG1W",
-    "name": "Wandis Stallybrass",
-    "cpfCnpj": "086757680",
-    "bank": "iviqkj",
-    "agency": "304-1",
-    "account": "06324483-3",
+    "id": "01GWQWNX7TZ816VT2M1DSVN49C",
+    "name": "Delia Mix",
+    "cpfCnpj": "510708602",
+    "bank": "olollr",
+    "agency": "293-4",
+    "account": "16928106-5",
     "status": "RASCUNHO",
-    "key_type": "wstallybrassb@senate.gov",
-    "key_value": 2609
+    "key_type": "CHAVE_ALEATORIA",
+    "key_value": "41460149884978"
 }, {
-    "id": "01GWQKF651CKJRQ30MND7845VW",
-    "name": "Tallou Parkey",
-    "cpfCnpj": "150376632",
-    "bank": "bxqkpq",
-    "agency": "542-1",
-    "account": "30606843-6",
+    "id": "01GWQWNX7YTD7MQFSGWXDWK0WY",
+    "name": "Gardie Parker",
+    "cpfCnpj": "059848594",
+    "bank": "altaly",
+    "agency": "873-2",
+    "account": "67322914-0",
     "status": "RASCUNHO",
-    "key_type": "tparkeyc@google.com",
-    "key_value": 3775
+    "key_type": "CPF",
+    "key_value": "65521576335452"
 }, {
-    "id": "01GWQKF656A52AMW6RR58V38SY",
-    "name": "Andros Adamson",
-    "cpfCnpj": "945650012",
-    "bank": "mhofyg",
-    "agency": "359-1",
-    "account": "54299393-6",
+    "id": "01GWQWNX866R4ZR7X2MQGRV9D4",
+    "name": "Bartolemo Fenimore",
+    "cpfCnpj": "447976497",
+    "bank": "xwmdzx",
+    "agency": "071-4",
+    "account": "10464431-3",
+    "status": "VALIDADO",
+    "key_type": "CHAVE_ALEATORIA",
+    "key_value": "08158883375222"
+}, {
+    "id": "01GWQWNX8ANH9FYZGJ36WY6G6Q",
+    "name": "Maurits Heathorn",
+    "cpfCnpj": "956667402",
+    "bank": "fnhfgw",
+    "agency": "567-3",
+    "account": "99195115-2",
     "status": "RASCUNHO",
-    "key_type": "aadamsond@sciencedirect.com",
-    "key_value": 2994
+    "key_type": "TELEFONE",
+    "key_value": "14274449730136"
 }, {
-    "id": "01GWQKF659YY89XE3QNH0SXKP9",
-    "name": "Tess Pitrollo",
-    "cpfCnpj": "082690379",
-    "bank": "pgqpnt",
-    "agency": "702-3",
-    "account": "81995102-7",
+    "id": "01GWQWNX8EZ2C0D2XNG0STMPKA",
+    "name": "Roarke Windrum",
+    "cpfCnpj": "926157308",
+    "bank": "hovnqk",
+    "agency": "675-2",
+    "account": "36411290-3",
     "status": "VALIDADO",
-    "key_type": "tpitrolloe@google.co.jp",
-    "key_value": 831
+    "key_type": "EMAIL",
+    "key_value": "lucas@europa.eu"
 }, {
-    "id": "01GWQKF65DTANE54KB5R339QE2",
-    "name": "Issiah Phlippsen",
-    "cpfCnpj": "455862599",
-    "bank": "kuawwg",
-    "agency": "774-2",
-    "account": "40905983-8",
+    "id": "01GWQWNX8JVRCAMFDXJ3M2J7PH",
+    "name": "Beatrisa McIlwraith",
+    "cpfCnpj": "659433009",
+    "bank": "qjfxio",
+    "agency": "071-1",
+    "account": "53981765-2",
     "status": "VALIDADO",
-    "key_type": "iphlippsenf@sohu.com",
-    "key_value": 2095
+    "key_type": "EMAIL",
+    "key_value": "matheus@test.eu"
 }, {
-    "id": "01GWQKF65J4K18X29VFMPG2AM7",
-    "name": "Horst Crossby",
-    "cpfCnpj": "283465293",
-    "bank": "cmsztc",
-    "agency": "901-0",
-    "account": "99229052-0",
+    "id": "01GWQWNX8Q6MBH0W9V65KAGEYZ",
+    "name": "Debora Rea",
+    "cpfCnpj": "575847330",
+    "bank": "srrjbt",
+    "agency": "961-8",
+    "account": "21123741-7",
     "status": "VALIDADO",
-    "key_type": "hcrossbyg@patch.com",
-    "key_value": 3981
+    "key_type": "CPF",
+    "key_value": "43314506413157"
 }, {
-    "id": "01GWQKF65QR4CVTDHAWT9AG97B",
-    "name": "Molly Clubley",
-    "cpfCnpj": "767237327",
-    "bank": "exgqak",
-    "agency": "992-2",
-    "account": "83709073-8",
-    "status": "VALIDADO",
-    "key_type": "mclubleyh@chicagotribune.com",
-    "key_value": 2456
-}, {
-    "id": "01GWQKF65WVH25NTR5GVA63VS4",
-    "name": "Sander Goodyear",
-    "cpfCnpj": "442043931",
-    "bank": "dqtkuv",
-    "agency": "900-1",
-    "account": "70970545-0",
-    "status": "VALIDADO",
-    "key_type": "sgoodyeari@bluehost.com",
-    "key_value": 581
-}, {
-    "id": "01GWQKF660ENH8SETXEF72SMX4",
-    "name": "Garik Conti",
-    "cpfCnpj": "595804503",
-    "bank": "wtmsgo",
-    "agency": "554-5",
-    "account": "62892613-9",
-    "status": "VALIDADO",
-    "key_type": "gcontij@stanford.edu",
-    "key_value": 144
-}, {
-    "id": "01GWQKF665NMA84AZJ86P31BJ4",
-    "name": "Rennie Rodenhurst",
-    "cpfCnpj": "290576461",
-    "bank": "dnquub",
-    "agency": "227-4",
-    "account": "65971423-0",
+    "id": "01GWQWNX8W8YN3BMWNMGPQK40G",
+    "name": "Eldon McMeanma",
+    "cpfCnpj": "999505166",
+    "bank": "cabufu",
+    "agency": "007-6",
+    "account": "31673257-0",
     "status": "RASCUNHO",
-    "key_type": "rrodenhurstk@cbc.ca",
-    "key_value": 4895
+    "key_type": "EMAIL",
+    "key_value": "ctorvey0@europa.eu"
 }, {
-    "id": "01GWQKF669JRG87MWSMDT4H26P",
-    "name": "Haslett Jennrich",
-    "cpfCnpj": "178526807",
-    "bank": "zmxhin",
-    "agency": "259-6",
-    "account": "19196898-9",
+    "id": "01GWQWNX90B74TDR7FQ0XEQD9P",
+    "name": "Andrej Della",
+    "cpfCnpj": "904049754",
+    "bank": "ljnwzg",
+    "agency": "488-3",
+    "account": "28627590-0",
     "status": "VALIDADO",
-    "key_type": "hjennrichl@photobucket.com",
-    "key_value": 1474
+    "key_type": "EMAIL",
+    "key_value": "ctorvey0@europa.eu"
 }, {
-    "id": "01GWQKF66EW8551NH174J1W99Y",
-    "name": "Reinold Kigelman",
-    "cpfCnpj": "702676040",
-    "bank": "iiknhh",
-    "agency": "648-7",
-    "account": "70105161-9",
+    "id": "01GWQWNX95ZJ56ZD1XZD70NJFS",
+    "name": "Chickie Filipponi",
+    "cpfCnpj": "761690417",
+    "bank": "imymky",
+    "agency": "134-8",
+    "account": "72979432-1",
     "status": "RASCUNHO",
-    "key_type": "rkigelmanm@buzzfeed.com",
-    "key_value": 1713
+    "key_type": "CPF",
+    "key_value": "103254594021"
 }, {
-    "id": "01GWQKF66K6R8CD8JS54NVNTWP",
-    "name": "Sandi Turl",
-    "cpfCnpj": "175757654",
-    "bank": "jstxal",
-    "agency": "159-8",
-    "account": "33273737-5",
-    "status": "RASCUNHO",
-    "key_type": "sturln@booking.com",
-    "key_value": 2376
-}, {
-    "id": "01GWQKF66RQ7SV78BAE5W5E8N9",
-    "name": "Dannie Tunkin",
-    "cpfCnpj": "232047071",
-    "bank": "owtwuk",
-    "agency": "401-5",
-    "account": "51438742-7",
+    "id": "01GWQWNX99PYCR3BFSDTSX5BC3",
+    "name": "Juana McGreal",
+    "cpfCnpj": "693264057",
+    "bank": "yozkhv",
+    "agency": "630-4",
+    "account": "16295015-9",
     "status": "VALIDADO",
-    "key_type": "dtunkino@wordpress.com",
-    "key_value": 4697
+    "key_type": "TELEFONE",
+    "key_value": "62391735848936"
 }, {
-    "id": "01GWQKF66XYX68AF80JZ0ZW953",
-    "name": "Annabel Jados",
-    "cpfCnpj": "047501720",
-    "bank": "yrhdxs",
-    "agency": "309-1",
-    "account": "59409530-5",
+    "id": "01GWQWNX9D88K3MJ6G77F0AWPF",
+    "name": "Doll Garbutt",
+    "cpfCnpj": "750525867",
+    "bank": "embrlb",
+    "agency": "128-4",
+    "account": "93170549-8",
+    "status": "RASCUNHO",
+    "key_type": "TELEFONE",
+    "key_value": "41274610582994"
+}, {
+    "id": "01GWQWNX9GZ7GKNDMQHGVK85VV",
+    "name": "Corly Josling",
+    "cpfCnpj": "462291552",
+    "bank": "mldkhn",
+    "agency": "121-0",
+    "account": "95187308-2",
     "status": "VALIDADO",
-    "key_type": "ajadosp@canalblog.com",
-    "key_value": 366
+    "key_type": "CHAVE_ALEATORIA",
+    "key_value": "32031709362912"
 }, {
-    "id": "01GWQKF671QKJHB2VPJ14BEWZB",
-    "name": "Sherye Valiant",
-    "cpfCnpj": "048214032",
-    "bank": "hpgdho",
-    "agency": "892-1",
-    "account": "45936291-8",
-    "status": "RASCUNHO",
-    "key_type": "svaliantq@storify.com",
-    "key_value": 2782
-}, {
-    "id": "01GWQKF6742YQVSV01RFTDDX6T",
-    "name": "Bill Sandom",
-    "cpfCnpj": "844268987",
-    "bank": "wdbalh",
-    "agency": "737-6",
-    "account": "36830679-2",
+    "id": "01GWQWNX9M7YHTH47C1QDYTHRR",
+    "name": "Rogerio Goodliffe",
+    "cpfCnpj": "661248873",
+    "bank": "deyzlk",
+    "agency": "001-5",
+    "account": "07755222-3",
     "status": "VALIDADO",
-    "key_type": "bsandomr@ustream.tv",
-    "key_value": 4692
+    "key_type": "TELEFONE",
+    "key_value": "53932070279491"
 }, {
-    "id": "01GWQKF679BAYX4D8ECX9G3SGR",
-    "name": "Lief Linnell",
-    "cpfCnpj": "959258772",
-    "bank": "frjjoa",
-    "agency": "032-5",
-    "account": "60528320-5",
-    "status": "RASCUNHO",
-    "key_type": "llinnells@wired.com",
-    "key_value": 3941
-}, {
-    "id": "01GWQKF67DYP80RHB8855E1AEE",
-    "name": "Dacey Bushen",
-    "cpfCnpj": "733893042",
-    "bank": "azhygo",
-    "agency": "181-0",
-    "account": "00989543-5",
-    "status": "RASCUNHO",
-    "key_type": "dbushent@merriam-webster.com",
-    "key_value": 1714
-}, {
-    "id": "01GWQKF67GZX6ZSGW19GD6M11A",
-    "name": "Hymie Flintoft",
-    "cpfCnpj": "961756147",
-    "bank": "spdgyl",
-    "agency": "699-0",
-    "account": "95674564-2",
-    "status": "RASCUNHO",
-    "key_type": "hflintoftu@sun.com",
-    "key_value": 1455
-}, {
-    "id": "01GWQKF67KMT0YTTVHRQ295GRA",
-    "name": "Rebecka Extil",
-    "cpfCnpj": "312848597",
-    "bank": "ycooel",
-    "agency": "470-1",
-    "account": "20610898-7",
+    "id": "01GWQWNX9RCH3GAY0GGQ03B3AT",
+    "name": "Woodman Lamkin",
+    "cpfCnpj": "404563256",
+    "bank": "eysnxj",
+    "agency": "360-6",
+    "account": "87051816-9",
     "status": "VALIDADO",
-    "key_type": "rextilv@artisteer.com",
-    "key_value": 4126
+    "key_type": "EMAIL",
+    "key_value": "ctorvey0@europa.eu"
 }, {
-    "id": "01GWQKF67PRT6RYGMW4P477TC0",
-    "name": "Harwell Woolland",
-    "cpfCnpj": "230637700",
-    "bank": "vmowom",
-    "agency": "412-0",
-    "account": "04199718-9",
+    "id": "01GWQWNX9YB71N20D2F89MECAH",
+    "name": "Yvette Ireland",
+    "cpfCnpj": "526013363",
+    "bank": "wotodd",
+    "agency": "187-5",
+    "account": "41373225-8",
     "status": "VALIDADO",
-    "key_type": "hwoollandw@cyberchimps.com",
-    "key_value": 263
+    "key_type": "CHAVE_ALEATORIA",
+    "key_value": "63452401319712"
 }, {
-    "id": "01GWQKF67RMK5F4BRAFK8N6QJX",
-    "name": "Ewen Trundle",
-    "cpfCnpj": "772359331",
-    "bank": "jqyqlh",
-    "agency": "373-9",
-    "account": "56326657-2",
+    "id": "01GWQWNXA0XBWSKQTZJKQWKPSE",
+    "name": "Timothy Frankiewicz",
+    "cpfCnpj": "521675212",
+    "bank": "ihmrtt",
+    "agency": "060-3",
+    "account": "61533942-6",
+    "status": "RASCUNHO",
+    "key_type": "CNPJ",
+    "key_value": "27691629711327"
+}, {
+    "id": "01GWQWNXA3XQ109EJDJ0YVJKTC",
+    "name": "Verene Dunge",
+    "cpfCnpj": "612449542",
+    "bank": "mhbgyj",
+    "agency": "275-0",
+    "account": "10068544-6",
     "status": "VALIDADO",
-    "key_type": "etrundlex@sohu.com",
-    "key_value": 4131
-}, {
-    "id": "01GWQKF67V4A4KMMDZHB32XTBH",
-    "name": "Anallese Lehenmann",
-    "cpfCnpj": "404517068",
-    "bank": "haemtf",
-    "agency": "120-2",
-    "account": "82500874-7",
-    "status": "RASCUNHO",
-    "key_type": "alehenmanny@wikipedia.org",
-    "key_value": 4047
-}, {
-    "id": "01GWQKF67XKTQQWJZTACQTCPHS",
-    "name": "Leroy Jay",
-    "cpfCnpj": "728885467",
-    "bank": "ktpmtr",
-    "agency": "993-5",
-    "account": "56253761-7",
-    "status": "VALIDADO",
-    "key_type": "ljayz@shinystat.com",
-    "key_value": 4176
-}, {
-    "id": "01GWQKF68062CVCZ32JNA9E2J2",
-    "name": "Benoite Lucas",
-    "cpfCnpj": "286961419",
-    "bank": "wumcqc",
-    "agency": "813-3",
-    "account": "05006080-0",
-    "status": "VALIDADO",
-    "key_type": "dalam10@blogger.com",
-    "key_value": 1227
-}, {
-    "id": "01GWQKF6854JT2RJ5RXVH5S6Q4",
-    "name": "Dyanne Gravet",
-    "cpfCnpj": "803252533",
-    "bank": "odcrvl",
-    "agency": "121-4",
-    "account": "09493631-0",
-    "status": "RASCUNHO",
-    "key_type": "dgravet11@aboutads.info",
-    "key_value": 2122
-}, {
-    "id": "01GWQKF68AY3KR4XR227C56Z0Q",
-    "name": "Iggie Hearne",
-    "cpfCnpj": "522927799",
-    "bank": "focrfd",
-    "agency": "271-3",
-    "account": "80175621-8",
-    "status": "RASCUNHO",
-    "key_type": "ihearne12@vk.com",
-    "key_value": 3072
-}, {
-    "id": "01GWQKF68E4BDS65HJ83TYAQSZ",
-    "name": "Antons Vauls",
-    "cpfCnpj": "859893745",
-    "bank": "tmyivr",
-    "agency": "452-0",
-    "account": "37944623-7",
-    "status": "RASCUNHO",
-    "key_type": "avauls13@1688.com",
-    "key_value": 1363
+    "key_type": "TELEFONE",
+    "key_value": "63134696071148"
 }]
+
 
 type ListReceiverResponse = {
     total: number,
@@ -415,10 +316,10 @@ const listReceiver = (filter: ListReceiverQueryType): Promise<ListReceiverRespon
     }
 
     const data = receiverData.filter(receiver => (
-        receiver.status.includes(filter.status?.valueOf() ?? "") &&
+        receiver.status.includes(filter.status ?? "") &&
         receiver.name.includes(filter.name ?? "") &&
         receiver.key_type.includes(filter.key_type ?? "") &&
-        (!filter.key_value || receiver.key_value === Number(filter.key_value))
+        receiver.key_value.includes(filter.key_value ?? "")
     ))
     for (let i = 0; i < data.length && i < filter.itemsPerPage!; i++) {
         res.data.push(data[i])

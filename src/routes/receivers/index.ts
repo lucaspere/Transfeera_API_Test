@@ -1,30 +1,17 @@
-import { Type } from "@sinclair/typebox";
-import type { Static } from "@sinclair/typebox"
 import type { FastifyPluginAsync } from "fastify";
 import { ReceiverService } from "../../services/";
-
-enum Status {
-    VALIDADO = 'VALIDADO',
-    RASCUNHO = 'RASCUNHO'
-}
-enum KeyTypes {
-    CPF = 'CPF',
-    CNPJ = 'CNPJ',
-    EMAIL = 'EMAIL',
-    TELEFONE = 'TELEFONE',
-    CHAVE_ALEATORIA = 'CHAVE_ALEATORIA'
-}
+import type { Status, KeyTypes } from "../../types/receiver";
 
 const DEFAULT_ITEM_PER_PAGE = 10
-const ListReceiverParams = Type.Object({
-    itemsPerPage: Type.Optional(Type.Number({ minimum: 1, default: DEFAULT_ITEM_PER_PAGE })),
-    status: Type.Optional(Type.Enum(Status)),
-    name: Type.Optional(Type.String()),
-    key_type: Type.Optional(Type.Enum(KeyTypes)),
-    key_value: Type.Optional(Type.Number({ minimum: 0 })),
-})
 
-export type ListReceiverQueryType = Static<typeof ListReceiverParams>
+export type ListReceiverQueryType = {
+    itemsPerPage?: number | undefined;
+    status?: keyof typeof Status | undefined;
+    name?: string | undefined;
+    key_type?: keyof typeof KeyTypes | undefined;
+    key_value?: string | undefined;
+}
+
 
 const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     /**
@@ -109,23 +96,23 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *         schema:
      *           type: string
      *           enum: *STATUS
-     *         description: The quantity of items to be returned per page.
+     *         description: The `Status` of the recipient.
      *       - in: query
      *         name: name
      *         schema:
      *           type: string
-     *         description: The quantity of items to be returned per page.
+     *         description: The name of the recipient.
      *       - in: query
      *         name: key_type
      *         schema:
      *           type: string
      *           enum: *KEY_TYPES
-     *         description: The quantity of items to be returned per page.
+     *         description: The Pix's Key types of the recipient.
      *       - in: query
      *         name: key_value
      *         schema:
      *           type: integer
-     *         description: The quantity of items to be returned per page.
+     *         description: The Pix's key value of the recipient.
      *     produces: [application/json]
      *     responses:
      *       200:
@@ -148,7 +135,7 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
         request.query.itemsPerPage = request.query.itemsPerPage ?? DEFAULT_ITEM_PER_PAGE
         const list = await ReceiverService.listReceiver(request.query)
 
-        void reply.send(list);
+        void reply.status(200).send(list);
     });
 };
 
