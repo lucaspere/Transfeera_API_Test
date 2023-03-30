@@ -3,61 +3,14 @@
   "info": {
     "title": "Transfeera API",
     "version": "0.0.1",
-    "description": "An API for simple CRUD Receivers."
+    "description": "An API for simple CRUD Recipients."
   },
   "host": "0.0.0.0:3000",
   "paths": {
-    "/api/receivers:id": {
-      "delete": {
-        "tags": [
-          "Receiver"
-        ],
-        "description": "Delete a `Recipient` by its `id`",
-        "parameters": [
-          {
-            "in": "params",
-            "name": "id",
-            "schema": {
-              "type": "string",
-              "required": true
-            },
-            "description": "The `Recipient` identifier."
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "deletion success."
-          },
-          "400": {
-            "description": "invalid recipient value.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequest"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/InternalServerError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/receivers/bulk-delete": {
+    "/api/recipients/bulk-delete": {
       "post": {
         "tags": [
-          "Receiver"
+          "Recipient"
         ],
         "description": "Delete many `Recipient` by its `ids`",
         "requestBody": {
@@ -95,7 +48,7 @@
                   "properties": {
                     "total": {
                       "type": "integer",
-                      "description": "The total of `Receiver` deleteds."
+                      "description": "The total of `Recipient` deleteds."
                     }
                   }
                 }
@@ -125,12 +78,64 @@
         }
       }
     },
-    "/api/receivers": {
+    "/api/recipients": {
+      "post": {
+        "tags": [
+          "Recipient"
+        ],
+        "description": "Create a new `Recipient`",
+        "requestBody": {
+          "required": true,
+          "description": "The `CreateUpdateRecipientPayload` data.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEditRecipientPayload"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "deletion success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipient"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid json body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      },
       "get": {
         "tags": [
-          "Receiver"
+          "Recipient"
         ],
-        "description": "Returns a list of `Receiver`",
+        "description": "Returns a list of `Recipient`",
         "parameters": [
           {
             "in": "query",
@@ -198,13 +203,13 @@
                   "properties": {
                     "total": {
                       "type": "integer",
-                      "description": "The total of `Receiver` data returned."
+                      "description": "The total of `Recipient` data returned."
                     },
                     "data": {
-                      "description": "The list of `Receiver` data.",
+                      "description": "The list of `Recipient` data.",
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/Receiver"
+                        "$ref": "#/components/schemas/Recipient"
                       }
                     }
                   }
@@ -214,6 +219,101 @@
           },
           "400": {
             "description": "list success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recipients:id": {
+      "delete": {
+        "tags": [
+          "Recipient"
+        ],
+        "description": "Delete a `Recipient` by its `id`",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            },
+            "description": "The `Recipient` identifier."
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "deletion success."
+          },
+          "400": {
+            "description": "invalid recipient value.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recipients/:id": {
+      "put": {
+        "tags": [
+          "Recipient"
+        ],
+        "description": "Update a `Recipient`",
+        "requestBody": {
+          "required": true,
+          "description": "The `CreateUpdateRecipientPayload` data.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEditRecipientPayload"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "update success.",
+            "content": null
+          },
+          "400": {
+            "description": "invalid json body.",
             "content": {
               "application/json": {
                 "schema": {
@@ -295,7 +395,7 @@
           }
         }
       },
-      "Receiver": {
+      "Recipient": {
         "type": "object",
         "properties": {
           "id": {
@@ -347,12 +447,46 @@
           "account",
           "status"
         ]
+      },
+      "CreateEditRecipientPayload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "cpf_cnpj": {
+            "type": "string"
+          },
+          "key_type": {
+            "type": "string",
+            "enum": [
+              "CPF",
+              "CNPJ",
+              "EMAIL",
+              "TELEFONE",
+              "CHAVE_ALEATORIA"
+            ]
+          },
+          "key_value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "cpf_cnpj",
+          "key_type",
+          "key_value"
+        ]
       }
     }
   },
   "tags": [
     {
-      "name": "Receiver",
+      "name": "Recipient",
       "description": "Hello world end point"
     }
   ]
