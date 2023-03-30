@@ -251,7 +251,7 @@ describe('Recipient API tests', async function () {
             });
             const resObj = JSON.parse(expectedRes.body).data[0]
 
-            expect(res.statusCode).to.be.equal(200);
+            expect(res.statusCode).to.be.equal(201);
             expect(JSON.parse(res.body)).deep.equal(resObj);
             expect(resObj.status).to.be.equal("RASCUNHO")
         });
@@ -306,6 +306,80 @@ describe('Recipient API tests', async function () {
                 payload
             });
             expect(res.statusCode).to.be.equal(400);
+        });
+    });
+    context('Update Recipient', function () {
+        it('Should only update the email when Recipient status is VALIDADO', async () => {
+            const payload = {
+                "name": "string",
+                "email": "user@example.com",
+                "cpf_cnpj": "33830872046",
+                "key_type": "CPF",
+                "key_value": "33830872046"
+            }
+            const id = "4efbe38b-2dbf-4bce-849b-b8082a4097eb"
+            const { statusCode } = await app.inject({
+                method: 'PUT',
+                url: RECEIVER_URL + id,
+                payload
+            });
+
+            const statusQuery = '?name=Adelle Meth&itemsPerPage=1'
+            const res = await app.inject({
+                method: 'GET',
+                url: RECEIVER_URL + statusQuery,
+            });
+            const resObj = {
+                id,
+                "name": "Adelle Meth",
+                "email": "user@example.com",
+                "cpf_cnpj": "36145118121",
+                "status": "VALIDADO",
+                "key_type": "EMAIL",
+                "key_value": "ameth1@mapquest.com",
+                "account": "70829-8",
+                "bank": "ITAU",
+                "agency": "655"
+            }
+
+            expect(statusCode).to.be.equal(204);
+            expect(JSON.parse(res.body).data[0]).deep.equal(resObj);
+        });
+        it('Should update fields when Recipient status is RASCUNHO, except status', async () => {
+            const payload = {
+                "name": "string",
+                "email": "user@example.com",
+                "cpf_cnpj": "33830872046",
+                "key_type": "CPF",
+                "key_value": "33830872046"
+            }
+            const id = "dab0131d-8453-4a76-b0e2-8a8e2981acc9"
+            const { statusCode } = await app.inject({
+                method: 'PUT',
+                url: RECEIVER_URL + id,
+                payload
+            });
+
+            const statusQuery = '?name=string&itemsPerPage=1'
+            const res = await app.inject({
+                method: 'GET',
+                url: RECEIVER_URL + statusQuery,
+            });
+            const resObj = {
+                id,
+                "name": "string",
+                "email": "user@example.com",
+                "cpf_cnpj": "33830872046",
+                "key_type": "CPF",
+                "key_value": "33830872046",
+                "status": "RASCUNHO",
+                "account": "02404-3",
+                "bank": "SANTANDER",
+                "agency": "954"
+            }
+
+            expect(statusCode).to.be.equal(204);
+            expect(JSON.parse(res.body).data[0]).deep.equal(resObj);
         });
     });
 });
