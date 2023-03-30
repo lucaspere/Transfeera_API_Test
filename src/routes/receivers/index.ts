@@ -1,10 +1,11 @@
 import type { FastifyPluginAsync } from "fastify";
 import { ReceiverService } from "../../services/";
-import type { Status, KeyTypes } from "../../types/receiver";
+import type { Status, KeyTypes, Receiver } from "../../types/receiver";
 import { ListFilters } from "../../types/repository";
 import ListReceiverQueries from '../../schemas/listReceivers.json'
 import DeleteReceiverParams from "../../schemas/deleteReceiver.json";
 import BulkDeletionBody from "../../schemas/bulkDeletionReceiver.json";
+import { createRecipient } from "./create";
 
 const DEFAULT_ITEM_PER_PAGE = 10
 
@@ -15,14 +16,21 @@ export interface ListReceiverQueryType extends ListFilters {
     key_value?: string | undefined;
 }
 
-export interface DeleteReceiverParamTypes {
+export type DefaultReceiverParamType = {
     id: string
 }
+
+export type CreateRecipientBodyTypes = Receiver
+
+export interface DeleteReceiverParamTypes extends DefaultReceiverParamType { }
 
 export interface BulkDeletionBodyTypes {
     ids: Array<string>
 }
 
+export interface EditRecipientParamsTypes extends DefaultReceiverParamType { }
+
+export type EditRecipientBodyTypes = Partial<Receiver>
 const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     /**
      * @swagger
@@ -86,6 +94,27 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *       - agency 
      *       - account 
      *       - status 
+     * 
+     *     CreateRecipientPayload:
+     *       type: object
+     *       properties:
+     *         name:
+     *           type: string
+     *         email:
+     *           type: string
+     *           format: email
+     *         cpf_cnpj:
+     *           type: string
+     *         key_type:
+     *           type: string
+     *           enum: *KEY_TYPES 
+     *         key_value:
+     *           type: string
+     *       required:
+     *       - name 
+     *       - cpf_cnpj 
+     *       - key_type
+     *       - key_value
     */
 
     /**
@@ -262,6 +291,8 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
             void reply.status(200).send(data);
         }
     );
+
+    createRecipient(fastify)
 };
 
 export default receiver;
