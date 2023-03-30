@@ -4,7 +4,8 @@ import AutoLoad from "@fastify/autoload";
 import fastifyCors from '@fastify/cors'
 import { initSwagger } from './swagger';
 import { join } from 'path';
-import { __dirname } from './approotdir';
+import { useRepository } from './repositories';
+import * as util from 'node:util'
 
 export const PORT = (process.env.PORT ?? 3000) as number
 
@@ -29,7 +30,7 @@ export const app = (
     void app.register(fastifyCors);
     void app.register(AutoLoad, {
         dir: join(__dirname, "routes"),
-        options: opts
+        options: { ...opts, prefix: '/api' },
     })
 
     return app
@@ -37,4 +38,14 @@ export const app = (
 
 const server = app()
 
-await server.listen({ port: PORT, host: '0.0.0.0' })
+useRepository(process.env.REPOSITORY_TYPE).then(store => {
+    server.log.info(`Using NotesStore ${util.inspect(store)}`)
+}).catch(err => {
+    console.error(`Notes data store initialization failure because `, err.error);
+    process.exit(1);
+})
+
+server.listen({ port: PORT, host: '0.0.0.0' }).catch(err => {
+    console.error('An error occurred while trying to initialize the server', err)
+    process.exit(1)
+})

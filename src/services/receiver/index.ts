@@ -1,6 +1,6 @@
 import { ListReceiverQueryType } from "../../routes/receivers"
 import type { Receiver } from "../../types/receiver"
-import { ReceiverRepositoryFactory } from '../../repositories'
+import { Repository } from '../../repositories'
 
 type ListReceiverResponse = {
     total: number,
@@ -8,8 +8,7 @@ type ListReceiverResponse = {
 }
 
 const listReceiver = async (filter: ListReceiverQueryType): Promise<ListReceiverResponse> => {
-    const repository = await new ReceiverRepositoryFactory().create()
-    const data = await repository.list(filter)
+    const data = await Repository.list(filter)
     const res: ListReceiverResponse = {
         total: data.length,
         data: data

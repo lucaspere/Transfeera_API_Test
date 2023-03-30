@@ -79,7 +79,7 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 
     /**
      * @swagger
-     * /receivers:
+     * /api/receivers:
      *   get:
      *     tags: [Receiver]
      *     description: Returns a list of `Receiver`

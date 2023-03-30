@@ -1,18 +1,18 @@
 import { Repository } from '../types/repository';
 import { Receiver } from '../types/receiver';
 
-export class ReceiverRepositoryFactory {
-    constructor(private repositoryType: string = "MemoryRepository") { }
+let singletonRepo: Repository<Receiver>;
 
-    async create(): Promise<Repository<Receiver>> {
-        try {
-            const repository = await import(`./${this.repositoryType}.ts`);
-            const Note = repository.default;
-            return new Note();
-        } catch (error) {
-            console.error(error);
-            throw new Error();
-        }
+export const useRepository = async (repositoryType = "MemoryRepository"): Promise<Repository<Receiver>> => {
+    try {
+        const Repository = (await import(`./${repositoryType}.ts`)).default;
+        singletonRepo = new Repository()
+        return singletonRepo;
+    } catch (error) {
+        console.error(error);
+        throw new Error();
     }
 }
 
+
+export { singletonRepo as Repository }

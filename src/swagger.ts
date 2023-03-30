@@ -5,7 +5,6 @@ import { writeFileSync } from "fs";
 import { join } from "path";
 import type { SwaggerDefinition } from "swagger-jsdoc";
 import swaggerJsdoc from "swagger-jsdoc";
-import { __dirname } from "./approotdir";
 
 // Swagger definition
 // https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md
