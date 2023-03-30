@@ -3,7 +3,7 @@ import { ReceiverService } from "../../services/";
 import type { Status, KeyTypes, Receiver } from "../../types/receiver";
 import { ListFilters } from "../../types/repository";
 import ListReceiverQueries from '../../schemas/listReceivers.json'
-import DeleteReceiverParams from "../../schemas/deleteReceiver.json";
+import DeleteReceiverParams from "../../schemas/defaultIdParameters.json";
 import BulkDeletionBody from "../../schemas/bulkDeletionReceiver.json";
 import { createRecipient } from "./create";
 import { updateRecipient } from "./update";

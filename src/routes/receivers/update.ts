@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { EditRecipientBodyTypes, EditRecipientParamsTypes } from ".";
 import EditRecipientBody from '../../schemas/createEditRecipientBody.json'
+import EditReceiverParams from "../../schemas/defaultIdParameters.json";
 import { ReceiverService } from "../../services";
 
 
@@ -41,7 +42,7 @@ export const updateRecipient = (app: FastifyInstance) => {
         Body: EditRecipientBodyTypes
     }>(
         "/:id",
-        { schema: { body: EditRecipientBody }, },
+        { schema: { body: EditRecipientBody, params: EditReceiverParams }, },
         async (request, reply) => {
             const data = await ReceiverService.editRecipient({ id: request.params.id, ...request.body })
 
