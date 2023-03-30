@@ -173,6 +173,15 @@ describe('Recipient API tests', async function () {
             expect(JSON.parse(initialRes.body).total).to.be.equal(1);
             expect(JSON.parse(expectedRes.body).total).to.be.equal(0);
         });
+        it('Should response with Body BadRequest with invalid id', async () => {
+            const id = 'test'
+            const res = await app.inject({
+                method: 'DELETE',
+                url: RECEIVER_URL + id,
+            });
+
+            expect(res.statusCode).to.be.equal(400);
+        });
     });
 
     context('Delete Recipient', function () {
@@ -380,6 +389,63 @@ describe('Recipient API tests', async function () {
 
             expect(statusCode).to.be.equal(204);
             expect(JSON.parse(res.body).data[0]).deep.equal(resObj);
+        });
+        it('Should response with Body BadRequest with invalid payload and id', async () => {
+            let payload: any = {
+                "name": "string",
+                "email": "user@example.com",
+                "cpf_cnpj": "33830872046",
+                "key_type": "CPF",
+                "key_value": "33830872046"
+            }
+            let id = 'id'
+            let res = await app.inject({
+                method: 'PUT',
+                url: RECEIVER_URL + id,
+                payload
+            });
+            expect(res.statusCode).to.be.equal(400);
+            id = 'dab0131d-8453-4a76-b0e2-8a8e2981acc9'
+            payload = {
+                "key_type": "EMAIL",
+                "key_value": "falha"
+            }
+            res = await app.inject({
+                method: 'PUT',
+                url: RECEIVER_URL + id,
+                payload
+            });
+            expect(res.statusCode).to.be.equal(400);
+            payload = {
+                "key_type": "TELEFONE",
+                "key_value": "falha"
+            }
+            res = await app.inject({
+                method: 'PUT',
+                url: RECEIVER_URL + id,
+                payload
+            });
+            expect(res.statusCode).to.be.equal(400);
+            payload = {
+                "key_type": "CNPJ",
+                "key_value": "falha"
+            }
+            res = await app.inject({
+                method: 'PUT',
+                url: RECEIVER_URL + id,
+                payload
+            });
+            expect(res.statusCode).to.be.equal(400);
+            payload = {
+                "key_type": "CHAVE_ALEATORIA",
+                "key_value": "falha"
+            }
+            res = await app.inject({
+                method: 'PUT',
+                url: RECEIVER_URL + id,
+                payload
+            });
+            expect(res.statusCode).to.be.equal(400);
         });
     });
 });
