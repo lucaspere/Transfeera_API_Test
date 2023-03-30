@@ -72,7 +72,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A list of users.",
+            "description": "list success.",
             "content": {
               "application/json": {
                 "schema": {
@@ -90,6 +90,26 @@
                       }
                     }
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "list success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
                 }
               }
             }
@@ -119,6 +139,44 @@
   },
   "components": {
     "schemas": {
+      "InternalServerError": {
+        "type": "object",
+        "properties": {
+          "statuscode": {
+            "type": "integer",
+            "description": "HTTP Status Code.",
+            "default": 500
+          },
+          "error": {
+            "type": "string",
+            "description": "HTTP Message Code.",
+            "default": "Internal Server Error"
+          },
+          "message": {
+            "type": "string",
+            "description": "A message describing the reason for the error."
+          }
+        }
+      },
+      "BadRequest": {
+        "type": "object",
+        "properties": {
+          "statuscode": {
+            "type": "integer",
+            "description": "HTTP Status Code.",
+            "default": 400
+          },
+          "error": {
+            "type": "string",
+            "description": "HTTP Message Code.",
+            "default": "Bad Request"
+          },
+          "message": {
+            "type": "string",
+            "description": "A message describing the reason for the error."
+          }
+        }
+      },
       "Receiver": {
         "type": "object",
         "properties": {

@@ -2,7 +2,7 @@ import type { FastifyPluginAsync } from "fastify";
 import { ReceiverService } from "../../services/";
 import type { Status, KeyTypes } from "../../types/receiver";
 import { ListFilters } from "../../types/repository";
-
+import ListReceiversQueries from "../../schemas/listReceivers.json";
 const DEFAULT_ITEM_PER_PAGE = 10
 
 export interface ListReceiverQueryType extends ListFilters {
@@ -115,7 +115,7 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *     produces: [application/json]
      *     responses:
      *       200:
-     *         description: A list of users.
+     *         description: list success.
      *         content:
      *           application/json:
      *             schema:
@@ -129,13 +129,31 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *                   type: array
      *                   items:
      *                     $ref: '#/components/schemas/Receiver'
+     *       400:
+     *         description: list success.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/BadRequest'
+     *       500:
+     *         description: Internal Error.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/InternalServerError'
      */
-    fastify.get<{ Querystring: ListReceiverQueryType }>("/", async (request, reply) => {
-        request.query.itemsPerPage = request.query.itemsPerPage ?? DEFAULT_ITEM_PER_PAGE
-        const list = await ReceiverService.listReceiver(request.query)
+    fastify.get<{
+        Querystring: ListReceiverQueryType
+    }>(
+        "/",
+        { schema: { querystring: ListReceiversQueries } },
+        async (request, reply) => {
+            request.query.itemsPerPage = request.query.itemsPerPage ?? DEFAULT_ITEM_PER_PAGE
+            const list = await ReceiverService.listReceiver(request.query)
 
-        void reply.status(200).send(list);
-    });
+            void reply.status(200).send(list);
+        }
+    );
 };
 
 export default receiver;

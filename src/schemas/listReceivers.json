@@ -1,0 +1,29 @@
+{
+    "title": "Receiver",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "key_type": {
+            "type": "string",
+            "enum": [
+                "EMAIL",
+                "CPF",
+                "CNPJ",
+                "TELEFONE",
+                "CHAVE_ALEATORIA"
+            ]
+        },
+        "key_value": {
+            "type": "string"
+        },
+        "status": {
+            "type": "string",
+            "enum": [
+                "VALIDADO",
+                "RASCUNHO"
+            ]
+        }
+    }
+}
