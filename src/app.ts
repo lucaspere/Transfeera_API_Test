@@ -5,12 +5,22 @@ import fastifyCors from '@fastify/cors'
 import { initSwagger } from './swagger';
 import { join } from 'path';
 import { useRepository } from './repositories';
+import ajvKeywords from 'ajv-keywords';
 import * as util from 'node:util'
 
 export const PORT = (process.env.PORT ?? 3000) as number
 
 export const app = (
     opts: FastifyServerOptions = {
+        ajv: {
+            customOptions: {
+                discriminator: true,
+                removeAdditional: true,
+            },
+            plugins: [
+                [ajvKeywords] as any
+            ]
+        },
         logger: {
             transport: {
                 target: 'pino-pretty',

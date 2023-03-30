@@ -2,6 +2,9 @@
     "title": "ListRecipients",
     "type": "object",
     "properties": {
+        "itemsPerPage": {
+            "type": "integer"
+        },
         "name": {
             "type": "string"
         },

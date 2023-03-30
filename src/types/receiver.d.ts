@@ -2,6 +2,7 @@ export type Receivers = Array<Receiver>
 export interface Receiver {
   id?: string;
   name: string;
+  email: string;
   cpf_cnpj?: string;
   key_type: keyof typeof KeyTypes;
   key_value: string;
