@@ -1,36 +1,29 @@
 import type { FastifyPluginAsync } from "fastify";
-import { ReceiverService } from "../../services";
+import { RecipientService } from "../../services";
 import type { Status, KeyTypes, Recipient } from "../../types/recipient";
 import { ListFilters } from "../../types/repository";
-import ListReceiverQueries from '../../schemas/listRecipients.json'
-import DeleteReceiverParams from "../../schemas/defaultIdParameters.json";
+import DeleteRecipientParams from "../../schemas/defaultIdParameters.json";
 import BulkDeletionBody from "../../schemas/bulkDeletionRecipient.json";
 import { createRecipient } from "./create";
 import { updateRecipient } from "./update";
+import { listRecipients } from "./list";
 
-const DEFAULT_ITEM_PER_PAGE = 10
-
-export interface ListReceiverQueryType extends ListFilters {
+export interface ListRecipientQueryType extends ListFilters {
     status?: keyof typeof Status | undefined;
     name?: string | undefined;
     key_type?: keyof typeof KeyTypes | undefined;
     key_value?: string | undefined;
 }
-
-export type DefaultReceiverParamType = {
-    id: string
-}
-
-export type CreateRecipientBodyTypes = Recipient
-
-export interface DeleteReceiverParamTypes extends DefaultReceiverParamType { }
-
+export interface DeleteRecipientParamTypes extends DefaultRecipientParamType { }
 export interface BulkDeletionBodyTypes {
     ids: Array<string>
 }
+export interface EditRecipientParamsTypes extends DefaultRecipientParamType { }
 
-export interface EditRecipientParamsTypes extends DefaultReceiverParamType { }
-
+export type DefaultRecipientParamType = {
+    id: string
+}
+export type CreateRecipientBodyTypes = Recipient
 export type EditRecipientBodyTypes = Partial<Recipient>
 const recipient: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     /**
@@ -118,83 +111,7 @@ const recipient: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *       - key_value
     */
 
-    /**
-     * @swagger
-     * /api/recipients:
-     *   get:
-     *     tags: [Recipient]
-     *     description: Returns a list of `Recipient`
-     *     parameters:
-     *       - in: query
-     *         name: itemsPerPage
-     *         schema:
-     *           type: integer
-     *           default: 10
-     *         description: The quantity of items to be returned per page.
-     *       - in: query
-     *         name: status
-     *         schema:
-     *           type: string
-     *           enum: *STATUS
-     *         description: The `Status` of the recipient.
-     *       - in: query
-     *         name: name
-     *         schema:
-     *           type: string
-     *         description: The name of the recipient.
-     *       - in: query
-     *         name: key_type
-     *         schema:
-     *           type: string
-     *           enum: *KEY_TYPES
-     *         description: The Pix's Key types of the recipient.
-     *       - in: query
-     *         name: key_value
-     *         schema:
-     *           type: integer
-     *         description: The Pix's key value of the recipient.
-     *     produces: [application/json]
-     *     responses:
-     *       200:
-     *         description: list success.
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 total:
-     *                   type: integer
-     *                   description: The total of `Recipient` data returned.
-     *                 data:
-     *                   description: The list of `Recipient` data.
-     *                   type: array
-     *                   items:
-     *                     $ref: '#/components/schemas/Recipient'
-     *       400:
-     *         description: list success.
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/BadRequest'
-     *       500:
-     *         description: Internal Error.
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/InternalServerError'
-     */
-    fastify.get<{
-        Querystring: ListReceiverQueryType
-    }>(
-        "/",
-        { schema: { querystring: ListReceiverQueries } },
-        async (request, reply) => {
-            request.query.itemsPerPage = request.query.itemsPerPage ?? DEFAULT_ITEM_PER_PAGE
-            const list = await ReceiverService.listReceiver(request.query)
 
-            void reply.status(200).send(list);
-        }
-    );
     /**
      * @swagger
      * /api/recipients:id:
@@ -226,13 +143,13 @@ const recipient: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *               $ref: '#/components/schemas/InternalServerError'
      */
     fastify.delete<{
-        Params: DeleteReceiverParamTypes
+        Params: DeleteRecipientParamTypes
     }>(
         "/:id",
-        { schema: { params: DeleteReceiverParams } },
+        { schema: { params: DeleteRecipientParams } },
         async (request, reply) => {
 
-            void await ReceiverService.deleteRecipient(request.params)
+            void await RecipientService.deleteRecipient(request.params)
 
             void reply.status(200);
         }
@@ -287,7 +204,7 @@ const recipient: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
         "/bulk-delete",
         { schema: { body: BulkDeletionBody }, },
         async (request, reply) => {
-            const data = await ReceiverService.bulkDelete(request.body)
+            const data = await RecipientService.bulkDelete(request.body)
 
             void reply.status(200).send(data);
         }
@@ -295,6 +212,7 @@ const recipient: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 
     updateRecipient(fastify)
     createRecipient(fastify)
+    listRecipients(fastify)
 };
 
 export default recipient;
