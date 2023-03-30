@@ -6,6 +6,7 @@ import ListReceiverQueries from '../../schemas/listReceivers.json'
 import DeleteReceiverParams from "../../schemas/deleteReceiver.json";
 import BulkDeletionBody from "../../schemas/bulkDeletionReceiver.json";
 import { createRecipient } from "./create";
+import { updateRecipient } from "./update";
 
 const DEFAULT_ITEM_PER_PAGE = 10
 
@@ -95,7 +96,7 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *       - account 
      *       - status 
      * 
-     *     CreateRecipientPayload:
+     *     CreateEditRecipientPayload:
      *       type: object
      *       properties:
      *         name:
@@ -292,6 +293,7 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
         }
     );
 
+    updateRecipient(fastify)
     createRecipient(fastify)
 };
 
