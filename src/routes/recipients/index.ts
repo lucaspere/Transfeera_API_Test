@@ -1,12 +1,11 @@
 import type { FastifyPluginAsync } from "fastify";
-import { RecipientService } from "../../services";
 import type { Status, KeyTypes, Recipient } from "../../types/recipient";
 import { ListFilters } from "../../types/repository";
-import DeleteRecipientParams from "../../schemas/defaultIdParameters.json";
 import { createRecipient } from "./create";
 import { updateRecipient } from "./update";
 import { listRecipients } from "./list";
 import { deleteRecipient } from "./delete";
+import { BulkRecipientDeletion } from "./bulkDelete";
 
 export interface ListRecipientQueryType extends ListFilters {
     status?: keyof typeof Status | undefined;
@@ -111,55 +110,11 @@ const recipient: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *       - key_value
     */
 
-
-    /**
-     * @swagger
-     * /api/recipients:id:
-     *   delete:
-     *     tags: [Recipient]
-     *     description: Delete a `Recipient` by its `id` 
-     *     parameters:
-     *       - in: params
-     *         name: id
-     *         schema:
-     *           type: string
-     *           required: true
-     *         description: The `Recipient` identifier.
-     *     produces: [application/json]
-     *     responses:
-     *       200:
-     *         description: deletion success.
-     *       400:
-     *         description: invalid recipient value.
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/BadRequest'
-     *       500:
-     *         description: Internal Error.
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/InternalServerError'
-     */
-    fastify.delete<{
-        Params: DeleteRecipientParamTypes
-    }>(
-        "/:id",
-        { schema: { params: DeleteRecipientParams } },
-        async (request, reply) => {
-
-            void await RecipientService.deleteRecipient(request.params)
-
-            void reply.status(200);
-        }
-    );
-
-
     updateRecipient(fastify)
     createRecipient(fastify)
     listRecipients(fastify)
     deleteRecipient(fastify)
+    BulkRecipientDeletion(fastify)
 };
 
 export default recipient;
