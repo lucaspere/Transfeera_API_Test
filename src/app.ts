@@ -39,9 +39,9 @@ export const app = (
 const server = app()
 
 useRepository(process.env.REPOSITORY_TYPE).then(store => {
-    server.log.info(`Using NotesStore ${util.inspect(store)}`)
+    server.log.info(`Using Repository ${util.inspect(store)}`)
 }).catch(err => {
-    console.error(`Notes data store initialization failure because `, err.error);
+    console.error(`Repository data Store initialization failure because `, err.error);
     process.exit(1);
 })
 

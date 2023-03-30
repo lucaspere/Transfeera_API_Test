@@ -4,6 +4,8 @@ import type { Status, KeyTypes } from "../../types/receiver";
 import { ListFilters } from "../../types/repository";
 import ListReceiverQueries from '../../schemas/listReceivers.json'
 import DeleteReceiverParams from "../../schemas/deleteReceiver.json";
+import BulkDeletionBody from "../../schemas/bulkDeletionReceiver.json";
+
 const DEFAULT_ITEM_PER_PAGE = 10
 
 export interface ListReceiverQueryType extends ListFilters {
@@ -15,6 +17,10 @@ export interface ListReceiverQueryType extends ListFilters {
 
 export interface DeleteReceiverParamTypes {
     id: string
+}
+
+export interface BulkDeletionBodyTypes {
+    ids: Array<string>
 }
 
 const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
@@ -199,6 +205,62 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
             void await ReceiverService.deleteRecipient(request.params)
 
             void reply.status(200);
+        }
+    );
+    /**
+     * @swagger
+     * /api/receivers/bulk-delete:
+     *   post:
+     *     tags: [Receiver]
+     *     description: Delete many `Recipient` by its `ids` 
+     *     requestBody:
+     *       required: true
+     *       description: A list of `Recipient`'s ids.
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               ids:
+     *                 type: array
+     *                 items:
+     *                   type: string
+     *             required: [ids]
+     *     produces: [application/json]
+     *     responses:
+     *       200:
+     *         description: deletion success.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 total:
+     *                   type: integer
+     *                   description: The total of `Receiver` deleteds.
+     *       400:
+     *         description: invalid json body.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/BadRequest'
+     *       500:
+     *         description: Internal Error.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/InternalServerError'
+     */
+    fastify.post<{
+        Body: BulkDeletionBodyTypes
+    }>(
+        "/bulk-delete",
+        { schema: { body: BulkDeletionBody }, },
+        async (request, reply) => {
+            console.log(request.body)
+            const data = await ReceiverService.bulkDelete(request.body)
+
+            void reply.status(200).send(data);
         }
     );
 };

@@ -345,4 +345,15 @@ export default class ReceiverMemoryRepository implements Repository<Receiver> {
 
         return Promise.resolve(undefined);
     }
+    bulkDelete(ids: Array<string>): Promise<number> {
+        return new Promise((res, _) => {
+            Promise.all(ids.map(id => this.delete(id))).then(result => {
+                const total = result.reduce(
+                    (total, cur) => total += cur ? 1 : 0
+                    , 0
+                )
+                res(total)
+            })
+        })
+    }
 }

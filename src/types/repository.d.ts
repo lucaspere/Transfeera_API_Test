@@ -4,6 +4,7 @@ export interface Repository<T> {
     list<F extends ListFilters>(filter: F): Promise<T[]>;
     update(id: string, payload: T): Promise<T | undefined>;
     delete(id: string): Promise<T | undefined>;
+    bulkDelete(ids: Array<string>): Promise<number>
 }
 
 export interface ListFilters {
