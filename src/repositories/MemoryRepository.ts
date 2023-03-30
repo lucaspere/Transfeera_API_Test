@@ -352,7 +352,7 @@ export default class RecipientMemoryRepository implements Repository<Recipient> 
         return Promise.resolve(recipients[recipients.length - 1] as Recipient);
     }
     list<F extends ListRecipientQueryType>(filter: F): Promise<Recipients> {
-        if (filter.itemsPerPage === 0) {
+        if (!filter.itemsPerPage) {
             filter.itemsPerPage = 10
         }
         const res: Recipients = []
