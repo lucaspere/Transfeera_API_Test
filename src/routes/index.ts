@@ -8,7 +8,7 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *     InternalServerError:
      *       type: object
      *       properties:
-     *         statuscode:
+     *         statusCode:
      *           type: integer
      *           description: HTTP Status Code.
      *           default: 500
@@ -22,7 +22,7 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *     BadRequest:
      *       type: object
      *       properties:
-     *         statuscode:
+     *         statusCode:
      *           type: integer
      *           description: HTTP Status Code.
      *           default: 400

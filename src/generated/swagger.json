@@ -189,7 +189,7 @@
       "InternalServerError": {
         "type": "object",
         "properties": {
-          "statuscode": {
+          "statusCode": {
             "type": "integer",
             "description": "HTTP Status Code.",
             "default": 500
@@ -208,7 +208,7 @@
       "BadRequest": {
         "type": "object",
         "properties": {
-          "statuscode": {
+          "statusCode": {
             "type": "integer",
             "description": "HTTP Status Code.",
             "default": 400

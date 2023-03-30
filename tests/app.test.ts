@@ -106,6 +106,38 @@ describe('Recipient API tests', async function () {
             expect(res.statusCode).to.be.equal(200);
             expect(res.body).to.be.equal(expectedRes);
         });
+        it('Should response with BadRequest with invalid status value', async () => {
+            const statusQuery = '?status=RASC'
+            const res = await app.inject({
+                method: 'GET',
+                url: RECEIVER_URL + statusQuery,
+            });
+
+            const expectedRes = JSON.stringify({
+                "statusCode": 400,
+                "error": "Bad Request",
+                "message": "querystring/status must be equal to one of the allowed values"
+            })
+
+            expect(res.statusCode).to.be.equal(400);
+            expect(res.body).to.be.equal(expectedRes);
+        });
+        it('Should response with BadRequest with invalid key_type value', async () => {
+            const statusQuery = '?key_type=TEST'
+            const res = await app.inject({
+                method: 'GET',
+                url: RECEIVER_URL + statusQuery,
+            });
+
+            const expectedRes = JSON.stringify({
+                "statusCode": 400,
+                "error": "Bad Request",
+                "message": "querystring/key_type must be equal to one of the allowed values"
+            })
+
+            expect(res.statusCode).to.be.equal(400);
+            expect(res.body).to.be.equal(expectedRes);
+        });
     });
     context('Delete Recipient', function () {
         it('Should Delete Recipient with corret id', async () => {
