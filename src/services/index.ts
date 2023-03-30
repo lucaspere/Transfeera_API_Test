@@ -1,1 +1,1 @@
-export * as ReceiverService from './receiver/'
+export * as RecipientService from './recipient/'

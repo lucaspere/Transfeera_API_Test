@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { app as server } from '../src/app';
 import { Repository as repository } from '../src/repositories'
-import { Receivers } from '../src/types/receiver';
+import { Recipients } from '../src/types/recipient';
 import ajvKeywords from 'ajv-keywords';
 
-const RECEIVER_URL = '/api/receivers/'
+const RECEIVER_URL = '/api/recipients/'
 
 describe('Recipient API tests', async function () {
     const app = server({
@@ -20,7 +20,7 @@ describe('Recipient API tests', async function () {
             ]
         }
     });
-    let mockData: Receivers = []
+    let mockData: Recipients = []
     this.beforeAll(async () => {
         await app.listen({ port: 3001 });
         await repository.clear()

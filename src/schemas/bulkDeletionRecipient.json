@@ -1,5 +1,5 @@
 {
-    "title": "DeleteReceiver",
+    "title": "DeleteRecipient",
     "type": "object",
     "properties": {
         "ids": {

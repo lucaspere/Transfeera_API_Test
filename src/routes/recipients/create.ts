@@ -1,17 +1,15 @@
 import { FastifyInstance } from "fastify";
-import { EditRecipientBodyTypes, EditRecipientParamsTypes } from ".";
-import EditRecipientBody from '../../schemas/createEditRecipientBody.json'
-import EditReceiverParams from "../../schemas/defaultIdParameters.json";
-import { ReceiverService } from "../../services";
+import { CreateRecipientBodyTypes } from ".";
+import CreateRecipientBody from '../../schemas/createEditRecipientBody.json'
+import { RecipientService } from "../../services";
 
-
-export const updateRecipient = (app: FastifyInstance) => {
+export const createRecipient = (app: FastifyInstance) => {
     /**
     * @swagger
-    * /api/receivers/:id:
-    *   put:
-    *     tags: [Receiver]
-    *     description: Update a `Receiver`
+    * /api/recipients:
+    *   post:
+    *     tags: [Recipient]
+    *     description: Create a new `Recipient` 
     *     requestBody:
     *       required: true
     *       description: The `CreateUpdateRecipientPayload` data.
@@ -21,9 +19,12 @@ export const updateRecipient = (app: FastifyInstance) => {
     *             $ref: '#/components/schemas/CreateEditRecipientPayload'
     *     produces: [application/json]
     *     responses:
-    *       204:
-    *         description: update success.
+    *       201:
+    *         description: deletion success.
     *         content:
+    *           application/json:
+    *             schema:
+    *               $ref: '#/components/schemas/Recipient'
     *       400:
     *         description: invalid json body.
     *         content:
@@ -37,16 +38,15 @@ export const updateRecipient = (app: FastifyInstance) => {
     *             schema:
     *               $ref: '#/components/schemas/InternalServerError'
     */
-    app.put<{
-        Params: EditRecipientParamsTypes,
-        Body: EditRecipientBodyTypes
+    app.post<{
+        Body: CreateRecipientBodyTypes
     }>(
-        "/:id",
-        { schema: { body: EditRecipientBody, params: EditReceiverParams }, },
+        "/",
+        { schema: { body: CreateRecipientBody }, },
         async (request, reply) => {
-            const data = await ReceiverService.editRecipient({ id: request.params.id, ...request.body })
+            const data = await RecipientService.createRecipient(request.body)
 
-            void reply.status(204).send(data);
+            void reply.status(201).send(data);
         }
     );
 }

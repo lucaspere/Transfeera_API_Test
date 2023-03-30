@@ -1,8 +1,8 @@
 import type { Repository } from '../types/repository';
-import type { Receiver, Receivers } from '../types/receiver';
-import { ListReceiverQueryType } from '../routes/receivers';
+import type { Recipient, Recipients } from '../types/recipient';
+import { ListRecipientQueryType } from '../routes/recipients';
 
-const receivers: Receivers = [{
+const recipients: Recipients = [{
     "id": "1a17015b-6ec6-450c-a68e-df660d5de1c8",
     "name": "Rosmunda Klimkov",
     "email": "rklimkov0@sbwire.com",
@@ -334,30 +334,30 @@ const receivers: Receivers = [{
     "agency": "948"
 }];
 
-export default class ReceiverMemoryRepository implements Repository<Receiver> {
+export default class RecipientMemoryRepository implements Repository<Recipient> {
     clear(): Promise<void> {
-        receivers.splice(0, receivers.length);
+        recipients.splice(0, recipients.length);
 
         return Promise.resolve();
     }
-    find(id: string): Promise<Receiver | undefined> {
-        const receiver = receivers.find(receiver => receiver.id === id);
-        if (receiver) return Promise.resolve(receiver);
+    find(id: string): Promise<Recipient | undefined> {
+        const recipient = recipients.find(recipient => recipient.id === id);
+        if (recipient) return Promise.resolve(recipient);
 
         return Promise.resolve(undefined);
     }
-    create(receiver: Receiver): Promise<Receiver> {
-        receivers.push(receiver);
+    create(recipient: Recipient): Promise<Recipient> {
+        recipients.push(recipient);
 
-        return Promise.resolve(receivers[receivers.length - 1] as Receiver);
+        return Promise.resolve(recipients[recipients.length - 1] as Recipient);
     }
-    list<F extends ListReceiverQueryType>(filter: F): Promise<Receivers> {
-        const res: Receivers = []
-        const data = receivers.filter(receiver => (
-            receiver.status.includes(filter.status ?? "") &&
-            receiver.name.toLowerCase().includes(filter.name?.toLocaleLowerCase() ?? "") &&
-            receiver.key_type.includes(filter.key_type ?? "") &&
-            receiver.key_value.includes(filter.key_value ?? "")
+    list<F extends ListRecipientQueryType>(filter: F): Promise<Recipients> {
+        const res: Recipients = []
+        const data = recipients.filter(recipient => (
+            recipient.status.includes(filter.status ?? "") &&
+            recipient.name.toLowerCase().includes(filter.name?.toLocaleLowerCase() ?? "") &&
+            recipient.key_type.includes(filter.key_type ?? "") &&
+            recipient.key_value.includes(filter.key_value ?? "")
         ))
 
         for (let i = 0; i < data.length && i < filter.itemsPerPage!; i++) {
@@ -365,26 +365,26 @@ export default class ReceiverMemoryRepository implements Repository<Receiver> {
         }
         return Promise.resolve(res);
     }
-    update(id: string, payload: Partial<Receiver>): Promise<Receiver | undefined> {
-        const receiverIdx = receivers.findIndex(receiver => receiver.id === id);
-        if (receiverIdx !== -1) {
-            const receiverUpdated = {
-                ...receivers[receiverIdx],
+    update(id: string, payload: Partial<Recipient>): Promise<Recipient | undefined> {
+        const recipientIdx = recipients.findIndex(recipient => recipient.id === id);
+        if (recipientIdx !== -1) {
+            const recipientUpdated = {
+                ...recipients[recipientIdx],
                 ...payload,
             };
-            receivers[receiverIdx] = receiverUpdated;
+            recipients[recipientIdx] = recipientUpdated;
 
-            return Promise.resolve(receivers[receiverIdx]);
+            return Promise.resolve(recipients[recipientIdx]);
         }
 
         return Promise.resolve(undefined);
     }
-    delete(id: string): Promise<Receiver | undefined> {
-        const receiverIdx = receivers.findIndex(receiver => receiver.id === id);
-        if (receiverIdx !== -1) {
-            const receiver = receivers.splice(receiverIdx, 1)[0];
+    delete(id: string): Promise<Recipient | undefined> {
+        const recipientIdx = recipients.findIndex(recipient => recipient.id === id);
+        if (recipientIdx !== -1) {
+            const recipient = recipients.splice(recipientIdx, 1)[0];
 
-            return Promise.resolve(receiver);
+            return Promise.resolve(recipient);
         }
 
         return Promise.resolve(undefined);

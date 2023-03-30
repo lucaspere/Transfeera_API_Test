@@ -1,10 +1,10 @@
 import type { FastifyPluginAsync } from "fastify";
-import { ReceiverService } from "../../services/";
-import type { Status, KeyTypes, Receiver } from "../../types/receiver";
+import { ReceiverService } from "../../services";
+import type { Status, KeyTypes, Recipient } from "../../types/recipient";
 import { ListFilters } from "../../types/repository";
-import ListReceiverQueries from '../../schemas/listReceivers.json'
+import ListReceiverQueries from '../../schemas/listRecipients.json'
 import DeleteReceiverParams from "../../schemas/defaultIdParameters.json";
-import BulkDeletionBody from "../../schemas/bulkDeletionReceiver.json";
+import BulkDeletionBody from "../../schemas/bulkDeletionRecipient.json";
 import { createRecipient } from "./create";
 import { updateRecipient } from "./update";
 
@@ -21,7 +21,7 @@ export type DefaultReceiverParamType = {
     id: string
 }
 
-export type CreateRecipientBodyTypes = Receiver
+export type CreateRecipientBodyTypes = Recipient
 
 export interface DeleteReceiverParamTypes extends DefaultReceiverParamType { }
 
@@ -31,12 +31,12 @@ export interface BulkDeletionBodyTypes {
 
 export interface EditRecipientParamsTypes extends DefaultReceiverParamType { }
 
-export type EditRecipientBodyTypes = Partial<Receiver>
-const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
+export type EditRecipientBodyTypes = Partial<Recipient>
+const recipient: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     /**
      * @swagger
      * tags:
-     *   name: Receiver
+     *   name: Recipient
      *   description: Hello world end point
     */
 
@@ -63,7 +63,7 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      * @swagger
      * components:
      *   schemas:
-     *     Receiver:
+     *     Recipient:
      *       type: object
      *       properties:
      *         id:
@@ -120,10 +120,10 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 
     /**
      * @swagger
-     * /api/receivers:
+     * /api/recipients:
      *   get:
-     *     tags: [Receiver]
-     *     description: Returns a list of `Receiver`
+     *     tags: [Recipient]
+     *     description: Returns a list of `Recipient`
      *     parameters:
      *       - in: query
      *         name: itemsPerPage
@@ -164,12 +164,12 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *               properties:
      *                 total:
      *                   type: integer
-     *                   description: The total of `Receiver` data returned.
+     *                   description: The total of `Recipient` data returned.
      *                 data:
-     *                   description: The list of `Receiver` data.
+     *                   description: The list of `Recipient` data.
      *                   type: array
      *                   items:
-     *                     $ref: '#/components/schemas/Receiver'
+     *                     $ref: '#/components/schemas/Recipient'
      *       400:
      *         description: list success.
      *         content:
@@ -197,9 +197,9 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     );
     /**
      * @swagger
-     * /api/receivers:id:
+     * /api/recipients:id:
      *   delete:
-     *     tags: [Receiver]
+     *     tags: [Recipient]
      *     description: Delete a `Recipient` by its `id` 
      *     parameters:
      *       - in: params
@@ -239,9 +239,9 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     );
     /**
      * @swagger
-     * /api/receivers/bulk-delete:
+     * /api/recipients/bulk-delete:
      *   post:
-     *     tags: [Receiver]
+     *     tags: [Recipient]
      *     description: Delete many `Recipient` by its `ids` 
      *     requestBody:
      *       required: true
@@ -267,7 +267,7 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *               properties:
      *                 total:
      *                   type: integer
-     *                   description: The total of `Receiver` deleteds.
+     *                   description: The total of `Recipient` deleteds.
      *       400:
      *         description: invalid json body.
      *         content:
@@ -297,4 +297,4 @@ const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     createRecipient(fastify)
 };
 
-export default receiver;
+export default recipient;

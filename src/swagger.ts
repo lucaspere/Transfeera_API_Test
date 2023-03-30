@@ -13,7 +13,7 @@ const swaggerDefinition: SwaggerDefinition = {
     info: {
         title: "Transfeera API",
         version: "0.0.1",
-        description: "An API for simple CRUD Receivers.",
+        description: "An API for simple CRUD Recipients.",
     },
     host: `0.0.0.0:${process.env.PORT ?? 3000}`,
 };

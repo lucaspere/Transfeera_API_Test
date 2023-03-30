@@ -1,10 +1,10 @@
-import type { BulkDeletionBodyTypes, CreateRecipientBodyTypes, DeleteReceiverParamTypes, EditRecipientBodyTypes, ListReceiverQueryType } from "../../routes/receivers"
-import type { Receiver } from "../../types/receiver"
+import type { BulkDeletionBodyTypes, CreateRecipientBodyTypes, DeleteRecipientParamTypes, EditRecipientBodyTypes, ListRecipientQueryType } from "../../routes/recipients"
+import type { Recipient } from "../../types/recipient"
 import { Repository } from '../../repositories'
 import { randomUUID } from "crypto"
-type ListReceiverResponse = {
+type ListRecipientResponse = {
     total: number,
-    data: Array<Receiver>
+    data: Array<Recipient>
 }
 
 type BulkDeleteResponse = {
@@ -12,8 +12,8 @@ type BulkDeleteResponse = {
 }
 
 const DEFAULT_STATUS = 'RASCUNHO'
-export const createRecipient = async (payload: CreateRecipientBodyTypes): Promise<Receiver> => {
-    const recipient: Receiver = {
+export const createRecipient = async (payload: CreateRecipientBodyTypes): Promise<Recipient> => {
+    const recipient: Recipient = {
         id: randomUUID(),
         cpf_cnpj: payload.cpf_cnpj,
         email: payload.email,
@@ -34,16 +34,16 @@ export const createRecipient = async (payload: CreateRecipientBodyTypes): Promis
     }
 }
 
-export const listReceiver = async (filter: ListReceiverQueryType): Promise<ListReceiverResponse> => {
+export const listRecipient = async (filter: ListRecipientQueryType): Promise<ListRecipientResponse> => {
     const data = await Repository.list(filter)
-    const res: ListReceiverResponse = {
+    const res: ListRecipientResponse = {
         total: data.length,
         data: data
     }
 
     return Promise.resolve(res)
 }
-export const deleteRecipient = async ({ id }: DeleteReceiverParamTypes): Promise<void> => {
+export const deleteRecipient = async ({ id }: DeleteRecipientParamTypes): Promise<void> => {
     try {
         console.info(`Started deletion of recipient with id ${id}.`)
         void await Repository.delete(id)
@@ -73,7 +73,7 @@ export const editRecipient = async (recipientPayload: EditRecipientBodyTypes): P
             updateRecipient = { ...recipient, ...recipientPayload }
             updateRecipient.status = recipient?.status
         }
-        void await Repository.update(updateRecipient.id!, updateRecipient as Receiver)
+        void await Repository.update(updateRecipient.id!, updateRecipient as Recipient)
 
     } catch (err) {
         console.error(`Bulk Deletion was not successful`, err)

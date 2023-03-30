@@ -1,9 +1,9 @@
 import { Repository } from '../types/repository';
-import { Receiver } from '../types/receiver';
+import { Recipient } from '../types/recipient';
 
-let singletonRepo: Repository<Receiver>;
+let singletonRepo: Repository<Recipient>;
 
-export const useRepository = async (repositoryType = "MemoryRepository"): Promise<Repository<Receiver>> => {
+export const useRepository = async (repositoryType = "MemoryRepository"): Promise<Repository<Recipient>> => {
     try {
         const Repository = (await import(`./${repositoryType}.ts`)).default;
         singletonRepo = new Repository()
