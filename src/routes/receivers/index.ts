@@ -1,17 +1,16 @@
 import type { FastifyPluginAsync } from "fastify";
 import { ReceiverService } from "../../services/";
 import type { Status, KeyTypes } from "../../types/receiver";
+import { ListFilters } from "../../types/repository";
 
 const DEFAULT_ITEM_PER_PAGE = 10
 
-export type ListReceiverQueryType = {
-    itemsPerPage?: number | undefined;
+export interface ListReceiverQueryType extends ListFilters {
     status?: keyof typeof Status | undefined;
     name?: string | undefined;
     key_type?: keyof typeof KeyTypes | undefined;
     key_value?: string | undefined;
 }
-
 
 const receiver: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     /**

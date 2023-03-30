@@ -1,3 +1,4 @@
+export type Receivers = Array<Receiver>
 export interface Receiver {
   id?: string;
   name: string;

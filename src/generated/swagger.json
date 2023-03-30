@@ -33,7 +33,7 @@
                 "RASCUNHO"
               ]
             },
-            "description": "The quantity of items to be returned per page."
+            "description": "The `Status` of the recipient."
           },
           {
             "in": "query",
@@ -41,7 +41,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The quantity of items to be returned per page."
+            "description": "The name of the recipient."
           },
           {
             "in": "query",
@@ -56,7 +56,7 @@
                 "CHAVE_ALEATORIA"
               ]
             },
-            "description": "The quantity of items to be returned per page."
+            "description": "The Pix's Key types of the recipient."
           },
           {
             "in": "query",
@@ -64,7 +64,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "The quantity of items to be returned per page."
+            "description": "The Pix's key value of the recipient."
           }
         ],
         "produces": [
