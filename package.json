@@ -7,17 +7,27 @@
     "start": "node dist/app.js",
     "build": "tsc",
     "compile-schemas": "json2ts src/schemas -o src/types --enableConstEnums",
-    "dev": "ts-node-dev src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx watch src/app.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:unit": "LEVELDB_LOCATION=./tests/db/notes.level.test mocha --config mocharc.unit.yaml"
   },
+  "type": "module",
   "author": "Lucas Fellippe Alves Pereira",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^18.15.11",
+    "@types/sinon": "^10.0.13",
     "@types/swagger-jsdoc": "^6.0.1",
+    "chai": "^4.3.7",
+    "fastify-tsconfig": "^1.0.1",
     "json-schema-to-typescript": "^12.0.0",
+    "mocha": "^10.2.0",
+    "sinon": "^15.0.3",
     "source-map-support": "^0.5.21",
     "ts-node-dev": "^1.1.8",
+    "tsx": "^3.12.6",
     "typescript": "^4.3.5"
   },
   "dependencies": {
@@ -26,7 +36,7 @@
     "@fastify/swagger": "^8.3.1",
     "@fastify/swagger-ui": "^1.6.0",
     "@sinclair/typebox": "^0.26.8",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.3",
     "fastify": "^4.15.0",
     "fastify-plugin": "^4.5.0",
     "fastify-swagger": "^5.2.0",
