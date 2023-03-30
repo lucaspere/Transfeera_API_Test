@@ -229,4 +229,83 @@ describe('Recipient API tests', async function () {
             expect(JSON.parse(res.body)).deep.equal(expectedRes);
         });
     });
+    context('Create Recipient', function () {
+        it('Should Create a new Recipient', async () => {
+            const payload = {
+                "name": "string",
+                "email": "user@example.com",
+                "cpf_cnpj": "33830872046",
+                "key_type": "CPF",
+                "key_value": "33830872046"
+            }
+            const res = await app.inject({
+                method: 'POST',
+                url: RECEIVER_URL,
+                payload
+            });
+
+            const statusQuery = '?name=string&itemsPerPage=1'
+            const expectedRes = await app.inject({
+                method: 'GET',
+                url: RECEIVER_URL + statusQuery,
+            });
+            const resObj = JSON.parse(expectedRes.body).data[0]
+
+            expect(res.statusCode).to.be.equal(200);
+            expect(JSON.parse(res.body)).deep.equal(resObj);
+            expect(resObj.status).to.be.equal("RASCUNHO")
+        });
+        it('Should response with Body BadRequest with invalid payload', async () => {
+            let payload = {
+                "key_type": "CPF",
+                "key_value": "falha"
+            }
+            let res = await app.inject({
+                method: 'POST',
+                url: RECEIVER_URL,
+                payload
+            });
+            expect(res.statusCode).to.be.equal(400);
+            payload = {
+                "key_type": "EMAIL",
+                "key_value": "falha"
+            }
+            res = await app.inject({
+                method: 'POST',
+                url: RECEIVER_URL,
+                payload
+            });
+            expect(res.statusCode).to.be.equal(400);
+            payload = {
+                "key_type": "TELEFONE",
+                "key_value": "falha"
+            }
+            res = await app.inject({
+                method: 'POST',
+                url: RECEIVER_URL,
+                payload
+            });
+            expect(res.statusCode).to.be.equal(400);
+            payload = {
+                "key_type": "CNPJ",
+                "key_value": "falha"
+            }
+            res = await app.inject({
+                method: 'POST',
+                url: RECEIVER_URL,
+                payload
+            });
+            expect(res.statusCode).to.be.equal(400);
+            payload = {
+                "key_type": "CHAVE_ALEATORIA",
+                "key_value": "falha"
+            }
+            res = await app.inject({
+                method: 'POST',
+                url: RECEIVER_URL,
+                payload
+            });
+            expect(res.statusCode).to.be.equal(400);
+        });
+    });
 });
