@@ -1,9 +1,12 @@
-import Fastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
-import type { AutoloadPluginOptions } from "@fastify/autoload";
+import Fastify from 'fastify'
+import type { FastifyInstance, FastifyServerOptions } from 'fastify';
 import AutoLoad from "@fastify/autoload";
 import fastifyCors from '@fastify/cors'
 import { initSwagger } from './swagger';
 import { join } from 'path';
+import { __dirname } from './approotdir';
+
+export const PORT = (process.env.PORT ?? 3000) as number
 
 export const app = (
     opts: FastifyServerOptions = {
@@ -34,4 +37,4 @@ export const app = (
 
 const server = app()
 
-server.listen({ port: 3000, host: '0.0.0.0' })
+await server.listen({ port: PORT, host: '0.0.0.0' })
