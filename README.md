@@ -4,7 +4,7 @@
 ### Tecnologias
 - Linguagem: [Typescript](https://www.typescriptlang.org/);
 - *Framework*: [Fastify](https://www.fastify.io/);
-- Banco de Dados: [Memória] e [leveldb](https://github.com/google/leveldb);
+- Banco de Dados: Memória e [leveldb](https://github.com/google/leveldb);
 - Testes: [Mocha](https://mochajs.org/) com [Chai](https://www.chaijs.com/);
 - Observabilidade: [Pino](https://github.com/pinojs/pino) (Desenvolvimento) e [LogTail](https://betterstack.com/logtail) (Produção);
 - Protocolo de API: [Representational State Transfer (REST)](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm);
@@ -42,11 +42,14 @@ Há três *scripts* para testar a aplicação: `npm run test` `npm run test:unit
 - ***test***: Roda todos os testes.
 
 ## Arquitetura
+### Diagrama
+![image](https://user-images.githubusercontent.com/46873546/229138431-02dafe09-e307-4e91-94b1-87d5f8808002.png)
+
 ### Uso da Linguagem
 Usei o Typescript, pois para aplicação onde diversas pessoas vão atuar e que precisa de diferentes validações, linguagem típada ajuda bastante na manuntenção da aplicação.
 
 ### Escolha da Framework
-Gosto bastante de usar o Fastify nas minhas aplicações Node.js, pois oferece diversos [Plugins](https://www.fastify.io/docs/latest/Reference/Plugins/), é bastante ativo na manuntenção [último Bumped](https://github.com/fastify/fastify/commit/87b644087c5b15bd70766bc4efeb940308d97066) e é a a mais rápida, [Benchmark](https://www.fastify.io/benchmarks/).
+Gosto bastante de usar o Fastify nas minhas aplicações Node.js, pois oferece diversos [Plugins](https://www.fastify.io/docs/latest/Reference/Plugins/), é bastante ativo na manuntenção [último Bumped](https://github.com/fastify/fastify/commit/87b644087c5b15bd70766bc4efeb940308d97066) e é a mais rápida, [Benchmark](https://www.fastify.io/benchmarks/).
 
 ## Banco de dados
 Criei um banco de dados na memória, pois permite um foco maior, inicialmente, para desenvolver as regras de negócio e não na configuração de Bancos de Dados. E também, em ambientes de testes ele é perfeito, pois os dados são voláteis e não precisa de uma limpeza Complexa. Para dados persistentes, usei o LevelDB que é um Banco de dados *key-value*, mas bantante poderoso que persiste os dados em arquivos. Uso ele bastante para criação de camadas cache em ambientes não concorrentes (pois concorrência em arquivos é meio complicado).
