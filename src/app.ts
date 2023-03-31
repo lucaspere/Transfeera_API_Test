@@ -14,6 +14,8 @@ config()
 
 export const PORT = (process.env.PORT ?? 3000) as number
 export const ENV = process.env.NODE_ENV || 'development'
+export const LOGTAIL_TOKEN = process.env.LOGTAIL_TOKEN
+export const PINO_LOG_LEVEL = process.env.PINO_LOG_LEVEL || 'info'
 
 const envToLogger = {
     development: {
@@ -25,7 +27,16 @@ const envToLogger = {
             },
         },
     },
-    production: true,
+    production: {
+        transport: {
+            target: "@logtail/pino",
+            options: { sourceToken: LOGTAIL_TOKEN }
+        },
+        level: PINO_LOG_LEVEL,
+        formatters: {
+            level: (label: string) => ({ level: label.toUpperCase() }),
+        },
+    },
     test: false,
 }
 
@@ -65,6 +76,6 @@ useRepository(process.env.REPOSITORY_TYPE).then(store => {
         process.exit(1);
     });
 }).catch(err => {
-    console.error(`Repository data Store initialization failure because `, err.error);
+    console.error(`Repository data Store initialization failure because `, err);
     process.exit(1);
 })
