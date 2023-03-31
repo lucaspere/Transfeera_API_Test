@@ -14,3 +14,8 @@ export class InternalServerError extends BaseError {
         super(message, 500, "INTERNAL_SERVER_ERROR")
     }
 }
+
+export const errorParser = (err: Error) => ({
+    name: err.name,
+    msg: err.message,
+});

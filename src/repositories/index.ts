@@ -1,5 +1,6 @@
 import { Repository } from '../types/repository';
 import { Recipient } from '../types/recipient';
+import { InternalServerError } from '../utils/errors';
 
 let singletonRepo: Repository<Recipient>;
 
@@ -9,10 +10,8 @@ export const useRepository = async (repositoryType = "MemoryRepository"): Promis
         singletonRepo = new Repository()
         return singletonRepo;
     } catch (error) {
-        console.error(error);
-        throw new Error();
+        throw new InternalServerError("Fails to load Repository");
     }
 }
-
 
 export { singletonRepo as Repository }
