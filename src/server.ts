@@ -6,14 +6,22 @@ export const PORT = (process.env.PORT ?? 3000) as number
 export const NODE_ENV = process.env.NODE_ENV || 'development'
 export const LOGTAIL_TOKEN = process.env.LOGTAIL_TOKEN
 export const PINO_LOG_LEVEL = process.env.PINO_LOG_LEVEL || 'info'
+export const GRPC_ADDRESS = process.env.GRPC_ADDRESS || '127.0.0.1:50021'
 
 export class Server {
     constructor(private app: FastifyInstance) { }
 
     async run(): Promise<FastifyInstance> {
-        await this.prepare();
-        await this.start();
-
+        try {
+            await this.prepare();
+            await this.start();
+        } catch (err) {
+            throw new InternalServerError(
+                `Failed to start the server: ${inspect(
+                    errorParser(err as InternalServerError),
+                )}`,
+            );
+        }
         return this.app;
     }
 

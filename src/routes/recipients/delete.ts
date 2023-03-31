@@ -42,7 +42,7 @@ export const deleteRecipient = (app: FastifyInstance) => {
         { schema: { params: DeleteRecipientParams } },
         async (request, reply) => {
             try {
-                void await RecipientService.deleteRecipient(request.params)
+                void await RecipientService.delete(request.params)
                 void reply.status(200);
             } catch (err) {
                 void reply.status(500).send((err as InternalServerError).message);
