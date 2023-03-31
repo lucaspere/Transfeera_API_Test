@@ -405,7 +405,7 @@
           "name": {
             "type": "string"
           },
-          "cpfCnpj": {
+          "cpf_cnpj": {
             "type": "string"
           },
           "key_type": {
@@ -430,6 +430,9 @@
           "account": {
             "type": "string"
           },
+          "account_type": {
+            "type": "string"
+          },
           "status": {
             "type": "string",
             "enum": [
@@ -441,10 +444,7 @@
         "required": [
           "id",
           "name",
-          "cpfCnpj",
-          "bank",
-          "agency",
-          "account",
+          "cpf_cnpj",
           "status"
         ]
       },

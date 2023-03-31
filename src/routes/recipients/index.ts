@@ -64,7 +64,7 @@ const recipient: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *           format: uuid
      *         name:
      *           type: string
-     *         cpfCnpj:
+     *         cpf_cnpj:
      *           type: string
      *         key_type:
      *           type: string
@@ -77,16 +77,15 @@ const recipient: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *           type: string
      *         account:
      *           type: string
+     *         account_type:
+     *           type: string
      *         status:
      *           type: string
      *           enum: *STATUS
      *       required:
      *       - id 
      *       - name 
-     *       - cpfCnpj 
-     *       - bank 
-     *       - agency 
-     *       - account 
+     *       - cpf_cnpj 
      *       - status 
      * 
      *     CreateEditRecipientPayload:
