@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { FastifyInstance } from "fastify";
 import { CreateRecipientBodyTypes } from ".";
 import CreateRecipientBody from '../../schemas/createEditRecipientBody.json'
@@ -44,6 +45,7 @@ export const createRecipient = (app: FastifyInstance) => {
         "/",
         { schema: { body: CreateRecipientBody }, },
         async (request, reply) => {
+            request.body.id = randomUUID()
             const data = await RecipientService.createRecipient(request.body)
 
             void reply.status(201).send(data);

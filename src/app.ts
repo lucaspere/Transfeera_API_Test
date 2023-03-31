@@ -7,8 +7,25 @@ import { join } from 'path';
 import { useRepository } from './repositories';
 import ajvKeywords from 'ajv-keywords';
 import * as util from 'node:util'
+import { config } from 'dotenv'
+config()
 
 export const PORT = (process.env.PORT ?? 3000) as number
+export const ENV = process.env.NODE_ENV || 'development'
+
+const envToLogger = {
+    development: {
+        transport: {
+            target: 'pino-pretty',
+            options: {
+                translateTime: 'HH:MM:ss Z',
+                ignore: 'pid,hostname',
+            },
+        },
+    },
+    production: true,
+    test: false,
+}
 
 export const app = (
     opts: FastifyServerOptions = {
@@ -21,17 +38,7 @@ export const app = (
                 [ajvKeywords] as any
             ]
         },
-        logger: {
-            transport: {
-                target: 'pino-pretty',
-                options: {
-                    translateTime: 'HH:MM:ss Z',
-                    ignore: 'pid,hostname',
-                },
-            },
-            level: 'info',
-
-        }
+        logger: envToLogger[ENV as keyof typeof envToLogger]
     }
 ): FastifyInstance => {
     const app = Fastify(opts);

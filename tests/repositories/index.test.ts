@@ -11,7 +11,7 @@ suite('Testing Repository Loader', function () {
     });
     test('Should throw a error when not found repository class', async () => {
         try {
-            await useRepository("Test Repository")
+            await useRepository("TestRepository")
         } catch (e: any) {
             assert.instanceOf(e, Error)
             return

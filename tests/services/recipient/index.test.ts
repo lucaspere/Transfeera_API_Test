@@ -1,7 +1,6 @@
 import { assert } from 'chai';
 import { CreateRecipientBodyTypes } from '../../../src/routes/recipients';
 import { RecipientService } from '../../../src/services';
-import * as uuid from 'uuid'
 import { useRepository } from '../../../src/repositories';
 import { Repository } from '../../../src/types/repository';
 import { Recipient, Recipients } from '../../../src/types/recipient';

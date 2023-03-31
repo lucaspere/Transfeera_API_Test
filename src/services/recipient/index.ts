@@ -1,7 +1,8 @@
-import type { BulkDeletionBodyTypes, CreateRecipientBodyTypes, DeleteRecipientParamTypes, EditRecipientBodyTypes, ListRecipientQueryType } from "../../routes/recipients"
+import type { BulkDeletionBodyTypes, DeleteRecipientParamTypes, EditRecipientBodyTypes, ListRecipientQueryType } from "../../routes/recipients"
 import type { Recipient } from "../../types/recipient"
 import { Repository } from '../../repositories'
-import { randomUUID } from "crypto"
+import { CreateEditRecepient } from "../../types/createEditRecipientBody"
+import { InternalServerError } from "../../utils/errors"
 type ListRecipientResponse = {
     total: number,
     data: Array<Recipient>
@@ -11,10 +12,10 @@ type BulkDeleteResponse = {
     total: number,
 }
 
-const DEFAULT_STATUS = 'RASCUNHO'
-export const createRecipient = async (payload: CreateRecipientBodyTypes): Promise<Recipient> => {
+export const DEFAULT_STATUS = 'RASCUNHO'
+export const createRecipient = async (payload: CreateEditRecepient): Promise<Recipient> => {
     const recipient: Recipient = {
-        id: randomUUID(),
+        id: payload.id as string,
         cpf_cnpj: payload.cpf_cnpj,
         email: payload.email,
         name: payload.name,
@@ -30,18 +31,23 @@ export const createRecipient = async (payload: CreateRecipientBodyTypes): Promis
 
     } catch (err) {
         console.error(`Bulk Deletion was not successful`, err)
-        throw new Error("Internal Server Error")
+        throw new InternalServerError("Internal Server Error")
     }
 }
 
 export const listRecipient = async (filter: ListRecipientQueryType): Promise<ListRecipientResponse> => {
-    const data = await Repository.list(filter)
-    const res: ListRecipientResponse = {
-        total: data.length,
-        data: data
+    try {
+        const data = await Repository.list(filter)
+        const res: ListRecipientResponse = {
+            total: data.length,
+            data: data
+        }
+        return Promise.resolve(res)
+    } catch (err: any) {
+        console.error(`Bulk Deletion was not successful`, err)
+        throw new InternalServerError("Internal Server Error")
     }
 
-    return Promise.resolve(res)
 }
 export const deleteRecipient = async ({ id }: DeleteRecipientParamTypes): Promise<void> => {
     try {
@@ -50,7 +56,7 @@ export const deleteRecipient = async ({ id }: DeleteRecipientParamTypes): Promis
         console.info('Deletion completed successfully.')
     } catch (err) {
         console.error(`Deletion was not successful`, err)
-        throw new Error("Internal Server Error")
+        throw new InternalServerError("Internal Server Error")
     }
 }
 export const bulkDelete = async ({ ids }: BulkDeletionBodyTypes): Promise<BulkDeleteResponse> => {
@@ -60,10 +66,10 @@ export const bulkDelete = async ({ ids }: BulkDeletionBodyTypes): Promise<BulkDe
         return { total }
     } catch (err) {
         console.error(`Bulk Deletion was not successful`, err)
-        throw new Error("Internal Server Error")
+        throw new InternalServerError("Internal Server Error")
     }
 }
-export const editRecipient = async (recipientPayload: EditRecipientBodyTypes): Promise<void> => {
+export const editRecipient = async (recipientPayload: EditRecipientBodyTypes): Promise<Recipient | undefined> => {
     try {
         let updateRecipient;
         const recipient = await Repository.find(recipientPayload.id!)
@@ -73,10 +79,10 @@ export const editRecipient = async (recipientPayload: EditRecipientBodyTypes): P
             updateRecipient = { ...recipient, ...recipientPayload }
             updateRecipient.status = recipient?.status
         }
-        void await Repository.update(updateRecipient.id!, updateRecipient as Recipient)
+        return await Repository.update(updateRecipient.id!, updateRecipient as Recipient)
 
     } catch (err) {
         console.error(`Bulk Deletion was not successful`, err)
-        throw new Error("Internal Server Error")
+        throw new InternalServerError("Internal Server Error")
     }
 }

@@ -1,5 +1,5 @@
 {
-    "title": "Create Recepient",
+    "title": "Create Edit Recepient",
     "type": "object",
     "discriminator": {
         "propertyName": "key_type"

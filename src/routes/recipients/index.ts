@@ -6,6 +6,7 @@ import { updateRecipient } from "./update";
 import { listRecipients } from "./list";
 import { deleteRecipient } from "./delete";
 import { BulkRecipientDeletion } from "./bulkDelete";
+import { CreateEditRecepient } from "../../types/createEditRecipientBody";
 
 export interface ListRecipientQueryType extends ListFilters {
     status?: keyof typeof Status | undefined;
@@ -22,7 +23,7 @@ export interface EditRecipientParamsTypes extends DefaultRecipientParamType { }
 export type DefaultRecipientParamType = {
     id: string
 }
-export type CreateRecipientBodyTypes = Recipient
+export type CreateRecipientBodyTypes = CreateEditRecepient
 export type EditRecipientBodyTypes = Partial<Recipient>
 const recipient: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     /**
