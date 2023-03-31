@@ -5,10 +5,9 @@ import { useRepository } from '../../../src/repositories';
 import { Repository } from '../../../src/types/repository';
 import { Recipient, Recipients } from '../../../src/types/recipient';
 import Sinon from 'sinon';
-import { DEFAULT_STATUS } from '../../../src/services/recipient';
 import { InternalServerError } from '../../../src/utils/errors';
 
-suite('Testing Recepient Memory Repository', function () {
+suite('Testing Recepient Service', function () {
     let repository: Repository<Recipient>;
 
     suiteSetup(function () {
