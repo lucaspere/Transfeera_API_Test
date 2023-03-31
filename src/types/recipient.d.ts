@@ -9,8 +9,14 @@ export interface Recipient {
   bank: string;
   agency: string;
   account: string;
+  account_type: keyof typeof AccountType;
   status: keyof typeof Status;
   [k: string]: unknown;
+}
+
+export enum AccountType {
+  CORRENTE = 'CORRENTE',
+  POUPANÇA = 'POUPANÇA'
 }
 
 export enum Status {

@@ -25,6 +25,7 @@ export const createRecipient = async (payload: CreateEditRecepient): Promise<Rec
         status: DEFAULT_STATUS,
         key_type: payload.key_type,
         key_value: payload.key_value,
+        account_type: 'POUPANÇA',
         account: '00000-1',
         agency: '111',
         bank: 'SANTANDER'

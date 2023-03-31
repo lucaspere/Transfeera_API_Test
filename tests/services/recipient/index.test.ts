@@ -40,6 +40,7 @@ suite('Testing Recepient Service', function () {
             status: 'RASCUNHO',
             key_type: 'EMAIL',
             key_value: 'lucas@netlog.com',
+            account_type: 'POUPANÇA',
             account: '00000-1',
             agency: '111',
             bank: 'SANTANDER'
@@ -73,6 +74,7 @@ suite('Testing Recepient Service', function () {
             key_type: 'EMAIL',
             key_value: 'lucas@netlog.com',
             account: '00000-1',
+            account_type: 'CORRENTE',
             agency: '111',
             bank: 'SANTANDER'
         }, {
@@ -84,6 +86,7 @@ suite('Testing Recepient Service', function () {
             key_type: 'EMAIL',
             key_value: 'lucas@netlog.com',
             account: '00000-1',
+            account_type: 'POUPANÇA',
             agency: '111',
             bank: 'SANTANDER'
         }]
@@ -117,6 +120,7 @@ suite('Testing Recepient Service', function () {
             key_type: 'EMAIL',
             key_value: 'lucas@netlog.com',
             account: '00000-1',
+            account_type: "CORRENTE",
             agency: '111',
             bank: 'SANTANDER'
         }
@@ -175,6 +179,7 @@ suite('Testing Recepient Service', function () {
             key_type: 'EMAIL',
             key_value: 'lucas@netlog.com',
             account: '00000-1',
+            account_type: "CORRENTE",
             agency: '111',
             bank: 'SANTANDER'
         }
@@ -192,6 +197,7 @@ suite('Testing Recepient Service', function () {
             key_type: "EMAIL",
             key_value: "lucas@netlog.com",
             account: "00000-1",
+            account_type: "CORRENTE",
             agency: "111",
             bank: "SANTANDER",
         }
@@ -213,6 +219,7 @@ suite('Testing Recepient Service', function () {
             key_type: 'EMAIL',
             key_value: 'lucas@netlog.com',
             account: '00000-1',
+            account_type: "CORRENTE",
             agency: '111',
             bank: 'SANTANDER'
         }
@@ -230,6 +237,7 @@ suite('Testing Recepient Service', function () {
             key_type: "EMAIL",
             key_value: "111245",
             account: "00000-1",
+            account_type: "CORRENTE",
             agency: "111",
             bank: "SANTANDER",
             key_Type: "CPF",
