@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RecipientsClient interface {
-	ListRecipients(ctx context.Context, in *ListRecipientsRequest, opts ...grpc.CallOption) (Recipients_ListRecipientsClient, error)
+	ListRecipients(ctx context.Context, in *ListRecipientsRequest, opts ...grpc.CallOption) (*ListRecipientsReply, error)
 }
 
 type recipientsClient struct {
@@ -29,43 +29,20 @@ func NewRecipientsClient(cc grpc.ClientConnInterface) RecipientsClient {
 	return &recipientsClient{cc}
 }
 
-func (c *recipientsClient) ListRecipients(ctx context.Context, in *ListRecipientsRequest, opts ...grpc.CallOption) (Recipients_ListRecipientsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Recipients_ServiceDesc.Streams[0], "/Recipients/ListRecipients", opts...)
+func (c *recipientsClient) ListRecipients(ctx context.Context, in *ListRecipientsRequest, opts ...grpc.CallOption) (*ListRecipientsReply, error) {
+	out := new(ListRecipientsReply)
+	err := c.cc.Invoke(ctx, "/Recipients/ListRecipients", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &recipientsListRecipientsClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type Recipients_ListRecipientsClient interface {
-	Recv() (*ListRecipientsReply, error)
-	grpc.ClientStream
-}
-
-type recipientsListRecipientsClient struct {
-	grpc.ClientStream
-}
-
-func (x *recipientsListRecipientsClient) Recv() (*ListRecipientsReply, error) {
-	m := new(ListRecipientsReply)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+	return out, nil
 }
 
 // RecipientsServer is the server API for Recipients service.
 // All implementations must embed UnimplementedRecipientsServer
 // for forward compatibility
 type RecipientsServer interface {
-	ListRecipients(*ListRecipientsRequest, Recipients_ListRecipientsServer) error
+	ListRecipients(context.Context, *ListRecipientsRequest) (*ListRecipientsReply, error)
 	mustEmbedUnimplementedRecipientsServer()
 }
 
@@ -73,8 +50,8 @@ type RecipientsServer interface {
 type UnimplementedRecipientsServer struct {
 }
 
-func (UnimplementedRecipientsServer) ListRecipients(*ListRecipientsRequest, Recipients_ListRecipientsServer) error {
-	return status.Errorf(codes.Unimplemented, "method ListRecipients not implemented")
+func (UnimplementedRecipientsServer) ListRecipients(context.Context, *ListRecipientsRequest) (*ListRecipientsReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListRecipients not implemented")
 }
 func (UnimplementedRecipientsServer) mustEmbedUnimplementedRecipientsServer() {}
 
@@ -89,25 +66,22 @@ func RegisterRecipientsServer(s grpc.ServiceRegistrar, srv RecipientsServer) {
 	s.RegisterService(&Recipients_ServiceDesc, srv)
 }
 
-func _Recipients_ListRecipients_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(ListRecipientsRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
+func _Recipients_ListRecipients_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRecipientsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
 	}
-	return srv.(RecipientsServer).ListRecipients(m, &recipientsListRecipientsServer{stream})
-}
-
-type Recipients_ListRecipientsServer interface {
-	Send(*ListRecipientsReply) error
-	grpc.ServerStream
-}
-
-type recipientsListRecipientsServer struct {
-	grpc.ServerStream
-}
-
-func (x *recipientsListRecipientsServer) Send(m *ListRecipientsReply) error {
-	return x.ServerStream.SendMsg(m)
+	if interceptor == nil {
+		return srv.(RecipientsServer).ListRecipients(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Recipients/ListRecipients",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecipientsServer).ListRecipients(ctx, req.(*ListRecipientsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 // Recipients_ServiceDesc is the grpc.ServiceDesc for Recipients service.
@@ -116,13 +90,12 @@ func (x *recipientsListRecipientsServer) Send(m *ListRecipientsReply) error {
 var Recipients_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "Recipients",
 	HandlerType: (*RecipientsServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams: []grpc.StreamDesc{
+	Methods: []grpc.MethodDesc{
 		{
-			StreamName:    "ListRecipients",
-			Handler:       _Recipients_ListRecipients_Handler,
-			ServerStreams: true,
+			MethodName: "ListRecipients",
+			Handler:    _Recipients_ListRecipients_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "recipients.proto",
 }

@@ -2,13 +2,13 @@ syntax = "proto3";
 option go_package = "github/lucaspere/Transfeera_API_Test/grpc_service/service";
 
 service Recipients {
-    rpc ListRecipients(ListRecipientsRequest) returns (stream ListRecipientsReply) {}
+    rpc ListRecipients(ListRecipientsRequest) returns (ListRecipientsReply) {}
 }
 
 message ListRecipientsRequest {
     int32 items_per_page = 1;
     Status status = 2;
-    KeyTypes key_type = 3;
+    string key_type = 3;
     string key_value = 4;
     string name = 5;
 }
@@ -21,13 +21,15 @@ message ListRecipientsReply {
 message Recipient {
     string id = 1;
     string name = 2;
-    string cpf_cnpj = 3;
-    string key_type = 4;
-    string key_value = 5;
-    string bank = 6;
-    string account = 7;
-    string account_type = 8;
-    string agency = 9;
+    string email = 3;
+    string cpf_cnpj = 4;
+    string key_type = 5;
+    string status = 6;
+    string key_value = 7;
+    string bank = 8;
+    string account = 9;
+    string account_type = 10;
+    string agency = 11;
 }
 
 enum KeyTypes {
