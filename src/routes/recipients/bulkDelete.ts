@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 import { BulkDeletionBodyTypes } from ".";
 import BulkDeletionBody from "../../schemas/bulkDeletionRecipient.json";
 import { RecipientService } from "../../services";
+import { InternalServerError } from "../../utils/errors";
 
 export const BulkRecipientDeletion = (app: FastifyInstance) => {
     /**
@@ -54,9 +55,12 @@ export const BulkRecipientDeletion = (app: FastifyInstance) => {
         "/bulk-delete",
         { schema: { body: BulkDeletionBody }, },
         async (request, reply) => {
-            const data = await RecipientService.bulkDelete(request.body)
-
-            void reply.status(200).send(data);
+            try {
+                const data = await RecipientService.bulkDelete(request.body)
+                void reply.status(200).send(data);
+            } catch (err) {
+                void reply.status(500).send((err as InternalServerError).message);
+            }
         }
     )
 }

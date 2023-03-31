@@ -3,6 +3,7 @@ import { EditRecipientBodyTypes, EditRecipientParamsTypes } from ".";
 import EditRecipientBody from '../../schemas/createEditRecipientBody.json'
 import EditRecipientParams from "../../schemas/defaultIdParameters.json";
 import { RecipientService } from "../../services";
+import { InternalServerError } from "../../utils/errors";
 
 
 export const updateRecipient = (app: FastifyInstance) => {
@@ -44,9 +45,14 @@ export const updateRecipient = (app: FastifyInstance) => {
         "/:id",
         { schema: { body: EditRecipientBody, params: EditRecipientParams }, },
         async (request, reply) => {
-            const data = await RecipientService.editRecipient({ id: request.params.id, ...request.body })
 
-            void reply.status(204).send(data);
+            try {
+                const data = await RecipientService.editRecipient({ id: request.params.id, ...request.body })
+
+                void reply.status(204).send(data);
+            } catch (err) {
+                void reply.status(500).send((err as InternalServerError).message);
+            }
         }
     );
 }
