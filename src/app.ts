@@ -9,6 +9,7 @@ import ajvKeywords from 'ajv-keywords';
 import * as util from 'node:util'
 import { LOGTAIL_TOKEN, NODE_ENV, PINO_LOG_LEVEL, Server } from './server';
 import * as dotenv from 'dotenv'
+import { useService } from './services/recipient';
 
 dotenv.config()
 
@@ -66,6 +67,9 @@ export const server = app()
 useRepository(process.env.REPOSITORY_TYPE).then(store => {
     server.log.info(`Using Repository ${util.inspect(store)}`)
 
+    useService(process.env.SERVICE_TYPE).then(service => {
+        server.log.info(`Using Service ${util.inspect(service)}`)
+    })
     new Server(server).run().catch(err => {
         server.log.error(err);
         process.exit(1);
