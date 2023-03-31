@@ -80,7 +80,7 @@ export const listRecipients = (app: FastifyInstance) => {
             request.query.itemsPerPage = request.query.itemsPerPage ?? DEFAULT_ITEM_PER_PAGE
             try {
 
-                const list = await RecipientService.listRecipient(request.query)
+                const list = await RecipientService.list(request.query)
 
                 void reply.status(200).send(list);
             }
