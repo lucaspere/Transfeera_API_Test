@@ -47,7 +47,7 @@ export const updateRecipient = (app: FastifyInstance) => {
         async (request, reply) => {
 
             try {
-                const data = await RecipientService.editRecipient({ id: request.params.id, ...request.body })
+                const data = await RecipientService.edit({ id: request.params.id, ...request.body })
 
                 void reply.status(204).send(data);
             } catch (err) {

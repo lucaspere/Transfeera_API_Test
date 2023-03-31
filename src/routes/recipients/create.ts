@@ -48,7 +48,7 @@ export const createRecipient = (app: FastifyInstance) => {
         async (request, reply) => {
             try {
                 request.body.id = randomUUID()
-                const data = await RecipientService.createRecipient(request.body)
+                const data = await RecipientService.create(request.body)
 
                 void reply.status(201).send(data);
             } catch (err) {

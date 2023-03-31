@@ -1,18 +1,17 @@
 import { assert } from 'chai';
 import { CreateRecipientBodyTypes } from '../../../src/routes/recipients';
-import { RecipientService } from '../../../src/services';
-import { useRepository } from '../../../src/repositories';
-import { Repository } from '../../../src/types/repository';
+import { useService, RecipientService } from '../../../src/services';
+import { useRepository, Repository as repository } from '../../../src/repositories';
 import { Recipient, Recipients } from '../../../src/types/recipient';
 import Sinon from 'sinon';
 import { InternalServerError } from '../../../src/utils/errors';
 
 suite('Testing Recepient Service', function () {
-    let repository: Repository<Recipient>;
-
-    suiteSetup(function () {
-        useRepository().then(repo => { repository = repo })
+    suiteSetup(async function () {
+        await useRepository()
+        await useService()
     })
+
 
     teardown(async function () {
         await repository.clear();
@@ -30,7 +29,7 @@ suite('Testing Recepient Service', function () {
             key_value: 'lucas@netlog.com',
         }
         const create = Sinon.stub(repository, 'create')
-        await RecipientService.createRecipient(recipient1);
+        await RecipientService.create(recipient1);
 
         assert.isTrue(create.calledOnceWithExactly({
             id,
@@ -52,7 +51,7 @@ suite('Testing Recepient Service', function () {
     test('Create should Throw Internal Server Error when a error occurs', async () => {
         const create = Sinon.stub(repository, 'create').throws()
         try {
-            await RecipientService.createRecipient({} as any);
+            await RecipientService.create({} as any);
         } catch (err: any) {
             assert.isTrue(err instanceof InternalServerError)
             assert.isTrue(create.calledOnce)
@@ -91,7 +90,7 @@ suite('Testing Recepient Service', function () {
             bank: 'SANTANDER'
         }]
         const list = Sinon.stub(repository, 'list').returns(Promise.resolve(data))
-        await RecipientService.listRecipient({});
+        await RecipientService.list({});
 
         list.restore()
     });
@@ -99,7 +98,7 @@ suite('Testing Recepient Service', function () {
     test('List should Throw Internal Server Error when a error occurs', async () => {
         const list = Sinon.stub(repository, 'list').throws()
         try {
-            await RecipientService.listRecipient({} as any);
+            await RecipientService.list({} as any);
         } catch (err: any) {
             assert.isTrue(err instanceof InternalServerError)
             assert.isTrue(list.calledOnce)
@@ -125,7 +124,7 @@ suite('Testing Recepient Service', function () {
             bank: 'SANTANDER'
         }
         const del = Sinon.stub(repository, 'delete').returns(Promise.resolve(data))
-        await RecipientService.deleteRecipient({ id });
+        await RecipientService.delete({ id });
 
         del.restore()
         assert.isTrue(del.calledOnceWith(id))
@@ -134,7 +133,7 @@ suite('Testing Recepient Service', function () {
     test('Delete should Throw Internal Server Error when a error occurs', async () => {
         const del = Sinon.stub(repository, 'delete').throws()
         try {
-            await RecipientService.deleteRecipient({} as any);
+            await RecipientService.delete({} as any);
         } catch (err: any) {
             assert.isTrue(err instanceof InternalServerError)
             assert.isTrue(del.calledOnce)
@@ -186,7 +185,7 @@ suite('Testing Recepient Service', function () {
         const find = Sinon.stub(repository, 'find').returns(Promise.resolve(data))
         const update = Sinon.stub(repository, 'update')
         const datatoupdate = { ...data, email: 'lucas@test.com', name: 'matheus', key_Type: 'CPF', key_value: '111245' }
-        await RecipientService.editRecipient(datatoupdate);
+        await RecipientService.edit(datatoupdate);
 
         const expected: Recipient = {
             id: "40830c36-246f-43c5-afeb-2c45af0f5e80",
@@ -226,7 +225,7 @@ suite('Testing Recepient Service', function () {
         const find = Sinon.stub(repository, 'find').returns(Promise.resolve(data))
         const update = Sinon.stub(repository, 'update')
         const datatoupdate = { ...data, email: 'lucas@test.com', name: 'matheus', key_Type: 'CPF', key_value: '111245' }
-        await RecipientService.editRecipient(datatoupdate);
+        await RecipientService.edit(datatoupdate);
 
         const expected: Recipient = {
             id: "40830c36-246f-43c5-afeb-2c45af0f5e80",
@@ -253,7 +252,7 @@ suite('Testing Recepient Service', function () {
         const find = Sinon.stub(repository, 'find').throws()
         const update = Sinon.stub(repository, 'update').throws()
         try {
-            await RecipientService.editRecipient({});
+            await RecipientService.edit({});
         } catch (err: any) {
             assert.isTrue(err instanceof InternalServerError)
             assert.isTrue(find.calledOnce)

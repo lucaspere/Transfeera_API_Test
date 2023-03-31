@@ -68,12 +68,12 @@ useRepository(process.env.REPOSITORY_TYPE).then(store => {
     server.log.info(`Using Repository ${util.inspect(store)}`)
 
     useService(process.env.SERVICE_TYPE).then(service => {
+        new Server(server).run().catch(err => {
+            server.log.error(err);
+            process.exit(1);
+        });
         server.log.info(`Using Service ${util.inspect(service)}`)
     })
-    new Server(server).run().catch(err => {
-        server.log.error(err);
-        process.exit(1);
-    });
 }).catch(err => {
     console.error(`Repository data Store initialization failure because `, err);
     process.exit(1);
