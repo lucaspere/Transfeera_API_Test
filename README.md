@@ -37,7 +37,7 @@ Há dois *scripts* para rodar a aplicação: `npm run dev` e `npm run dev:memory
 ### Testando o aplicativo.
 Há três *scripts* para testar a aplicação: `npm run test` `npm run test:unit` e `npm run test:integration`. Todos os testes usam dados na memória como Banco de dados (***MemoryRepository***).
 
-- ***test:integration***: Roda apenas os testes de integração ([BDD](https://pt.wikipedia.org/wiki/Behavior_Driven_Development));
+- ***test:integration***: Roda apenas os testes de integração apenas nos arquivos ``tests/app.test.ts`` e ``tests/server.test.ts`` ([BDD](https://pt.wikipedia.org/wiki/Behavior_Driven_Development));
 - ***test:unit***: Roda aspenas os testes unitários ([TDD](https://pt.wikipedia.org/wiki/Test-driven_development));
 - ***test***: Roda todos os testes.
 
