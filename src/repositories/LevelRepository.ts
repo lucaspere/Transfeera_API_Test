@@ -13,7 +13,7 @@ export const levelDB = new Level<string, Recipient>(
 
 export default class LevelrecipientRepository implements Repository<Recipient> {
     async bulkDelete(ids: string[]): Promise<number> {
-        const res = await Promise.all(ids.map(id => this.delete(id)))
+        const res = (await Promise.all(ids.map(id => this.delete(id)))).filter(total => total)
 
         return res?.length
     }
@@ -23,9 +23,9 @@ export default class LevelrecipientRepository implements Repository<Recipient> {
     async create(newrecipient: Recipient): Promise<Recipient> {
         await levelDB.put(newrecipient.id!, newrecipient);
 
-        const recipient = await levelDB.get(newrecipient.id!);
+        const recipient = await this.find(newrecipient.id!);
 
-        return recipient;
+        return recipient!;
     }
     async find(id: string): Promise<Recipient | undefined> {
         try {
@@ -41,6 +41,9 @@ export default class LevelrecipientRepository implements Repository<Recipient> {
         }
     }
     async list<F extends ListRecipientQueryType>(filter: F): Promise<Recipient[]> {
+        if (!filter.itemsPerPage) {
+            filter.itemsPerPage = 10
+        }
         const recipients: Recipients = [];
         for await (const recipient of levelDB.values()) {
             recipients.push(recipient);
@@ -57,13 +60,13 @@ export default class LevelrecipientRepository implements Repository<Recipient> {
             res.push(data[i])
         }
 
-        return recipients;
+        return res;
     }
     async update(
         id: string,
         payload: Partial<Recipient>,
     ): Promise<Recipient | undefined> {
-        const recipient = await levelDB.get(id);
+        const recipient = await this.find(id);
         if (recipient) {
             const updatedrecipient = Object.assign(recipient, payload);
 
@@ -73,7 +76,7 @@ export default class LevelrecipientRepository implements Repository<Recipient> {
         }
     }
     async delete(id: string): Promise<Recipient | undefined> {
-        const recipient = await levelDB.get(id);
+        const recipient = await this.find(id);
 
         if (recipient) {
             await levelDB.del(id);
