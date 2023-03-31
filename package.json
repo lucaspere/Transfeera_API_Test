@@ -10,11 +10,11 @@
     "build:ts": "tsup --env.NODE_ENV production",
     "compile-schemas": "json2ts src/schemas -o src/types --enableConstEnums",
     "dev:memory": "cross-env NODE_ENV=development tsx watch src/app.ts",
-    "dev:level": "cross-env REPOSITORY_TYPE=LevelRepository NODE_ENV=development tsx watch src/app.ts",
-    "test": "run-p test:integration test:unit",
+    "dev": "cross-env REPOSITORY_TYPE=LevelRepository NODE_ENV=development tsx watch src/app.ts",
+    "test": "npm run test:integration && npm run test:unit",
     "copy:assets": "cpy 'src/generated/*.json' dist/generated",
-    "test:unit": "cross-env NODE_ENV=test mocha --config mocharc.unit.yaml",
-    "test:integration": "cross-env NODE_ENV=test mocha --config mocharc.integration.yaml"
+    "test:unit": "cross-env LEVELDB_LOCATION=./tests/db/recipients.level.test NODE_ENV=test mocha --config mocharc.unit.yaml",
+    "test:integration": "cross-env REPOSITORY_TYPE=MemoryRepository NODE_ENV=test mocha --config mocharc.integration.yaml"
   },
   "author": "Lucas Fellippe Alves Pereira",
   "license": "ISC",

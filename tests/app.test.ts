@@ -184,7 +184,7 @@ describe('Recipient API tests', async function () {
         });
     });
 
-    context('Delete Recipient', function () {
+    context('Delete Many Recipients', function () {
         it('Should Delete Many Recipients with ids', async () => {
             const statusQuery = '?key_value=test'
             const initialRes = await app.inject({
