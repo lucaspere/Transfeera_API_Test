@@ -7,10 +7,10 @@
     "start": "node dist/app.js",
     "build": "tsc",
     "compile-schemas": "json2ts src/schemas -o src/types --enableConstEnums",
-    "dev": "tsx watch src/app.ts",
+    "dev": "cross-env NODE_ENV=development tsx watch src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:unit": "mocha --config mocharc.unit.yaml",
-    "test:integration": "mocha --config mocharc.integration.yaml"
+    "test:unit": "cross-env NODE_ENV=test mocha --config mocharc.unit.yaml",
+    "test:integration": "cross-env NODE_ENV=test mocha --config mocharc.integration.yaml"
   },
   "author": "Lucas Fellippe Alves Pereira",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "@types/sinon": "^10.0.13",
     "@types/swagger-jsdoc": "^6.0.1",
     "chai": "^4.3.7",
+    "cross-env": "^7.0.3",
     "fastify-tsconfig": "^1.0.1",
     "json-schema-to-typescript": "^12.0.0",
     "mocha": "^9.2.2",
