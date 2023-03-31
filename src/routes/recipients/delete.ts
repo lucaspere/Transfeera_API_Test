@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 import { DeleteRecipientParamTypes } from ".";
 import DeleteRecipientParams from "../../schemas/defaultIdParameters.json";
 import { RecipientService } from "../../services";
+import { InternalServerError } from "../../utils/errors";
 
 export const deleteRecipient = (app: FastifyInstance) => {
     /**
@@ -40,8 +41,12 @@ export const deleteRecipient = (app: FastifyInstance) => {
         "/:id",
         { schema: { params: DeleteRecipientParams } },
         async (request, reply) => {
-            void await RecipientService.deleteRecipient(request.params)
-            void reply.status(200);
+            try {
+                void await RecipientService.deleteRecipient(request.params)
+                void reply.status(200);
+            } catch (err) {
+                void reply.status(500).send((err as InternalServerError).message);
+            }
         }
     );
 

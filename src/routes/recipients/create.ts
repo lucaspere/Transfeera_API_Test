@@ -3,6 +3,7 @@ import { FastifyInstance } from "fastify";
 import { CreateRecipientBodyTypes } from ".";
 import CreateRecipientBody from '../../schemas/createEditRecipientBody.json'
 import { RecipientService } from "../../services";
+import { InternalServerError } from "../../utils/errors";
 
 export const createRecipient = (app: FastifyInstance) => {
     /**
@@ -45,10 +46,14 @@ export const createRecipient = (app: FastifyInstance) => {
         "/",
         { schema: { body: CreateRecipientBody }, },
         async (request, reply) => {
-            request.body.id = randomUUID()
-            const data = await RecipientService.createRecipient(request.body)
+            try {
+                request.body.id = randomUUID()
+                const data = await RecipientService.createRecipient(request.body)
 
-            void reply.status(201).send(data);
+                void reply.status(201).send(data);
+            } catch (err) {
+                void reply.status(500).send((err as InternalServerError).message);
+            }
         }
     );
 }
