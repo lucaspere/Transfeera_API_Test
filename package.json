@@ -4,11 +4,14 @@
   "description": "Transfeera API",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/app.js",
+    "start": "tsx src/server.ts",
+    "start:prod": "cross-env NODE_ENV=production node dist/server.js",
     "build": "tsc",
+    "build:ts": "tsup --env.NODE_ENV production",
     "compile-schemas": "json2ts src/schemas -o src/types --enableConstEnums",
     "dev": "cross-env NODE_ENV=development tsx watch src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "run-p test:integration test:unit",
+    "copy:assets": "cpy 'src/generated/*.json' dist/generated",
     "test:unit": "cross-env NODE_ENV=test mocha --config mocharc.unit.yaml",
     "test:integration": "cross-env NODE_ENV=test mocha --config mocharc.integration.yaml"
   },
@@ -21,15 +24,18 @@
     "@types/sinon": "^10.0.13",
     "@types/swagger-jsdoc": "^6.0.1",
     "chai": "^4.3.7",
+    "cpy-cli": "^4.2.0",
     "cross-env": "^7.0.3",
     "fastify-tsconfig": "^1.0.1",
     "json-schema-to-typescript": "^12.0.0",
     "mocha": "^9.2.2",
+    "npm-run-all": "^4.1.5",
     "sinon": "^15.0.3",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^4.2.0",
+    "tsup": "^6.7.0",
     "tsx": "^3.12.6",
     "typescript": "^4.3.5"
   },
@@ -38,6 +44,7 @@
     "@fastify/cors": "^8.2.1",
     "@fastify/swagger": "^8.3.1",
     "@fastify/swagger-ui": "^1.6.0",
+    "@logtail/pino": "^0.4.0",
     "@sinclair/typebox": "^0.26.8",
     "ajv-keywords": "^5.1.0",
     "dotenv": "^16.0.3",
@@ -47,5 +54,18 @@
     "level": "^8.0.0",
     "pino-pretty": "^7.6.1",
     "swagger-jsdoc": "^6.2.8"
+  },
+  "tsup": {
+    "entry": [
+      "src/**/*.ts"
+    ],
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true,
+    "format": [
+      "cjs"
+    ],
+    "target": "es2022",
+    "onSuccess": "npm run copy:assets"
   }
 }

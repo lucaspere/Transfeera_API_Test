@@ -1,7 +1,11 @@
 import { FastifyInstance } from 'fastify';
 import { inspect } from 'util';
-import { PORT } from './app';
 import { errorParser, InternalServerError } from './utils/errors';
+
+export const PORT = (process.env.PORT ?? 3000) as number
+export const NODE_ENV = process.env.NODE_ENV || 'development'
+export const LOGTAIL_TOKEN = process.env.LOGTAIL_TOKEN
+export const PINO_LOG_LEVEL = process.env.PINO_LOG_LEVEL || 'info'
 
 export class Server {
     constructor(private app: FastifyInstance) { }

@@ -7,15 +7,10 @@ import { join } from 'path';
 import { useRepository } from './repositories';
 import ajvKeywords from 'ajv-keywords';
 import * as util from 'node:util'
-import { config } from 'dotenv'
-import { Server } from './server';
+import { LOGTAIL_TOKEN, NODE_ENV, PINO_LOG_LEVEL, Server } from './server';
+import * as dotenv from 'dotenv'
 
-config()
-
-export const PORT = (process.env.PORT ?? 3000) as number
-export const ENV = process.env.NODE_ENV || 'development'
-export const LOGTAIL_TOKEN = process.env.LOGTAIL_TOKEN
-export const PINO_LOG_LEVEL = process.env.PINO_LOG_LEVEL || 'info'
+dotenv.config()
 
 const envToLogger = {
     development: {
@@ -51,7 +46,7 @@ export const app = (
                 [ajvKeywords] as any
             ]
         },
-        logger: envToLogger[ENV as keyof typeof envToLogger]
+        logger: envToLogger[NODE_ENV as keyof typeof envToLogger]
     }
 ) => {
     const app = Fastify(opts);
