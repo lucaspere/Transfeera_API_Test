@@ -4,9 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github/lucaspere/Transfeera_API_Test/grpc_service/service"
-	"io/ioutil"
 	"log"
-	"os"
 	"testing"
 
 	"github.com/syndtr/goleveldb/leveldb"
@@ -49,82 +47,71 @@ func TestLevelRepository(t *testing.T) {
 		}
 
 		if fmt.Sprint(expected) != fmt.Sprint(result) {
-			t.Errorf("Expected get back %s recipients, Got: %s", expected, result)
+			t.Errorf("\nExpected get back %s\nGot: %s", expected, result)
 		}
 	})
-}
+	t.Run("Testing ListRecipients", func(t *testing.T) {
+		t.Run("Testing the Listing", func(t *testing.T) {
+			expected := getMockData()
+			tempdir := t.TempDir()
+			t.Setenv("LEVELDB_LOCATION", tempdir+"/db")
+			populateMockData(expected)
 
-func TestListRecipients(t *testing.T) {
-	expected := getMockData()
-	tempdir, err := ioutil.TempDir("", "leveldb")
-	if err != nil {
-		t.Fatalf("Failed to create temporary directory: %v", err)
-	}
-	defer os.RemoveAll(tempdir)
-	os.Setenv("LEVELDB_LOCATION", tempdir+"/db")
-	populateMockData(expected)
+			in := &service.ListRecipientsRequest{ItemsPerPage: 50}
+			recipients, err := RecipientRepository.List(in)
+			if err != nil {
+				t.Fatalf("failed to list recipients with %s", in)
+			}
 
-	in := &service.ListRecipientsRequest{ItemsPerPage: 50}
-	recipients, err := RecipientRepository.List(in)
-	if err != nil {
-		t.Fatalf("failed to list recipients with %s", in)
-	}
+			if len(expected) != len(*recipients) {
+				t.Errorf("Expected get back %d recipients, Got: %d", len(expected), len(*recipients))
+			}
+		})
 
-	if len(expected) != len(*recipients) {
-		t.Errorf("Expected get back %d recipients, Got: %d", len(expected), len(*recipients))
-	}
-}
+		t.Run("Testing the ItemsPerPage filter", func(t *testing.T) {
+			recipients := getMockData()
 
-func TestFilterItemsPerPage(t *testing.T) {
-	recipients := getMockData()
+			filterItemsPerPage(&recipients, 3)
 
-	filterItemsPerPage(&recipients, 3)
+			if len(recipients) != 3 {
+				t.Errorf("Expected get back 3 recipients, Got %d", len(recipients))
+			}
+		})
+		t.Run("Testing the filters", func(t *testing.T) {
+			tests := []struct {
+				input  Recipients
+				output int
+				filter *service.ListRecipientsRequest
+			}{
+				{
+					input:  getMockData(),
+					output: 4,
+					filter: &service.ListRecipientsRequest{Status: "VALIDADO"},
+				},
+				{
+					input:  getMockData(),
+					output: 1,
+					filter: &service.ListRecipientsRequest{Status: "VALIDADO", KeyType: "EMAIL"},
+				},
+				{
+					input:  getMockData(),
+					output: 1,
+					filter: &service.ListRecipientsRequest{Name: "Bur"},
+				},
+				{
+					input:  getMockData(),
+					output: 1,
+					filter: &service.ListRecipientsRequest{KeyValue: "123456789123"},
+				},
+			}
 
-	if len(recipients) != 3 {
-		t.Errorf("Expected get back 3 recipients, Got %d", len(recipients))
-	}
-}
+			for _, tc := range tests {
+				filterRecipients(&tc.input, tc.filter)
 
-func TestFilterRecipientsWithStatusValidado(t *testing.T) {
-	recipients := getMockData()
-	expected := `[id:"1a5e365a-3fa8-441f-8d31-e628229a6c63" name:"Burke Lindbergh" email:"blindberghm@merriam-webster.com" cpf_cnpj:"36145118121" key_type:"CHAVE_ALEATORIA" status:"VALIDADO" key_value:"blindberghm@webs.com" bank:"ITAU" account:"90695-8" account_type:"POUPANÇA" agency:"286" id:"242c8189-cb3d-4fcc-9627-935ab066b4ec" name:"Sonia Kenwin" email:"skenwint@constantcontact.com" cpf_cnpj:"76597569653" key_type:"EMAIL" status:"VALIDADO" key_value:"skenwint@google.com.au" bank:"INTER" account:"89727-9" account_type:"CORRENTE" agency:"948" id:"29b3c625-f948-47c2-bdbc-444d591dd1d5" name:"Tris Book" email:"tbookd@theatlantic.com" cpf_cnpj:"56914618075821" key_type:"CPF" status:"VALIDADO" key_value:"tbookd@ibm.com" bank:"ITAU" account:"25452-1" account_type:"CORRENTE" agency:"644" id:"3fc64930-40d7-4197-aa18-b745f72f1e30" name:"Billy Levensky" email:"blevenskyc@skyrock.com" cpf_cnpj:"36145118121" key_type:"CPF" status:"VALIDADO" key_value:"blevenskyc@dot.gov" bank:"SANTANDER" account:"30832-9" account_type:"CORRENTE" agency:"107"]`
-
-	filterRecipients(&recipients, &service.ListRecipientsRequest{Status: "VALIDADO"})
-
-	if fmt.Sprint(recipients) != expected {
-		t.Errorf("Expected get back %s\nGot %s", expected, recipients)
-	}
-}
-
-func TestFilterRecipientsWithStatusRascunhoAndKeyTypeEmail(t *testing.T) {
-	recipients := getMockData()
-	expected := `[id:"242c8189-cb3d-4fcc-9627-935ab066b4ec"  name:"Sonia Kenwin"  email:"skenwint@constantcontact.com"  cpf_cnpj:"76597569653"  key_type:"EMAIL"  status:"VALIDADO"  key_value:"skenwint@google.com.au"  bank:"INTER"  account:"89727-9"  account_type:"CORRENTE"  agency:"948"]`
-
-	filterRecipients(&recipients, &service.ListRecipientsRequest{Status: "VALIDADO", KeyType: "EMAIL"})
-
-	if fmt.Sprint(recipients) != expected {
-		t.Errorf("\nExpected get back %s\nGot: %s", expected, recipients)
-	}
-}
-
-func TestFilterRecipientsWithName(t *testing.T) {
-	recipients := getMockData()
-	expected := `[id:"1a5e365a-3fa8-441f-8d31-e628229a6c63" name:"Burke Lindbergh" email:"blindberghm@merriam-webster.com" cpf_cnpj:"36145118121" key_type:"CHAVE_ALEATORIA" status:"VALIDADO" key_value:"blindberghm@webs.com" bank:"ITAU" account:"90695-8" account_type:"POUPANÇA" agency:"286"]`
-
-	filterRecipients(&recipients, &service.ListRecipientsRequest{Name: "Bur"})
-
-	if fmt.Sprint(recipients) != expected {
-		t.Errorf("\nExpected get back %s\nGot: %s", expected, recipients)
-	}
-}
-
-func TestFilterRecipientsWithKeyValue(t *testing.T) {
-	recipients := getMockData()
-	expected := `[id:"29b3c625-f948-47c2-bdbc-444d591dd1d5" name:"Tris Book" email:"tbookd@theatlantic.com" cpf_cnpj:"56914618075821" key_type:"CPF" status:"VALIDADO" key_value:"123456789123" bank:"ITAU" account:"25452-1" account_type:"CORRENTE" agency:"644"]`
-
-	filterRecipients(&recipients, &service.ListRecipientsRequest{KeyValue: "123456789123"})
-
-	if fmt.Sprint(recipients) != expected {
-		t.Errorf("\nExpected get back %s\nGot: %s", expected, recipients)
-	}
+				if len(tc.input) != tc.output {
+					t.Errorf("Expected get back %d recipients, Got: %d", tc.output, len(tc.input))
+				}
+			}
+		})
+	})
 }
