@@ -1,4 +1,4 @@
-import { createChannel, createClient } from "nice-grpc"
+import { createChannel, createClient, Channel } from "nice-grpc"
 import { RecipientsClient, RecipientsDefinition } from "../../generated/grpc_service/service/recipients"
 import { BulkDeletionBodyTypes, DeleteRecipientParamTypes, ListRecipientQueryType } from "../../routes/recipients"
 import { BulkDeleteResponse, ListRecipientResponse } from "."
@@ -12,11 +12,18 @@ import { inspect } from "node:util"
 
 export default class GrpcRecipientService implements Service {
     private client: RecipientsClient
+    private channel: Channel
 
+    get _client() {
+        return this.client
+    }
+    get _channel() {
+        return this.channel
+    }
     constructor() {
-        const channel = createChannel(GRPC_ADDRESS)
-        server.log.info(`Stablished a channel with grpc target ${channel.getTarget()}`)
-        this.client = createClient(RecipientsDefinition, channel)
+        this.channel = createChannel(GRPC_ADDRESS)
+        server.log.info(`Stablished a channel with grpc target ${this.channel.getTarget()}`)
+        this.client = createClient(RecipientsDefinition, this.channel)
     }
     async create(payload: CreateEditRecepient): Promise<Recipient> {
         try {
@@ -25,7 +32,8 @@ export default class GrpcRecipientService implements Service {
                     keyType: payload.key_type,
                     keyValue: payload.key_value,
                     cpfCnpj: payload.cpf_cnpj,
-                    ...payload
+                    email: payload.email,
+                    name: payload.name
                 }
             })
 
@@ -37,13 +45,18 @@ export default class GrpcRecipientService implements Service {
                 ...rest
             } as Recipient
         } catch (err) {
-            server.log.error(`Save recipient was not successful`, err)
+            server.log.error(`Save recipient was not successful`, inspect(err))
             throw new InternalServerError("Internal Server Error")
         }
     }
     async list(filter: ListRecipientQueryType): Promise<ListRecipientResponse> {
-        const list = await this.client.listRecipients(filter)
-        return list as unknown as ListRecipientResponse
+        try {
+            const list = await this.client.listRecipients(filter)
+            return list as unknown as ListRecipientResponse
+        } catch (err) {
+            server.log.error(`list recipients was not successful`, inspect(err))
+            throw new InternalServerError("Internal Server Error")
+        }
     }
     async edit({ id, ...payload }: Partial<Recipient>): Promise<Recipient> {
         try {
@@ -52,7 +65,8 @@ export default class GrpcRecipientService implements Service {
                     keyType: payload.key_type,
                     keyValue: payload.key_value,
                     cpfCnpj: payload.cpf_cnpj,
-                    ...payload
+                    email: payload.email,
+                    name: payload.name
                 }
             })
             return {
@@ -63,7 +77,7 @@ export default class GrpcRecipientService implements Service {
                 ...rest
             } as Recipient
         } catch (err) {
-            server.log.error(`Save recipient was not successful`, err)
+            server.log.error(`edit recipient was not successful`, err)
             throw new InternalServerError("Internal Server Error")
         }
     }
@@ -72,7 +86,7 @@ export default class GrpcRecipientService implements Service {
             server.log.info(`request to delete recipient with id ${id}.`)
             void await this.client.deleteRecipient({ id })
         } catch (err) {
-            server.log.error(`Deletion was not successful`, inspect(err))
+            server.log.error(`Delete recipient was not successful`, inspect(err))
             throw new InternalServerError("Internal Server Error")
         }
     }
