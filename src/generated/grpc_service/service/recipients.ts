@@ -856,8 +856,8 @@ export const RecipientsDefinition = {
       responseStream: false,
       options: {},
     },
-    delteRecipient: {
-      name: "DelteRecipient",
+    deleteRecipient: {
+      name: "DeleteRecipient",
       requestType: DeleteRecipientRequest,
       requestStream: false,
       responseType: Empty,
@@ -866,7 +866,7 @@ export const RecipientsDefinition = {
     },
     bulkDeleteRecipients: {
       name: "BulkDeleteRecipients",
-      requestType: ListRecipientsRequest,
+      requestType: BulkDeleteRecipientsRequest,
       requestStream: false,
       responseType: BulkDeleteResponse,
       responseStream: false,
@@ -885,9 +885,9 @@ export interface RecipientsServiceImplementation<CallContextExt = {}> {
     context: CallContext & CallContextExt,
   ): Promise<DeepPartial<Recipient>>;
   editRecipient(request: EditRecipientequest, context: CallContext & CallContextExt): Promise<DeepPartial<Recipient>>;
-  delteRecipient(request: DeleteRecipientRequest, context: CallContext & CallContextExt): Promise<DeepPartial<Empty>>;
+  deleteRecipient(request: DeleteRecipientRequest, context: CallContext & CallContextExt): Promise<DeepPartial<Empty>>;
   bulkDeleteRecipients(
-    request: ListRecipientsRequest,
+    request: BulkDeleteRecipientsRequest,
     context: CallContext & CallContextExt,
   ): Promise<DeepPartial<BulkDeleteResponse>>;
 }
@@ -902,9 +902,9 @@ export interface RecipientsClient<CallOptionsExt = {}> {
     options?: CallOptions & CallOptionsExt,
   ): Promise<Recipient>;
   editRecipient(request: DeepPartial<EditRecipientequest>, options?: CallOptions & CallOptionsExt): Promise<Recipient>;
-  delteRecipient(request: DeepPartial<DeleteRecipientRequest>, options?: CallOptions & CallOptionsExt): Promise<Empty>;
+  deleteRecipient(request: DeepPartial<DeleteRecipientRequest>, options?: CallOptions & CallOptionsExt): Promise<Empty>;
   bulkDeleteRecipients(
-    request: DeepPartial<ListRecipientsRequest>,
+    request: DeepPartial<BulkDeleteRecipientsRequest>,
     options?: CallOptions & CallOptionsExt,
   ): Promise<BulkDeleteResponse>;
 }
