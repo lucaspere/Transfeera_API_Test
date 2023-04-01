@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/syndtr/goleveldb/leveldb"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 var RecipientRepository Repository = &recipientRepository{}
@@ -16,6 +17,7 @@ var RecipientRepository Repository = &recipientRepository{}
 type Recipients = []*rs.Recipient
 type Repository interface {
 	List(f *rs.ListRecipientsRequest) (*Recipients, error)
+	Create(f *rs.Recipient) (*rs.Recipient, error)
 }
 type recipientRepository struct{}
 
@@ -64,6 +66,39 @@ func (rr *recipientRepository) List(f *rs.ListRecipientsRequest) (*Recipients, e
 	filterItemsPerPage(recipients, f.ItemsPerPage)
 
 	return recipients, nil
+}
+
+func (rr *recipientRepository) Create(r *rs.Recipient) (*rs.Recipient, error) {
+	db, err := open()
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	defer db.Close()
+
+	rBuf, err := protojson.Marshal(r)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	if err := db.Put([]byte(r.Id), rBuf, nil); err != nil {
+		log.Fatal(err)
+	}
+
+	rBuf, err = db.Get([]byte(r.Id), nil)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	recipient := &rs.Recipient{}
+	err = protojson.Unmarshal(rBuf, recipient)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	return recipient, nil
 }
 
 func filterRecipients(recipients *Recipients, f *rs.ListRecipientsRequest) {
