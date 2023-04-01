@@ -7,6 +7,7 @@ import (
 	rs "github/lucaspere/Transfeera_API_Test/grpc_service/service"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/syndtr/goleveldb/leveldb"
@@ -14,6 +15,7 @@ import (
 )
 
 var RecipientRepository Repository = &recipientRepository{}
+var __dirname string
 
 type Recipients = []*rs.Recipient
 type Repository interface {
@@ -26,11 +28,20 @@ type Repository interface {
 }
 type recipientRepository struct{}
 
+func init() {
+	ex, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	__dirname = filepath.Dir(ex)
+}
 func open() (*leveldb.DB, error) {
 	var levelDBLocation string
 	if levelDBLocation = os.Getenv("LEVELDB_LOCATION"); levelDBLocation == "" {
-		levelDBLocation = "../../recipients.level"
+		levelDBLocation = "recipients.level"
 	}
+
+	log.Println("loading the level data at ", levelDBLocation)
 	db, err := leveldb.OpenFile(levelDBLocation, nil)
 	if err != nil {
 		log.Fatal(err)

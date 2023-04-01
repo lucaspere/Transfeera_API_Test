@@ -15,7 +15,10 @@
     "copy:assets": "cpy 'src/generated/*.json' dist/generated",
     "test:unit": "cross-env LEVELDB_LOCATION=./tests/db/recipients.level.test NODE_ENV=test mocha --config mocharc.unit.yaml",
     "test:integration": "cross-env REPOSITORY_TYPE=MemoryRepository NODE_ENV=test mocha --config mocharc.integration.yaml",
-    "populate": "tsx src/data/levelPopulate.ts"
+    "populate": "tsx src/data/levelPopulate.ts",
+    "dev:grpc": "cross-env SERVICE_TYPE=GrpcService tsx watch src/app.ts",
+    "build:grpc": "cd grpc_service/server && go build -o ../../server",
+    "start:grpc": "LEVELDB_LOCATION=./recipients.level npm run build:grpc && ./server"
   },
   "author": "Lucas Fellippe Alves Pereira",
   "license": "ISC",
@@ -32,6 +35,7 @@
     "grpc-tools": "^1.12.4",
     "json-schema-to-typescript": "^12.0.0",
     "mocha": "^9.2.2",
+    "npm-run-all": "^4.1.5",
     "sinon": "^15.0.3",
     "source-map-support": "^0.5.21",
     "ts-proto": "^1.145.0",
