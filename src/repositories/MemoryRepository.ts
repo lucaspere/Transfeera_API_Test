@@ -79,4 +79,7 @@ export default class RecipientMemoryRepository implements Repository<Recipient> 
             })
         })
     }
+    close(): Promise<void> {
+        return Promise.resolve()
+    }
 }

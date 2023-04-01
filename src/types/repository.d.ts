@@ -6,6 +6,7 @@ export interface Repository<T> {
     update(id: string, payload: T): Promise<T | undefined>;
     delete(id: string): Promise<T | undefined>;
     bulkDelete(ids: Array<string>): Promise<number>
+    close(): Promise<void>
 }
 
 export interface ListFilters {

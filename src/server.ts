@@ -1,6 +1,8 @@
 import { FastifyInstance } from 'fastify';
 import { inspect } from 'util';
 import { errorParser, InternalServerError } from './utils/errors';
+import { server } from './app';
+import { Repository } from './repositories';
 
 export const PORT = (process.env.PORT ?? 3000) as number
 export const NODE_ENV = process.env.NODE_ENV || 'development'
@@ -71,3 +73,16 @@ export class Server {
         return this.app;
     }
 }
+
+
+async function catchProcessDeath() {
+    await Repository.close();
+    await server.close();
+    process.exit(0);
+}
+
+process.on('SIGTERM', catchProcessDeath);
+process.on('SIGINT', catchProcessDeath);
+process.on('SIGHUP', catchProcessDeath);
+
+process.on('exit', () => { server.log.info('exiting...'); });
