@@ -214,20 +214,20 @@ export const ListRecipientsRequest = {
 
   fromJSON(object: any): ListRecipientsRequest {
     return {
-      itemsPerPage: isSet(object.itemsPerPage) ? Number(object.itemsPerPage) : 0,
+      itemsPerPage: isSet(object.items_per_page) ? Number(object.items_per_page) : 0,
       status: isSet(object.status) ? String(object.status) : "",
-      keyType: isSet(object.keyType) ? String(object.keyType) : "",
-      keyValue: isSet(object.keyValue) ? String(object.keyValue) : "",
+      keyType: isSet(object.key_type) ? String(object.key_type) : "",
+      keyValue: isSet(object.key_value) ? String(object.key_value) : "",
       name: isSet(object.name) ? String(object.name) : "",
     };
   },
 
   toJSON(message: ListRecipientsRequest): unknown {
     const obj: any = {};
-    message.itemsPerPage !== undefined && (obj.itemsPerPage = Math.round(message.itemsPerPage));
+    message.itemsPerPage !== undefined && (obj.items_per_page = Math.round(message.itemsPerPage));
     message.status !== undefined && (obj.status = message.status);
-    message.keyType !== undefined && (obj.keyType = message.keyType);
-    message.keyValue !== undefined && (obj.keyValue = message.keyValue);
+    message.keyType !== undefined && (obj.key_type = message.keyType);
+    message.keyValue !== undefined && (obj.key_value = message.keyValue);
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
@@ -779,13 +779,13 @@ export const Recipient = {
       id: isSet(object.id) ? String(object.id) : "",
       name: isSet(object.name) ? String(object.name) : "",
       email: isSet(object.email) ? String(object.email) : "",
-      cpfCnpj: isSet(object.cpfCnpj) ? String(object.cpfCnpj) : "",
-      keyType: isSet(object.keyType) ? String(object.keyType) : "",
+      cpfCnpj: isSet(object.cpf_cnpj) ? String(object.cpf_cnpj) : "",
+      keyType: isSet(object.key_type) ? String(object.key_type) : "",
       status: isSet(object.status) ? String(object.status) : "",
-      keyValue: isSet(object.keyValue) ? String(object.keyValue) : "",
+      keyValue: isSet(object.key_value) ? String(object.key_value) : "",
       bank: isSet(object.bank) ? String(object.bank) : "",
       account: isSet(object.account) ? String(object.account) : "",
-      accountType: isSet(object.accountType) ? String(object.accountType) : "",
+      accountType: isSet(object.account_type) ? String(object.account_type) : "",
       agency: isSet(object.agency) ? String(object.agency) : "",
     };
   },
@@ -795,13 +795,13 @@ export const Recipient = {
     message.id !== undefined && (obj.id = message.id);
     message.name !== undefined && (obj.name = message.name);
     message.email !== undefined && (obj.email = message.email);
-    message.cpfCnpj !== undefined && (obj.cpfCnpj = message.cpfCnpj);
-    message.keyType !== undefined && (obj.keyType = message.keyType);
+    message.cpfCnpj !== undefined && (obj.cpf_cnpj = message.cpfCnpj);
+    message.keyType !== undefined && (obj.key_type = message.keyType);
     message.status !== undefined && (obj.status = message.status);
-    message.keyValue !== undefined && (obj.keyValue = message.keyValue);
+    message.keyValue !== undefined && (obj.key_value = message.keyValue);
     message.bank !== undefined && (obj.bank = message.bank);
     message.account !== undefined && (obj.account = message.account);
-    message.accountType !== undefined && (obj.accountType = message.accountType);
+    message.accountType !== undefined && (obj.account_type = message.accountType);
     message.agency !== undefined && (obj.agency = message.agency);
     return obj;
   },
