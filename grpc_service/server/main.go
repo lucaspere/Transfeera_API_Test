@@ -9,6 +9,8 @@ import (
 
 	rs "github/lucaspere/Transfeera_API_Test/grpc_service/service"
 
+	"github/lucaspere/Transfeera_API_Test/grpc_service/server/repositories"
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -427,12 +429,12 @@ func (service recipientsService) ListRecipients(ctx context.Context, in *rs.List
 	if in.ItemsPerPage == 0 {
 		in.ItemsPerPage = 10
 	}
-	reply := rs.ListRecipientsReply{Total: 0, Data: make([]*rs.Recipient, 0)}
 
-	for i := 0; i < len(listReply.Data) && i < int(in.ItemsPerPage); i++ {
-		reply.Data = append(reply.Data, listReply.Data[i])
-		reply.Total += 1
+	data, err := repositories.ListRecipients(in)
+	if err != nil {
+		fmt.Println(err)
 	}
+	reply := rs.ListRecipientsReply{Total: int32(len(*data)), Data: *data}
 
 	return &reply, nil
 }
