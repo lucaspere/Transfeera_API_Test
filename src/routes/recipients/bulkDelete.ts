@@ -24,7 +24,6 @@ export const BulkRecipientDeletion = (app: FastifyInstance) => {
         *                 items:
         *                   type: string
         *             required: [ids]
-        *     produces: [application/json]
         *     responses:
         *       200:
         *         description: deletion success.

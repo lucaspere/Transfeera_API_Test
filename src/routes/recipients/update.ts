@@ -9,10 +9,17 @@ import { InternalServerError } from "../../utils/errors";
 export const updateRecipient = (app: FastifyInstance) => {
     /**
     * @swagger
-    * /api/recipients/:id:
+    * /api/recipients/{recipientID}:
     *   put:
     *     tags: [Recipient]
     *     description: Update a `Recipient`
+    *     parameters:
+    *      - name: recipientId
+    *        in: path
+    *        schema:
+    *          type: string
+    *        description: The `Recipient` identifier.
+    *        required: true
     *     requestBody:
     *       required: true
     *       description: The `CreateUpdateRecipientPayload` data.
@@ -20,7 +27,6 @@ export const updateRecipient = (app: FastifyInstance) => {
     *         application/json:
     *           schema:
     *             $ref: '#/components/schemas/CreateEditRecipientPayload'
-    *     produces: [application/json]
     *     responses:
     *       204:
     *         description: update success.

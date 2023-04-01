@@ -19,7 +19,6 @@ export const createRecipient = (app: FastifyInstance) => {
     *         application/json:
     *           schema:
     *             $ref: '#/components/schemas/CreateEditRecipientPayload'
-    *     produces: [application/json]
     *     responses:
     *       201:
     *         description: deletion success.

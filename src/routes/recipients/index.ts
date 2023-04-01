@@ -108,6 +108,10 @@ const recipient: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
      *       - cpf_cnpj 
      *       - key_type
      *       - key_value
+     * 
+     *     recipientID:
+     *       type: string
+     *       format: uuid
     */
 
     updateRecipient(fastify)
