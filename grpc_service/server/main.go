@@ -414,6 +414,8 @@ var recipientsJson = `{
 
 var listReply rs.ListRecipientsReply
 
+const DEFAULT_STATUS = "RASCUNHO"
+
 func init() {
 	err := protojson.Unmarshal([]byte(recipientsJson), &listReply)
 	if err != nil {
@@ -438,6 +440,30 @@ func (service recipientsService) ListRecipients(ctx context.Context, in *rs.List
 	reply := rs.ListRecipientsReply{Total: int32(len(*data)), Data: *data}
 
 	return &reply, nil
+}
+
+func (service recipientsService) CreateRicipient(ctx context.Context, in *rs.CreateRecipientRequest) (*rs.Recipient, error) {
+	recipient := &rs.Recipient{
+		Id:          in.Recipient.Id,
+		CpfCnpj:     in.Recipient.CpfCnpj,
+		Email:       in.Recipient.Email,
+		Name:        in.Recipient.Name,
+		Status:      DEFAULT_STATUS,
+		KeyType:     in.Recipient.KeyType,
+		KeyValue:    in.Recipient.KeyValue,
+		AccountType: "POUPANÇA",
+		Account:     "00000-1",
+		Agency:      "111",
+		Bank:        "SANTANDER",
+	}
+	log.Println("request to save a new recipient with ", recipient)
+	data, err := service.repository.Create(recipient)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	return data, nil
 }
 
 func main() {
