@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	rs "github/lucaspere/Transfeera_API_Test/grpc_service/service"
 	"log"
@@ -17,7 +18,9 @@ var RecipientRepository Repository = &recipientRepository{}
 type Recipients = []*rs.Recipient
 type Repository interface {
 	List(f *rs.ListRecipientsRequest) (*Recipients, error)
-	Create(f *rs.Recipient) (*rs.Recipient, error)
+	Create(r *rs.Recipient) (*rs.Recipient, error)
+	Update(r *rs.Recipient) (*rs.Recipient, error)
+	Find(key string) (*rs.Recipient, error)
 }
 type recipientRepository struct{}
 
@@ -68,7 +71,66 @@ func (rr *recipientRepository) List(f *rs.ListRecipientsRequest) (*Recipients, e
 	return recipients, nil
 }
 
+func (rr *recipientRepository) Find(key string) (*rs.Recipient, error) {
+	db, err := open()
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	defer db.Close()
+
+	rBuf, err := db.Get([]byte(key), nil)
+	if err != nil {
+		if !errors.Is(err, leveldb.ErrNotFound) {
+			log.Fatal(err)
+		}
+		return nil, err
+	}
+
+	recipient := &rs.Recipient{}
+	err = protojson.Unmarshal(rBuf, recipient)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	return recipient, nil
+}
+
 func (rr *recipientRepository) Create(r *rs.Recipient) (*rs.Recipient, error) {
+	db, err := open()
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	defer db.Close()
+
+	rBuf, err := protojson.Marshal(r)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	if err := db.Put([]byte(r.Id), rBuf, nil); err != nil {
+		log.Fatal(err)
+	}
+
+	rBuf, err = db.Get([]byte(r.Id), nil)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	recipient := &rs.Recipient{}
+	err = protojson.Unmarshal(rBuf, recipient)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	return recipient, nil
+}
+
+func (rr *recipientRepository) Update(r *rs.Recipient) (*rs.Recipient, error) {
 	db, err := open()
 	if err != nil {
 		log.Fatal(err)
