@@ -423,6 +423,7 @@ func init() {
 
 type recipientsService struct {
 	rs.UnimplementedRecipientsServer
+	repository repositories.Repository
 }
 
 func (service recipientsService) ListRecipients(ctx context.Context, in *rs.ListRecipientsRequest) (*rs.ListRecipientsReply, error) {
@@ -430,7 +431,7 @@ func (service recipientsService) ListRecipients(ctx context.Context, in *rs.List
 		in.ItemsPerPage = 10
 	}
 
-	data, err := repositories.ListRecipients(in)
+	data, err := service.repository.List(in)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -452,7 +453,7 @@ func main() {
 
 	s := grpc.NewServer()
 
-	rs.RegisterRecipientsServer(s, recipientsService{})
+	rs.RegisterRecipientsServer(s, recipientsService{repository: repositories.RecipientRepository})
 	reflection.Register(s)
 	log.Println("gRPC server listening at " + address)
 	log.Fatal(s.Serve(l))

@@ -11,12 +11,18 @@ import (
 	"github.com/syndtr/goleveldb/leveldb"
 )
 
+var RecipientRepository Repository = &recipientRepository{}
+
 type Recipients = []*rs.Recipient
+type Repository interface {
+	List(f *rs.ListRecipientsRequest) (*Recipients, error)
+}
+type recipientRepository struct{}
 
 func open() (*leveldb.DB, error) {
 	var levelDBLocation string
 	if levelDBLocation = os.Getenv("LEVELDB_LOCATION"); levelDBLocation == "" {
-		levelDBLocation = "../../../recipients.level"
+		levelDBLocation = "../../recipients.level"
 	}
 	db, err := leveldb.OpenFile(levelDBLocation, nil)
 	if err != nil {
@@ -27,7 +33,7 @@ func open() (*leveldb.DB, error) {
 	return db, nil
 }
 
-func ListRecipients(f *rs.ListRecipientsRequest) (*Recipients, error) {
+func (rr *recipientRepository) List(f *rs.ListRecipientsRequest) (*Recipients, error) {
 	db, err := open()
 	if err != nil {
 		fmt.Println(err)
