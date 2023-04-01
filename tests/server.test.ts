@@ -24,8 +24,8 @@ describe('Server test', function () {
             } catch (err: any) {
                 assert.isTrue(err instanceof Error);
                 assert.equal(
-                    err.message,
-                    "Failed to load plugins: { name: 'Error Test', msg: 'Mock error' }",
+                    err.message.trim(),
+                    "Failed to load plugins: { name: 'Error Test', msg: 'Mock error' }".trim(),
                 );
             }
         });
@@ -39,9 +39,9 @@ describe('Server test', function () {
                 await serverMock.run();
             } catch (err: any) {
                 assert.isTrue(err instanceof Error);
-                assert.equal(
-                    err.message,
-                    "Failed to start the server: { name: 'Error Test', msg: 'Mock error' }",
+                assert.deepEqual(
+                    err.message.trim(),
+                    "Failed to start the server: { name: 'Error Test', msg: 'Mock error' }".trim(),
                 );
             }
         });
@@ -57,8 +57,8 @@ describe('Server test', function () {
         } catch (err: any) {
             assert.isTrue(err instanceof Error);
             assert.equal(
-                err.message,
-                "Failed to close the server: { name: 'Error Test', msg: 'Mock error' }",
+                err.message.trim(),
+                "Failed to close the server: { name: 'Error Test', msg: 'Mock error' }".trim(),
             );
         }
     });

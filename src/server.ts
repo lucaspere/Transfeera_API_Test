@@ -19,10 +19,8 @@ export class Server {
             await this.start();
         } catch (err) {
             throw new InternalServerError(
-                `Failed to start the server: ${inspect(
-                    errorParser(err as InternalServerError),
-                )}`,
-            );
+                errorParser(err as InternalServerError).msg
+            )
         }
         return this.app;
     }
@@ -36,7 +34,7 @@ export class Server {
             return this;
         } catch (err) {
             throw new InternalServerError(
-                `Failed to load plugins: ${inspect(errorParser(err as InternalServerError))}`,
+                `Failed to load plugins: ${inspect(errorParser(err as InternalServerError))} `,
             );
         }
     }
@@ -51,7 +49,8 @@ export class Server {
             throw new InternalServerError(
                 `Failed to start the server: ${inspect(
                     errorParser(err as InternalServerError),
-                )}`,
+                )
+                } `,
             );
         }
     }
@@ -64,7 +63,8 @@ export class Server {
             throw new InternalServerError(
                 `Failed to close the server: ${inspect(
                     errorParser(err as InternalServerError),
-                )}`,
+                )
+                } `,
             );
         }
     }

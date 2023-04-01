@@ -1,6 +1,6 @@
 import { assert } from 'chai';
-import { useRepository } from '../../src/repositories';
 import RecipientMemoryRepository from '../../src/repositories/MemoryRepository';
+import { useRepository } from '../../src/repositories';
 
 suite('Testing Repository Loader', function () {
     test('Should load with default Repository', async () => {
