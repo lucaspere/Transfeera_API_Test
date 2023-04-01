@@ -48,8 +48,27 @@ export default class GrpcRecipientService implements Service {
         })
         return list as unknown as ListRecipientResponse
     }
-    async edit(payload: Partial<Recipient>): Promise<Recipient> {
-        throw new Error("Method not implemented.")
+    async edit({ id, ...payload }: Partial<Recipient>): Promise<Recipient> {
+        try {
+            const { keyType, keyValue, cpfCnpj, accountType, ...rest } = await this.client.editRecipient({
+                id, recipient: {
+                    keyType: payload.key_type,
+                    keyValue: payload.key_value,
+                    cpfCnpj: payload.cpf_cnpj,
+                    ...payload
+                }
+            })
+            return {
+                key_type: keyType,
+                key_value: keyValue,
+                cpf_cnpj: cpfCnpj,
+                account_type: accountType,
+                ...rest
+            } as Recipient
+        } catch (err) {
+            server.log.error(`Save recipient was not successful`, err)
+            throw new InternalServerError("Internal Server Error")
+        }
     }
     async delete(payload: DeleteRecipientParamTypes): Promise<void> {
         throw new Error("Method not implemented.")
