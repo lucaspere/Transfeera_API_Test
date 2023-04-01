@@ -90,7 +90,7 @@ export function statusToJSON(object: Status): string {
 
 export interface ListRecipientsRequest {
   itemsPerPage: number;
-  status: Status;
+  status: string;
   keyType: string;
   keyValue: string;
   name: string;
@@ -116,7 +116,7 @@ export interface Recipient {
 }
 
 function createBaseListRecipientsRequest(): ListRecipientsRequest {
-  return { itemsPerPage: 0, status: 0, keyType: "", keyValue: "", name: "" };
+  return { itemsPerPage: 0, status: "", keyType: "", keyValue: "", name: "" };
 }
 
 export const ListRecipientsRequest = {
@@ -124,8 +124,8 @@ export const ListRecipientsRequest = {
     if (message.itemsPerPage !== 0) {
       writer.uint32(8).int32(message.itemsPerPage);
     }
-    if (message.status !== 0) {
-      writer.uint32(16).int32(message.status);
+    if (message.status !== "") {
+      writer.uint32(18).string(message.status);
     }
     if (message.keyType !== "") {
       writer.uint32(26).string(message.keyType);
@@ -154,11 +154,11 @@ export const ListRecipientsRequest = {
           message.itemsPerPage = reader.int32();
           continue;
         case 2:
-          if (tag != 16) {
+          if (tag != 18) {
             break;
           }
 
-          message.status = reader.int32() as any;
+          message.status = reader.string();
           continue;
         case 3:
           if (tag != 26) {
@@ -193,7 +193,7 @@ export const ListRecipientsRequest = {
   fromJSON(object: any): ListRecipientsRequest {
     return {
       itemsPerPage: isSet(object.itemsPerPage) ? Number(object.itemsPerPage) : 0,
-      status: isSet(object.status) ? statusFromJSON(object.status) : 0,
+      status: isSet(object.status) ? String(object.status) : "",
       keyType: isSet(object.keyType) ? String(object.keyType) : "",
       keyValue: isSet(object.keyValue) ? String(object.keyValue) : "",
       name: isSet(object.name) ? String(object.name) : "",
@@ -203,7 +203,7 @@ export const ListRecipientsRequest = {
   toJSON(message: ListRecipientsRequest): unknown {
     const obj: any = {};
     message.itemsPerPage !== undefined && (obj.itemsPerPage = Math.round(message.itemsPerPage));
-    message.status !== undefined && (obj.status = statusToJSON(message.status));
+    message.status !== undefined && (obj.status = message.status);
     message.keyType !== undefined && (obj.keyType = message.keyType);
     message.keyValue !== undefined && (obj.keyValue = message.keyValue);
     message.name !== undefined && (obj.name = message.name);
@@ -217,7 +217,7 @@ export const ListRecipientsRequest = {
   fromPartial(object: DeepPartial<ListRecipientsRequest>): ListRecipientsRequest {
     const message = createBaseListRecipientsRequest();
     message.itemsPerPage = object.itemsPerPage ?? 0;
-    message.status = object.status ?? 0;
+    message.status = object.status ?? "";
     message.keyType = object.keyType ?? "";
     message.keyValue = object.keyValue ?? "";
     message.name = object.name ?? "";
