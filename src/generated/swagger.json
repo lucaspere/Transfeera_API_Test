@@ -35,9 +35,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "deletion success.",
@@ -95,9 +92,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "201": {
             "description": "deletion success.",
@@ -190,9 +184,6 @@
             "description": "The Pix's key value of the recipient."
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
             "description": "list success.",
@@ -240,7 +231,7 @@
         }
       }
     },
-    "/api/recipients:id": {
+    "/api/recipients/{recipientID}": {
       "delete": {
         "tags": [
           "Recipient"
@@ -248,17 +239,14 @@
         "description": "Delete a `Recipient` by its `id`",
         "parameters": [
           {
-            "in": "params",
-            "name": "id",
+            "in": "path",
+            "name": "recipientID",
             "schema": {
               "type": "string",
               "required": true
             },
             "description": "The `Recipient` identifier."
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
@@ -285,14 +273,23 @@
             }
           }
         }
-      }
-    },
-    "/api/recipients/:id": {
+      },
       "put": {
         "tags": [
           "Recipient"
         ],
         "description": "Update a `Recipient`",
+        "parameters": [
+          {
+            "name": "recipientId",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The `Recipient` identifier.",
+            "required": true
+          }
+        ],
         "requestBody": {
           "required": true,
           "description": "The `CreateUpdateRecipientPayload` data.",
@@ -304,9 +301,6 @@
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "204": {
             "description": "update success.",
@@ -481,6 +475,10 @@
           "key_type",
           "key_value"
         ]
+      },
+      "recipientID": {
+        "type": "string",
+        "format": "uuid"
       }
     }
   },

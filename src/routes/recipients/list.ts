@@ -41,7 +41,6 @@ export const listRecipients = (app: FastifyInstance) => {
     *         schema:
     *           type: integer
     *         description: The Pix's key value of the recipient.
-    *     produces: [application/json]
     *     responses:
     *       200:
     *         description: list success.

@@ -7,18 +7,17 @@ import { InternalServerError } from "../../utils/errors";
 export const deleteRecipient = (app: FastifyInstance) => {
     /**
      * @swagger
-     * /api/recipients:id:
+     * /api/recipients/{recipientID}:
      *   delete:
      *     tags: [Recipient]
      *     description: Delete a `Recipient` by its `id` 
      *     parameters:
-     *       - in: params
-     *         name: id
+     *       - in: path
+     *         name: recipientID
      *         schema:
      *           type: string
      *           required: true
      *         description: The `Recipient` identifier.
-     *     produces: [application/json]
      *     responses:
      *       200:
      *         description: deletion success.
