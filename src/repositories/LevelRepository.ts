@@ -83,4 +83,7 @@ export default class LevelrecipientRepository implements Repository<Recipient> {
             return recipient;
         }
     }
+    async close(): Promise<void> {
+        await levelDB.close()
+    }
 }
