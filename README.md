@@ -4,7 +4,7 @@ Para visualizar o código da primeira versão final entregado no dia 31-03 para 
 
 Esta versão que está no *main* é uma com integração da API feito em Node.js com o serviço feito em Go, usando o protocolo gRPC. A integração está totalmente funcional, mas há alguns problemas típicos de concorrência que não está totalmente sincronizado como a atualização entre processos diferentes. Contudo, pode ser usado normalmente (O tutorial está na seção *Como Iniciar*).
 
-> Eu já esperava isso, pois usei o LevelDB como Banco de Dados onde ele não foi criado pensando em concorrência. Se substituisse por [Redis](https://redis.io/) ou [Foundationdb](https://www.foundationdb.org/), a sincronização seria perfeita.
+> Eu já esperava isso, pois usei o LevelDB como Banco de Dados onde ele não foi criado pensando em concorrência. Se substituisse por [Redis](https://redis.io/) ou [Foundationdb](https://www.foundationdb.org/), a sincronização seria perfeita, mas com configuração mais complexas que não faz sentido para este teste.
 ## Resumo
 ### Tecnologias
 - Linguagem: [Typescript](https://www.typescriptlang.org/) e [Go](https://go.dev/);
