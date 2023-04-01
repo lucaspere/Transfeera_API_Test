@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github/lucaspere/Transfeera_API_Test/grpc_service/service"
 	"log"
@@ -50,6 +51,42 @@ func TestLevelRepository(t *testing.T) {
 			t.Errorf("\nExpected get back %s\nGot: %s", expected, result)
 		}
 	})
+
+	t.Run("Testing EditRecipient", func(t *testing.T) {
+		tests := []struct {
+			input  *service.Recipient
+			output string
+			err    error
+		}{
+			{
+				input:  getMockData()[0],
+				output: "test@test.com",
+				err:    nil,
+			},
+			{
+				input:  &service.Recipient{Id: "teste"},
+				output: "",
+				err:    leveldb.ErrNotFound,
+			},
+		}
+		tests[0].input.Email = "test@test.com"
+		tempdir := t.TempDir()
+		t.Setenv("LEVELDB_LOCATION", tempdir+"/db")
+
+		for _, tc := range tests {
+			result, err := RecipientRepository.Update(tc.input)
+
+			if result == nil || result.Email != tc.output {
+				t.Errorf("\nExpected get back %v\nGot: %v", tc.input, result)
+			}
+			if err != nil {
+				if !errors.Is(err, leveldb.ErrNotFound) {
+					t.Errorf("\nExpected get back error not found %v\nGot: %v", tc.err, err)
+				}
+			}
+		}
+	})
+
 	t.Run("Testing ListRecipients", func(t *testing.T) {
 		t.Run("Testing the Listing", func(t *testing.T) {
 			expected := getMockData()
