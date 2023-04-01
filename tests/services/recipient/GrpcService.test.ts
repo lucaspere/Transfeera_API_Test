@@ -14,7 +14,7 @@ suite('Testing Grpc Recepient Service', function () {
 
     test('Should call createRecipient', async () => {
         const id = "40830c36-246f-4VT5-afeb-2c45af0f5e80"
-        const recipient: CreateRecipientBodyTypes = {
+        const recipient: CreateRecipientBodyTypes & { id: string } = {
             id,
             name: "lucas",
             email: 'test@sbwire.com',
@@ -36,8 +36,10 @@ suite('Testing Grpc Recepient Service', function () {
             } as any))
         const result = await RecipientService.create(recipient);
 
+        client.restore()
         Sinon.assert.calledOnceWithExactly(client, {
             recipient: {
+                id,
                 cpfCnpj: '36145118121',
                 email: 'test@sbwire.com',
                 name: 'lucas',
@@ -46,8 +48,6 @@ suite('Testing Grpc Recepient Service', function () {
             }
         })
         assert.deepEqual({ ...recipient, account_type: "CORRENTE" } as any, result)
-
-        client.restore()
     });
 
     test('Create should Throw Internal Server Error when a error occurs', async () => {
