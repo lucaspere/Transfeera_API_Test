@@ -7,6 +7,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,6 +20,10 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RecipientsClient interface {
 	ListRecipients(ctx context.Context, in *ListRecipientsRequest, opts ...grpc.CallOption) (*ListRecipientsReply, error)
+	CreateRicipient(ctx context.Context, in *CreateRecipientRequest, opts ...grpc.CallOption) (*Recipient, error)
+	EditRecipient(ctx context.Context, in *EditRecipientequest, opts ...grpc.CallOption) (*Recipient, error)
+	DelteRecipient(ctx context.Context, in *DeleteRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	BulkDeleteRecipients(ctx context.Context, in *ListRecipientsRequest, opts ...grpc.CallOption) (*BulkDeleteResponse, error)
 }
 
 type recipientsClient struct {
@@ -38,11 +43,51 @@ func (c *recipientsClient) ListRecipients(ctx context.Context, in *ListRecipient
 	return out, nil
 }
 
+func (c *recipientsClient) CreateRicipient(ctx context.Context, in *CreateRecipientRequest, opts ...grpc.CallOption) (*Recipient, error) {
+	out := new(Recipient)
+	err := c.cc.Invoke(ctx, "/Recipients/CreateRicipient", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *recipientsClient) EditRecipient(ctx context.Context, in *EditRecipientequest, opts ...grpc.CallOption) (*Recipient, error) {
+	out := new(Recipient)
+	err := c.cc.Invoke(ctx, "/Recipients/EditRecipient", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *recipientsClient) DelteRecipient(ctx context.Context, in *DeleteRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/Recipients/DelteRecipient", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *recipientsClient) BulkDeleteRecipients(ctx context.Context, in *ListRecipientsRequest, opts ...grpc.CallOption) (*BulkDeleteResponse, error) {
+	out := new(BulkDeleteResponse)
+	err := c.cc.Invoke(ctx, "/Recipients/BulkDeleteRecipients", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RecipientsServer is the server API for Recipients service.
 // All implementations must embed UnimplementedRecipientsServer
 // for forward compatibility
 type RecipientsServer interface {
 	ListRecipients(context.Context, *ListRecipientsRequest) (*ListRecipientsReply, error)
+	CreateRicipient(context.Context, *CreateRecipientRequest) (*Recipient, error)
+	EditRecipient(context.Context, *EditRecipientequest) (*Recipient, error)
+	DelteRecipient(context.Context, *DeleteRecipientRequest) (*emptypb.Empty, error)
+	BulkDeleteRecipients(context.Context, *ListRecipientsRequest) (*BulkDeleteResponse, error)
 	mustEmbedUnimplementedRecipientsServer()
 }
 
@@ -52,6 +97,18 @@ type UnimplementedRecipientsServer struct {
 
 func (UnimplementedRecipientsServer) ListRecipients(context.Context, *ListRecipientsRequest) (*ListRecipientsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListRecipients not implemented")
+}
+func (UnimplementedRecipientsServer) CreateRicipient(context.Context, *CreateRecipientRequest) (*Recipient, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateRicipient not implemented")
+}
+func (UnimplementedRecipientsServer) EditRecipient(context.Context, *EditRecipientequest) (*Recipient, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditRecipient not implemented")
+}
+func (UnimplementedRecipientsServer) DelteRecipient(context.Context, *DeleteRecipientRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DelteRecipient not implemented")
+}
+func (UnimplementedRecipientsServer) BulkDeleteRecipients(context.Context, *ListRecipientsRequest) (*BulkDeleteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BulkDeleteRecipients not implemented")
 }
 func (UnimplementedRecipientsServer) mustEmbedUnimplementedRecipientsServer() {}
 
@@ -84,6 +141,78 @@ func _Recipients_ListRecipients_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Recipients_CreateRicipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRecipientRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecipientsServer).CreateRicipient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Recipients/CreateRicipient",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecipientsServer).CreateRicipient(ctx, req.(*CreateRecipientRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Recipients_EditRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EditRecipientequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecipientsServer).EditRecipient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Recipients/EditRecipient",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecipientsServer).EditRecipient(ctx, req.(*EditRecipientequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Recipients_DelteRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRecipientRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecipientsServer).DelteRecipient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Recipients/DelteRecipient",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecipientsServer).DelteRecipient(ctx, req.(*DeleteRecipientRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Recipients_BulkDeleteRecipients_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRecipientsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecipientsServer).BulkDeleteRecipients(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Recipients/BulkDeleteRecipients",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecipientsServer).BulkDeleteRecipients(ctx, req.(*ListRecipientsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Recipients_ServiceDesc is the grpc.ServiceDesc for Recipients service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -94,6 +223,22 @@ var Recipients_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListRecipients",
 			Handler:    _Recipients_ListRecipients_Handler,
+		},
+		{
+			MethodName: "CreateRicipient",
+			Handler:    _Recipients_CreateRicipient_Handler,
+		},
+		{
+			MethodName: "EditRecipient",
+			Handler:    _Recipients_EditRecipient_Handler,
+		},
+		{
+			MethodName: "DelteRecipient",
+			Handler:    _Recipients_DelteRecipient_Handler,
+		},
+		{
+			MethodName: "BulkDeleteRecipients",
+			Handler:    _Recipients_BulkDeleteRecipients_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

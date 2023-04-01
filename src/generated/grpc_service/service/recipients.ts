@@ -1,6 +1,7 @@
 /* eslint-disable */
 import type { CallContext, CallOptions } from "nice-grpc-common";
 import * as _m0 from "protobufjs/minimal";
+import { Empty } from "../../google/protobuf/empty";
 
 export const protobufPackage = "";
 
@@ -96,9 +97,30 @@ export interface ListRecipientsRequest {
   name: string;
 }
 
+export interface CreateRecipientRequest {
+  recipient: Recipient | undefined;
+}
+
+export interface EditRecipientequest {
+  id: string;
+  recipient: Recipient | undefined;
+}
+
+export interface DeleteRecipientRequest {
+  id: string;
+}
+
+export interface BulkDeleteRecipientsRequest {
+  ids: string[];
+}
+
 export interface ListRecipientsReply {
   total: number;
   data: Recipient[];
+}
+
+export interface BulkDeleteResponse {
+  total: number;
 }
 
 export interface Recipient {
@@ -225,6 +247,255 @@ export const ListRecipientsRequest = {
   },
 };
 
+function createBaseCreateRecipientRequest(): CreateRecipientRequest {
+  return { recipient: undefined };
+}
+
+export const CreateRecipientRequest = {
+  encode(message: CreateRecipientRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.recipient !== undefined) {
+      Recipient.encode(message.recipient, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): CreateRecipientRequest {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCreateRecipientRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag != 10) {
+            break;
+          }
+
+          message.recipient = Recipient.decode(reader, reader.uint32());
+          continue;
+      }
+      if ((tag & 7) == 4 || tag == 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CreateRecipientRequest {
+    return { recipient: isSet(object.recipient) ? Recipient.fromJSON(object.recipient) : undefined };
+  },
+
+  toJSON(message: CreateRecipientRequest): unknown {
+    const obj: any = {};
+    message.recipient !== undefined &&
+      (obj.recipient = message.recipient ? Recipient.toJSON(message.recipient) : undefined);
+    return obj;
+  },
+
+  create(base?: DeepPartial<CreateRecipientRequest>): CreateRecipientRequest {
+    return CreateRecipientRequest.fromPartial(base ?? {});
+  },
+
+  fromPartial(object: DeepPartial<CreateRecipientRequest>): CreateRecipientRequest {
+    const message = createBaseCreateRecipientRequest();
+    message.recipient = (object.recipient !== undefined && object.recipient !== null)
+      ? Recipient.fromPartial(object.recipient)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseEditRecipientequest(): EditRecipientequest {
+  return { id: "", recipient: undefined };
+}
+
+export const EditRecipientequest = {
+  encode(message: EditRecipientequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.recipient !== undefined) {
+      Recipient.encode(message.recipient, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): EditRecipientequest {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEditRecipientequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag != 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        case 2:
+          if (tag != 18) {
+            break;
+          }
+
+          message.recipient = Recipient.decode(reader, reader.uint32());
+          continue;
+      }
+      if ((tag & 7) == 4 || tag == 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EditRecipientequest {
+    return {
+      id: isSet(object.id) ? String(object.id) : "",
+      recipient: isSet(object.recipient) ? Recipient.fromJSON(object.recipient) : undefined,
+    };
+  },
+
+  toJSON(message: EditRecipientequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = message.id);
+    message.recipient !== undefined &&
+      (obj.recipient = message.recipient ? Recipient.toJSON(message.recipient) : undefined);
+    return obj;
+  },
+
+  create(base?: DeepPartial<EditRecipientequest>): EditRecipientequest {
+    return EditRecipientequest.fromPartial(base ?? {});
+  },
+
+  fromPartial(object: DeepPartial<EditRecipientequest>): EditRecipientequest {
+    const message = createBaseEditRecipientequest();
+    message.id = object.id ?? "";
+    message.recipient = (object.recipient !== undefined && object.recipient !== null)
+      ? Recipient.fromPartial(object.recipient)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseDeleteRecipientRequest(): DeleteRecipientRequest {
+  return { id: "" };
+}
+
+export const DeleteRecipientRequest = {
+  encode(message: DeleteRecipientRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): DeleteRecipientRequest {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseDeleteRecipientRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag != 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+      }
+      if ((tag & 7) == 4 || tag == 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): DeleteRecipientRequest {
+    return { id: isSet(object.id) ? String(object.id) : "" };
+  },
+
+  toJSON(message: DeleteRecipientRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = message.id);
+    return obj;
+  },
+
+  create(base?: DeepPartial<DeleteRecipientRequest>): DeleteRecipientRequest {
+    return DeleteRecipientRequest.fromPartial(base ?? {});
+  },
+
+  fromPartial(object: DeepPartial<DeleteRecipientRequest>): DeleteRecipientRequest {
+    const message = createBaseDeleteRecipientRequest();
+    message.id = object.id ?? "";
+    return message;
+  },
+};
+
+function createBaseBulkDeleteRecipientsRequest(): BulkDeleteRecipientsRequest {
+  return { ids: [] };
+}
+
+export const BulkDeleteRecipientsRequest = {
+  encode(message: BulkDeleteRecipientsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    for (const v of message.ids) {
+      writer.uint32(10).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): BulkDeleteRecipientsRequest {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseBulkDeleteRecipientsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag != 10) {
+            break;
+          }
+
+          message.ids.push(reader.string());
+          continue;
+      }
+      if ((tag & 7) == 4 || tag == 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): BulkDeleteRecipientsRequest {
+    return { ids: Array.isArray(object?.ids) ? object.ids.map((e: any) => String(e)) : [] };
+  },
+
+  toJSON(message: BulkDeleteRecipientsRequest): unknown {
+    const obj: any = {};
+    if (message.ids) {
+      obj.ids = message.ids.map((e) => e);
+    } else {
+      obj.ids = [];
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<BulkDeleteRecipientsRequest>): BulkDeleteRecipientsRequest {
+    return BulkDeleteRecipientsRequest.fromPartial(base ?? {});
+  },
+
+  fromPartial(object: DeepPartial<BulkDeleteRecipientsRequest>): BulkDeleteRecipientsRequest {
+    const message = createBaseBulkDeleteRecipientsRequest();
+    message.ids = object.ids?.map((e) => e) || [];
+    return message;
+  },
+};
+
 function createBaseListRecipientsReply(): ListRecipientsReply {
   return { total: 0, data: [] };
 }
@@ -296,6 +567,62 @@ export const ListRecipientsReply = {
     const message = createBaseListRecipientsReply();
     message.total = object.total ?? 0;
     message.data = object.data?.map((e) => Recipient.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseBulkDeleteResponse(): BulkDeleteResponse {
+  return { total: 0 };
+}
+
+export const BulkDeleteResponse = {
+  encode(message: BulkDeleteResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.total !== 0) {
+      writer.uint32(8).int32(message.total);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): BulkDeleteResponse {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseBulkDeleteResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag != 8) {
+            break;
+          }
+
+          message.total = reader.int32();
+          continue;
+      }
+      if ((tag & 7) == 4 || tag == 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): BulkDeleteResponse {
+    return { total: isSet(object.total) ? Number(object.total) : 0 };
+  },
+
+  toJSON(message: BulkDeleteResponse): unknown {
+    const obj: any = {};
+    message.total !== undefined && (obj.total = Math.round(message.total));
+    return obj;
+  },
+
+  create(base?: DeepPartial<BulkDeleteResponse>): BulkDeleteResponse {
+    return BulkDeleteResponse.fromPartial(base ?? {});
+  },
+
+  fromPartial(object: DeepPartial<BulkDeleteResponse>): BulkDeleteResponse {
+    const message = createBaseBulkDeleteResponse();
+    message.total = object.total ?? 0;
     return message;
   },
 };
@@ -513,6 +840,38 @@ export const RecipientsDefinition = {
       responseStream: false,
       options: {},
     },
+    createRicipient: {
+      name: "CreateRicipient",
+      requestType: CreateRecipientRequest,
+      requestStream: false,
+      responseType: Recipient,
+      responseStream: false,
+      options: {},
+    },
+    editRecipient: {
+      name: "EditRecipient",
+      requestType: EditRecipientequest,
+      requestStream: false,
+      responseType: Recipient,
+      responseStream: false,
+      options: {},
+    },
+    delteRecipient: {
+      name: "DelteRecipient",
+      requestType: DeleteRecipientRequest,
+      requestStream: false,
+      responseType: Empty,
+      responseStream: false,
+      options: {},
+    },
+    bulkDeleteRecipients: {
+      name: "BulkDeleteRecipients",
+      requestType: ListRecipientsRequest,
+      requestStream: false,
+      responseType: BulkDeleteResponse,
+      responseStream: false,
+      options: {},
+    },
   },
 } as const;
 
@@ -521,6 +880,16 @@ export interface RecipientsServiceImplementation<CallContextExt = {}> {
     request: ListRecipientsRequest,
     context: CallContext & CallContextExt,
   ): Promise<DeepPartial<ListRecipientsReply>>;
+  createRicipient(
+    request: CreateRecipientRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<Recipient>>;
+  editRecipient(request: EditRecipientequest, context: CallContext & CallContextExt): Promise<DeepPartial<Recipient>>;
+  delteRecipient(request: DeleteRecipientRequest, context: CallContext & CallContextExt): Promise<DeepPartial<Empty>>;
+  bulkDeleteRecipients(
+    request: ListRecipientsRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<BulkDeleteResponse>>;
 }
 
 export interface RecipientsClient<CallOptionsExt = {}> {
@@ -528,6 +897,16 @@ export interface RecipientsClient<CallOptionsExt = {}> {
     request: DeepPartial<ListRecipientsRequest>,
     options?: CallOptions & CallOptionsExt,
   ): Promise<ListRecipientsReply>;
+  createRicipient(
+    request: DeepPartial<CreateRecipientRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<Recipient>;
+  editRecipient(request: DeepPartial<EditRecipientequest>, options?: CallOptions & CallOptionsExt): Promise<Recipient>;
+  delteRecipient(request: DeepPartial<DeleteRecipientRequest>, options?: CallOptions & CallOptionsExt): Promise<Empty>;
+  bulkDeleteRecipients(
+    request: DeepPartial<ListRecipientsRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<BulkDeleteResponse>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;

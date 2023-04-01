@@ -1,8 +1,13 @@
 syntax = "proto3";
 option go_package = "github/lucaspere/Transfeera_API_Test/grpc_service/service";
+import "google/protobuf/empty.proto";
 
 service Recipients {
     rpc ListRecipients(ListRecipientsRequest) returns (ListRecipientsReply) {}
+    rpc CreateRicipient(CreateRecipientRequest) returns (Recipient) {}
+    rpc EditRecipient(EditRecipientequest) returns (Recipient) {}
+    rpc DelteRecipient(DeleteRecipientRequest) returns (google.protobuf.Empty) {}
+    rpc BulkDeleteRecipients(ListRecipientsRequest) returns (BulkDeleteResponse) {}
 }
 
 message ListRecipientsRequest {
@@ -13,9 +18,30 @@ message ListRecipientsRequest {
     string name = 5;
 }
 
+message CreateRecipientRequest {
+  Recipient recipient = 1;
+}
+
+message EditRecipientequest {
+  string id = 1;
+  Recipient recipient = 2;
+}
+
+message DeleteRecipientRequest {
+  string id = 1;
+}
+
+message BulkDeleteRecipientsRequest {
+  repeated string ids = 1;
+}
+
 message ListRecipientsReply {
     int32 total = 1;
     repeated Recipient data = 2;
+}
+
+message BulkDeleteResponse {
+    int32 total = 1;
 }
 
 message Recipient {
