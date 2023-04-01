@@ -29,7 +29,7 @@ export default class InProcessRecipientService implements Service {
             server.log.info(`request to save a new recipient with ${inspect(recipient)}.`)
             return Repository.create(recipient)
         } catch (err) {
-            server.log.error(`Save recipient was not successful`, err)
+            server.log.error(`Save recipient was not successful`, inspect(err))
             throw new InternalServerError("Internal Server Error")
         }
     }
@@ -43,7 +43,7 @@ export default class InProcessRecipientService implements Service {
             }
             return res
         } catch (err: any) {
-            server.log.error(`List Recipient was not successful`, err)
+            server.log.error(`List Recipient was not successful`, inspect(err))
             throw new InternalServerError("Internal Server Error")
         }
     }
@@ -64,7 +64,7 @@ export default class InProcessRecipientService implements Service {
             return await Repository.update(updateRecipient.id!, updateRecipient as Recipient)
 
         } catch (err) {
-            server.log.error(`Update was not successful`, err)
+            server.log.error(`Update was not successful`, inspect(err))
             throw new InternalServerError("Internal Server Error")
         }
     }
@@ -73,7 +73,7 @@ export default class InProcessRecipientService implements Service {
             server.log.info(`request to delete recipient with id ${id}.`)
             void await Repository.delete(id)
         } catch (err) {
-            server.log.error(`Deletion was not successful`, err)
+            server.log.error(`Deletion was not successful`, inspect(err))
             throw new InternalServerError("Internal Server Error")
         }
     }
@@ -84,7 +84,7 @@ export default class InProcessRecipientService implements Service {
 
             return { total }
         } catch (err) {
-            server.log.error(`Bulk Deletion was not successful`, err)
+            server.log.error(`Bulk Deletion was not successful`, inspect(err))
             throw new InternalServerError("Internal Server Error")
         }
     }
