@@ -25,10 +25,11 @@ export default class GrpcRecipientService implements Service {
         server.log.info(`Stablished a channel with grpc target ${this.channel.getTarget()}`)
         this.client = createClient(RecipientsDefinition, this.channel)
     }
-    async create(payload: CreateEditRecepient): Promise<Recipient> {
+    async create(payload: CreateEditRecepient & { id: string }): Promise<Recipient> {
         try {
             const { keyType, keyValue, cpfCnpj, accountType, ...rest } = await this.client.createRicipient({
                 recipient: {
+                    id: payload.id,
                     keyType: payload.key_type,
                     keyValue: payload.key_value,
                     cpfCnpj: payload.cpf_cnpj,

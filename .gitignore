@@ -9,6 +9,10 @@ logs
 npm-debug.log*
 lerna-debug.log*
 
+bin/
+# or
+*/bin/*
+
 .env-*
 
 *.sqlite3

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-
+import { rm } from 'node:fs/promises'
 import LevelRepository, { levelDB } from '../../src/repositories/LevelRepository'
 import { Recipient, Recipients } from '../../src/types/recipient';
 
@@ -9,6 +9,7 @@ suite('Testing Recipient Level Repository', function () {
     suiteTeardown(async function closeDB() {
         await levelDB.clear()
         await levelDB.close();
+        await rm(process.env.LEVELDB_LOCATION!, { force: true, recursive: true });
     });
 
     teardown(async function () {
