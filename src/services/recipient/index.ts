@@ -1,6 +1,5 @@
 import type { Recipient } from "../../types/recipient"
 import { InternalServerError } from "../../utils/errors"
-import { NODE_ENV } from '../../server';
 import { resolve } from 'path';
 import { inspect } from 'util';
 import { Service } from "../../types/service"
@@ -14,7 +13,7 @@ export type BulkDeleteResponse = {
     total: number,
 }
 
-const EXTENSION = NODE_ENV === 'development' || NODE_ENV == 'test' ? 'ts' : 'js'
+const EXTENSION = process.env.NODE_ENV === 'production' ? 'js' : 'ts'
 
 let service: Service;
 export const useService = async (serviceType = 'InProcessService'): Promise<Service> => {

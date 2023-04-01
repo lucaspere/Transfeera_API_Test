@@ -1,11 +1,10 @@
 import { Repository } from '../types/repository';
 import { Recipient } from '../types/recipient';
 import { InternalServerError } from '../utils/errors';
-import { NODE_ENV } from '../server';
 import { resolve } from 'path';
 import { inspect } from 'util';
 
-const EXTENSION = NODE_ENV === 'production' ? 'js' : 'ts'
+const EXTENSION = process.env.NODE_ENV === 'production' ? 'js' : 'ts'
 
 let singletonRepo: Repository<Recipient>;
 export const useRepository = async (repositoryType = "MemoryRepository"): Promise<Repository<Recipient>> => {
