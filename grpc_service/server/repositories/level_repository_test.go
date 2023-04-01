@@ -37,6 +37,23 @@ func populateMockData(m Recipients) {
 	db.Close()
 }
 
+func TestLevelRepository(t *testing.T) {
+	t.Run("Testing CreateRecipient", func(t *testing.T) {
+		expected := getMockData()[0]
+		tempdir := t.TempDir()
+		t.Setenv("LEVELDB_LOCATION", tempdir+"/db")
+
+		result, err := RecipientRepository.Create(expected)
+		if err != nil {
+			t.Fatalf("failed to list recipients with %s", expected)
+		}
+
+		if fmt.Sprint(expected) != fmt.Sprint(result) {
+			t.Errorf("Expected get back %s recipients, Got: %s", expected, result)
+		}
+	})
+}
+
 func TestListRecipients(t *testing.T) {
 	expected := getMockData()
 	tempdir, err := ioutil.TempDir("", "leveldb")
