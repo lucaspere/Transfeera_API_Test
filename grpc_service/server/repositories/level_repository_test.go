@@ -4,7 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"github/lucaspere/Transfeera_API_Test/grpc_service/service"
+	"io/ioutil"
+	"log"
+	"os"
 	"testing"
+
+	"github.com/syndtr/goleveldb/leveldb"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func getMockData() Recipients {
@@ -13,6 +19,43 @@ func getMockData() Recipients {
 	json.Unmarshal([]byte(md), &recipients)
 
 	return recipients
+}
+
+func populateMockData(m Recipients) {
+	db, err := open()
+	if err != nil {
+		log.Fatalf("Failed to open database: %v", err)
+	}
+	batch := new(leveldb.Batch)
+	for _, b := range m {
+		buf, _ := protojson.Marshal(b)
+		batch.Put([]byte(b.Id), buf)
+	}
+	if err := db.Write(batch, nil); err != nil {
+		log.Fatalf("Failed to write mock data %s", err)
+	}
+	db.Close()
+}
+
+func TestListRecipients(t *testing.T) {
+	expected := getMockData()
+	tempdir, err := ioutil.TempDir("", "leveldb")
+	if err != nil {
+		t.Fatalf("Failed to create temporary directory: %v", err)
+	}
+	defer os.RemoveAll(tempdir)
+	os.Setenv("LEVELDB_LOCATION", tempdir+"/db")
+	populateMockData(expected)
+
+	in := &service.ListRecipientsRequest{ItemsPerPage: 50}
+	recipients, err := RecipientRepository.List(in)
+	if err != nil {
+		t.Fatalf("failed to list recipients with %s", in)
+	}
+
+	if len(expected) != len(*recipients) {
+		t.Errorf("Expected get back %d recipients, Got: %d", len(expected), len(*recipients))
+	}
 }
 
 func TestFilterItemsPerPage(t *testing.T) {
