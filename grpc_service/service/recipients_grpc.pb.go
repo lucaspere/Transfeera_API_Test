@@ -22,8 +22,8 @@ type RecipientsClient interface {
 	ListRecipients(ctx context.Context, in *ListRecipientsRequest, opts ...grpc.CallOption) (*ListRecipientsReply, error)
 	CreateRicipient(ctx context.Context, in *CreateRecipientRequest, opts ...grpc.CallOption) (*Recipient, error)
 	EditRecipient(ctx context.Context, in *EditRecipientequest, opts ...grpc.CallOption) (*Recipient, error)
-	DelteRecipient(ctx context.Context, in *DeleteRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	BulkDeleteRecipients(ctx context.Context, in *ListRecipientsRequest, opts ...grpc.CallOption) (*BulkDeleteResponse, error)
+	DeleteRecipient(ctx context.Context, in *DeleteRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	BulkDeleteRecipients(ctx context.Context, in *BulkDeleteRecipientsRequest, opts ...grpc.CallOption) (*BulkDeleteResponse, error)
 }
 
 type recipientsClient struct {
@@ -61,16 +61,16 @@ func (c *recipientsClient) EditRecipient(ctx context.Context, in *EditRecipiente
 	return out, nil
 }
 
-func (c *recipientsClient) DelteRecipient(ctx context.Context, in *DeleteRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *recipientsClient) DeleteRecipient(ctx context.Context, in *DeleteRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/Recipients/DelteRecipient", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/Recipients/DeleteRecipient", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *recipientsClient) BulkDeleteRecipients(ctx context.Context, in *ListRecipientsRequest, opts ...grpc.CallOption) (*BulkDeleteResponse, error) {
+func (c *recipientsClient) BulkDeleteRecipients(ctx context.Context, in *BulkDeleteRecipientsRequest, opts ...grpc.CallOption) (*BulkDeleteResponse, error) {
 	out := new(BulkDeleteResponse)
 	err := c.cc.Invoke(ctx, "/Recipients/BulkDeleteRecipients", in, out, opts...)
 	if err != nil {
@@ -86,8 +86,8 @@ type RecipientsServer interface {
 	ListRecipients(context.Context, *ListRecipientsRequest) (*ListRecipientsReply, error)
 	CreateRicipient(context.Context, *CreateRecipientRequest) (*Recipient, error)
 	EditRecipient(context.Context, *EditRecipientequest) (*Recipient, error)
-	DelteRecipient(context.Context, *DeleteRecipientRequest) (*emptypb.Empty, error)
-	BulkDeleteRecipients(context.Context, *ListRecipientsRequest) (*BulkDeleteResponse, error)
+	DeleteRecipient(context.Context, *DeleteRecipientRequest) (*emptypb.Empty, error)
+	BulkDeleteRecipients(context.Context, *BulkDeleteRecipientsRequest) (*BulkDeleteResponse, error)
 	mustEmbedUnimplementedRecipientsServer()
 }
 
@@ -104,10 +104,10 @@ func (UnimplementedRecipientsServer) CreateRicipient(context.Context, *CreateRec
 func (UnimplementedRecipientsServer) EditRecipient(context.Context, *EditRecipientequest) (*Recipient, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EditRecipient not implemented")
 }
-func (UnimplementedRecipientsServer) DelteRecipient(context.Context, *DeleteRecipientRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DelteRecipient not implemented")
+func (UnimplementedRecipientsServer) DeleteRecipient(context.Context, *DeleteRecipientRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRecipient not implemented")
 }
-func (UnimplementedRecipientsServer) BulkDeleteRecipients(context.Context, *ListRecipientsRequest) (*BulkDeleteResponse, error) {
+func (UnimplementedRecipientsServer) BulkDeleteRecipients(context.Context, *BulkDeleteRecipientsRequest) (*BulkDeleteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BulkDeleteRecipients not implemented")
 }
 func (UnimplementedRecipientsServer) mustEmbedUnimplementedRecipientsServer() {}
@@ -177,26 +177,26 @@ func _Recipients_EditRecipient_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Recipients_DelteRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Recipients_DeleteRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteRecipientRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RecipientsServer).DelteRecipient(ctx, in)
+		return srv.(RecipientsServer).DeleteRecipient(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Recipients/DelteRecipient",
+		FullMethod: "/Recipients/DeleteRecipient",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RecipientsServer).DelteRecipient(ctx, req.(*DeleteRecipientRequest))
+		return srv.(RecipientsServer).DeleteRecipient(ctx, req.(*DeleteRecipientRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Recipients_BulkDeleteRecipients_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRecipientsRequest)
+	in := new(BulkDeleteRecipientsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -208,7 +208,7 @@ func _Recipients_BulkDeleteRecipients_Handler(srv interface{}, ctx context.Conte
 		FullMethod: "/Recipients/BulkDeleteRecipients",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RecipientsServer).BulkDeleteRecipients(ctx, req.(*ListRecipientsRequest))
+		return srv.(RecipientsServer).BulkDeleteRecipients(ctx, req.(*BulkDeleteRecipientsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -233,8 +233,8 @@ var Recipients_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Recipients_EditRecipient_Handler,
 		},
 		{
-			MethodName: "DelteRecipient",
-			Handler:    _Recipients_DelteRecipient_Handler,
+			MethodName: "DeleteRecipient",
+			Handler:    _Recipients_DeleteRecipient_Handler,
 		},
 		{
 			MethodName: "BulkDeleteRecipients",

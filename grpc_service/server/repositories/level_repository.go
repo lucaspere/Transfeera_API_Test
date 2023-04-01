@@ -21,6 +21,8 @@ type Repository interface {
 	Create(r *rs.Recipient) (*rs.Recipient, error)
 	Update(r *rs.Recipient) (*rs.Recipient, error)
 	Find(key string) (*rs.Recipient, error)
+	Delete(key string) (*rs.Recipient, error)
+	BulkDelete(keys *rs.BulkDeleteRecipientsRequest) (*rs.BulkDeleteResponse, error)
 }
 type recipientRepository struct{}
 
@@ -161,6 +163,46 @@ func (rr *recipientRepository) Update(r *rs.Recipient) (*rs.Recipient, error) {
 	}
 
 	return recipient, nil
+}
+
+func (rr *recipientRepository) Delete(key string) (*rs.Recipient, error) {
+	recipient, err := rr.Find(key)
+	if err != nil && !errors.Is(err, leveldb.ErrNotFound) {
+		log.Fatal(err)
+		return nil, err
+	}
+	fmt.Println(recipient)
+	db, err := open()
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	defer db.Close()
+
+	err = db.Delete([]byte(key), nil)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	return recipient, nil
+}
+
+func (rr *recipientRepository) BulkDelete(keys *rs.BulkDeleteRecipientsRequest) (*rs.BulkDeleteResponse, error) {
+	reply := &rs.BulkDeleteResponse{}
+	for _, key := range keys.Ids {
+		r, err := rr.Delete(key)
+		if err != nil {
+			if !errors.Is(err, leveldb.ErrNotFound) {
+				log.Printf("not found recipient with id %s", key)
+			}
+		}
+		if r != nil {
+			reply.Total += 1
+		}
+
+	}
+	return reply, nil
 }
 
 func filterRecipients(recipients *Recipients, f *rs.ListRecipientsRequest) {

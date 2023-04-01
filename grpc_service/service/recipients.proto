@@ -6,8 +6,8 @@ service Recipients {
     rpc ListRecipients(ListRecipientsRequest) returns (ListRecipientsReply) {}
     rpc CreateRicipient(CreateRecipientRequest) returns (Recipient) {}
     rpc EditRecipient(EditRecipientequest) returns (Recipient) {}
-    rpc DelteRecipient(DeleteRecipientRequest) returns (google.protobuf.Empty) {}
-    rpc BulkDeleteRecipients(ListRecipientsRequest) returns (BulkDeleteResponse) {}
+    rpc DeleteRecipient(DeleteRecipientRequest) returns (google.protobuf.Empty) {}
+    rpc BulkDeleteRecipients(BulkDeleteRecipientsRequest) returns (BulkDeleteResponse) {}
 }
 
 message ListRecipientsRequest {

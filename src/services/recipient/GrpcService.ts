@@ -8,6 +8,7 @@ import { Recipient } from "../../types/recipient"
 import { GRPC_ADDRESS } from "../../server"
 import { server } from "../../app"
 import { InternalServerError } from "../../utils/errors"
+import { inspect } from "node:util"
 
 export default class GrpcRecipientService implements Service {
     private client: RecipientsClient
@@ -41,11 +42,7 @@ export default class GrpcRecipientService implements Service {
         }
     }
     async list(filter: ListRecipientQueryType): Promise<ListRecipientResponse> {
-        const list = await this.client.listRecipients({
-            keyType: filter.key_type,
-            keyValue: filter.key_value,
-            ...filter
-        })
+        const list = await this.client.listRecipients(filter)
         return list as unknown as ListRecipientResponse
     }
     async edit({ id, ...payload }: Partial<Recipient>): Promise<Recipient> {
@@ -70,11 +67,24 @@ export default class GrpcRecipientService implements Service {
             throw new InternalServerError("Internal Server Error")
         }
     }
-    async delete(payload: DeleteRecipientParamTypes): Promise<void> {
-        throw new Error("Method not implemented.")
+    async delete({ id }: DeleteRecipientParamTypes): Promise<void> {
+        try {
+            server.log.info(`request to delete recipient with id ${id}.`)
+            void await this.client.deleteRecipient({ id })
+        } catch (err) {
+            server.log.error(`Deletion was not successful`, inspect(err))
+            throw new InternalServerError("Internal Server Error")
+        }
     }
-    async bulkDelete(payload: BulkDeletionBodyTypes): Promise<BulkDeleteResponse> {
-        throw new Error("Method not implemented.")
-    }
+    async bulkDelete({ ids }: BulkDeletionBodyTypes): Promise<BulkDeleteResponse> {
+        try {
+            server.log.info(`request to bulk delete with total of recipient ${ids.length}.`)
+            const { total } = await this.client.bulkDeleteRecipients({ ids })
 
+            return { total }
+        } catch (err) {
+            server.log.error(`Bulk Deletion was not successful`, inspect(err))
+            throw new InternalServerError("Internal Server Error")
+        }
+    }
 }

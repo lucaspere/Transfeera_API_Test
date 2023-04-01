@@ -18,6 +18,7 @@ import (
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 var recipientsJson = `{
@@ -447,6 +448,7 @@ func (service recipientsService) ListRecipients(ctx context.Context, in *rs.List
 }
 
 func (service recipientsService) CreateRicipient(ctx context.Context, in *rs.CreateRecipientRequest) (*rs.Recipient, error) {
+	fmt.Println(in)
 	recipient := &rs.Recipient{
 		Id:          in.Recipient.Id,
 		CpfCnpj:     in.Recipient.CpfCnpj,
@@ -529,6 +531,25 @@ func (service recipientsService) EditRecipient(ctx context.Context, in *rs.EditR
 	}
 
 	return data, nil
+}
+
+func (service recipientsService) DeleteRecipient(ctx context.Context, in *rs.DeleteRecipientRequest) (*emptypb.Empty, error) {
+	r, err := service.repository.Delete(in.Id)
+	if err != nil {
+		return nil, err
+	}
+	log.Printf("Recipient with ID %s deleted", r.Id)
+
+	return &emptypb.Empty{}, nil
+}
+func (service recipientsService) BulkDeleteRecipients(ctx context.Context, in *rs.BulkDeleteRecipientsRequest) (*rs.BulkDeleteResponse, error) {
+	reply, err := service.repository.BulkDelete(in)
+	if err != nil {
+		return nil, err
+	}
+	log.Printf("total of recipients deleted %d", reply.Total)
+
+	return reply, nil
 }
 
 func main() {
