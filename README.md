@@ -44,7 +44,7 @@ Para o testes de integração foi usado a interface [BDD](https://pt.wikipedia.o
 2. Com o *command-line* no diretório, rode o script ``npm install``.
 
 ### Inicializando o aplicativo.
-Criei dois serviços diferentes um em Node.js usando o estilo **InProcess**, isto é, chamadas de funções gerenciadas pelo Sistema Operacional e, o outro, usando o Protocolo gRPC que é gerenciada pelo protocolo *TCP*.
+Criei dois serviços diferentes um em Node.js usando o estilo **InProcess**, isto é, [chamadas de funções](https://pt.wikipedia.org/wiki/Chamada_de_sistema) gerenciadas pelo Sistema Operacional e, o outro, usando o Protocolo gRPC que é gerenciada pelo protocolo *TCP*.
 > Visualizar o Diagrama para melhor entendimento.
 
 #### Node.js com serviço ***InProcessService***.
@@ -61,6 +61,7 @@ Há dois *scripts* para rodar a aplicação: `npm run dev` e `npm run dev:memory
 - ***npm run dev:grpc***: vai inicializar o app Node.js usando o serviço (***GrpcRecipientService***) definido pela variável de ambiente *SERVICE_TYPE*;
 - ***npm run start:grpc***: vai inicializar o gRPC *server* usando o binário gerado pelo compilador Go, *bin/server*.;
 
+> Para iniciliazar apenas o serviço Grpc, vai para a pasta ``cd grpc_service/server/`` e rode ``go run .``
 ### Testando o aplicativo.
 #### Node.js
 Há três *scripts* para testar a aplicação: `npm run test` `npm run test:unit` e `npm run test:integration`. Todos os testes usam dados na memória como Banco de dados (***MemoryRepository***).
