@@ -49,18 +49,19 @@ Criei dois serviços diferentes um em Node.js usando o estilo **InProcess**, ist
 
 #### Node.js com serviço ***InProcessService***.
 Há dois *scripts* para rodar a aplicação: `npm run dev` e `npm run dev:memory`.
-- ***dev:memory***: vai rodar a aplicação usando a memória como banco de dados (***MemoryRepository***);
-- ***dev***: roda a aplicação usando o [leveldb](https://github.com/google/leveldb) como bacno de dados (***LevelRepository***).
+- ***dev:memory***: vai rodar a aplicação usando a memória como banco de dados (***MemoryRepository***). A porta padrão para a interface é ***3000***;
+- ***dev***: roda a aplicação usando o [leveldb](https://github.com/google/leveldb) como bacno de dados (***LevelRepository***)  A porta padrão para a interface é ***8080***.
   - **Obs:** para o levelDB, é preciso rodar o *script* ``npm run populate`` para popular os dados.
 
 #### Node.js com Integração ***GrpcService***;
  > **Importante:** Como os dois usam o levelDB, é preciso rodar o *script* ``npm run populate`` para popular os dados.
  
- Há dois *scripts* para `npm run dev:grpc` e `npm run start:grpc` .
+ Há dois *scripts* para `npm run dev:grpc` e `npm run start:grpc`:
 
 - ***npm run dev:grpc***: vai inicializar o app Node.js usando o serviço (***GrpcRecipientService***) definido pela variável de ambiente *SERVICE_TYPE*;
 - ***npm run start:grpc***: vai inicializar o gRPC *server* usando o binário gerado pelo compilador Go, *bin/server*.;
 
+Rode cada *script* em um terminal dedicado. A porta padrão para a interface é ***8081***.
 > Para iniciliazar apenas o serviço Grpc, vai para a pasta ``cd grpc_service/server/`` e rode ``go run .``
 ### Testando o aplicativo.
 #### Node.js
