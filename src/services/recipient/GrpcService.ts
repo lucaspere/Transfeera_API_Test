@@ -18,8 +18,12 @@ export default class GrpcRecipientService implements Service {
         throw new Error("Method not implemented.")
     }
     async list(filter: ListRecipientQueryType): Promise<ListRecipientResponse> {
-        const list = await this.client.listRecipients(filter as DeepPartial<ListRecipientsRequest>)
-        console.log(list.data[0])
+
+        const list = await this.client.listRecipients({
+            keyType: filter.key_type,
+            keyValue: filter.key_value,
+            ...filter
+        })
         return list as unknown as ListRecipientResponse
     }
     async edit(payload: Partial<Recipient>): Promise<Recipient> {
