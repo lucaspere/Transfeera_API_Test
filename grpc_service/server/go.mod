@@ -8,6 +8,8 @@ require github/lucaspere/Transfeera_API_Test/grpc_service/service v1.2.3
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/golang/snappy v0.0.0-20180518054509-2e65f85255db // indirect
+	github.com/syndtr/goleveldb v1.0.0 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/text v0.8.0 // indirect
