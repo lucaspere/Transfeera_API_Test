@@ -4,6 +4,7 @@ import GrpcRecipientService from '../../../src/services/recipient/GrpcService';
 import Sinon from 'sinon';
 import { InternalServerError } from '../../../src/utils/errors';
 import { ListRecipientResponse } from '../../../src/services';
+import { ListRecipientsReply } from '../../../src/generated/grpc_service/service/recipients';
 
 suite('Testing Grpc Recepient Service', function () {
     const RecipientService = new GrpcRecipientService()
@@ -66,7 +67,35 @@ suite('Testing Grpc Recepient Service', function () {
 
     test('Should call listRecipients', async () => {
         const id = "40830c36-246f-43c5-afeb-2c45af0f5e80"
-        const data: ListRecipientResponse = {
+        const data: ListRecipientsReply = {
+            total: 2,
+            data: [{
+                id,
+                cpfCnpj: '36145118121',
+                email: 'test@sbwire.com',
+                name: 'lucas',
+                status: 'RASCUNHO',
+                keyType: 'EMAIL',
+                keyValue: 'lucas@netlog.com',
+                account: '00000-1',
+                accountType: 'CORRENTE',
+                agency: '111',
+                bank: 'SANTANDER'
+            }, {
+                id,
+                cpfCnpj: '36145118121',
+                email: 'test@sbwire.com',
+                name: 'lucas',
+                status: 'RASCUNHO',
+                keyType: 'EMAIL',
+                keyValue: 'lucas@netlog.com',
+                account: '00000-1',
+                accountType: 'POUPANÇA',
+                agency: '111',
+                bank: 'SANTANDER'
+            }]
+        }
+        const expected: ListRecipientResponse = {
             total: 2,
             data: [{
                 id,
@@ -94,10 +123,10 @@ suite('Testing Grpc Recepient Service', function () {
                 bank: 'SANTANDER'
             }]
         }
-        const client = Sinon.stub(RecipientService._client, 'listRecipients').returns(Promise.resolve(data as any))
+        const client = Sinon.stub(RecipientService._client, 'listRecipients').returns(Promise.resolve(data))
         const result = await RecipientService.list({});
 
-        assert.deepEqual(data, result)
+        assert.deepEqual(expected, result)
         client.restore()
     });
 

@@ -1,5 +1,5 @@
 import { createChannel, createClient, Channel } from "nice-grpc"
-import { RecipientsClient, RecipientsDefinition } from "../../generated/grpc_service/service/recipients"
+import { ListRecipientsReply, RecipientsClient, RecipientsDefinition } from "../../generated/grpc_service/service/recipients"
 import { BulkDeletionBodyTypes, DeleteRecipientParamTypes, ListRecipientQueryType } from "../../routes/recipients"
 import { BulkDeleteResponse, ListRecipientResponse } from "."
 import { Service } from '../../types/service'
@@ -9,7 +9,6 @@ import { GRPC_ADDRESS } from "../../server"
 import { server } from "../../app"
 import { InternalServerError } from "../../utils/errors"
 import { inspect } from "node:util"
-
 export default class GrpcRecipientService implements Service {
     private client: RecipientsClient
     private channel: Channel
@@ -53,7 +52,8 @@ export default class GrpcRecipientService implements Service {
     async list(filter: ListRecipientQueryType): Promise<ListRecipientResponse> {
         try {
             const list = await this.client.listRecipients(filter)
-            return list as unknown as ListRecipientResponse
+
+            return ListRecipientsReply.toJSON(list) as ListRecipientResponse
         } catch (err) {
             server.log.error(`list recipients was not successful`, inspect(err))
             throw new InternalServerError("Internal Server Error")
