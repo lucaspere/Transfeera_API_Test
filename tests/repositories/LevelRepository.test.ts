@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { rm } from 'node:fs/promises'
+import { rm } from 'fs/promises'
 import LevelRepository, { levelDB } from '../../src/repositories/LevelRepository'
 import { Recipient, Recipients } from '../../src/types/recipient';
 

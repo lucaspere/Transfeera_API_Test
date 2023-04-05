@@ -8,7 +8,7 @@ import { Recipient } from "../../types/recipient"
 import { GRPC_ADDRESS } from "../../server"
 import { server } from "../../app"
 import { InternalServerError } from "../../utils/errors"
-import { inspect } from "node:util"
+import { inspect } from "util"
 export default class GrpcRecipientService implements Service {
     private client: RecipientsClient
     private channel: Channel

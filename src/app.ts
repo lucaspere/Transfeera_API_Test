@@ -6,7 +6,7 @@ import { initSwagger } from './swagger';
 import { join } from 'path';
 import { useRepository } from './repositories';
 import ajvKeywords from 'ajv-keywords';
-import * as util from 'node:util'
+import * as util from 'util'
 import { LOGTAIL_TOKEN, NODE_ENV, PINO_LOG_LEVEL, Server } from './server';
 import * as dotenv from 'dotenv'
 import { useService } from './services/recipient';
